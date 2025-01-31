@@ -19,15 +19,20 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.RouteDAOImpl;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentRegistrationDAOImpl;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.VehicleDAOImpl;
+import lk.ijse.gdse72.swiftsts.db.DBConnection;
 import lk.ijse.gdse72.swiftsts.dto.tm.StudentRegistrationDetailsTM;
 import lk.ijse.gdse72.swiftsts.model.RouteModel;
 import lk.ijse.gdse72.swiftsts.model.StudentModel;
 import lk.ijse.gdse72.swiftsts.model.StudentRegistrationModel;
 import lk.ijse.gdse72.swiftsts.model.VehicleModel;
-import lk.ijse.gdse72.swiftsts.util.CrudUtil;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -36,6 +41,17 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class StudentRegistrationController implements Initializable {
+
+//    StudentRegistrationModel studentRegistrationDAO = new StudentRegistrationModel();
+//    VehicleModel vehicleDAO = new VehicleModel();
+//    StudentModel studentDAO = new StudentModel();
+//    RouteModel routeDAO = new RouteModel();
+
+    StudentRegistrationDAOImpl studentRegistrationDAO = new StudentRegistrationDAOImpl();
+    VehicleDAOImpl vehicleDAO = new VehicleDAOImpl();
+    StudentDAOImpl studentDAO = new StudentDAOImpl();
+    RouteDAOImpl routeDAO = new RouteDAOImpl();
+
     @FXML
     public Label lblManageStudentOnClick;
     @FXML
@@ -123,10 +139,7 @@ public class StudentRegistrationController implements Initializable {
     @FXML
     private AnchorPane paneRegistration;
 
-    StudentRegistrationModel studentRegistrationModel = new StudentRegistrationModel();
-    VehicleModel vehicleModel = new VehicleModel();
-    StudentModel studentModel = new StudentModel();
-    RouteModel routeModel = new RouteModel();
+
 
     public static double dayPrice = 0.00;
 
@@ -225,8 +238,8 @@ public class StudentRegistrationController implements Initializable {
         String selectedRouteName = cmbRoute.getSelectionModel().getSelectedItem();
         if (selectedRouteName != null && !txtDistance.getText().isEmpty()) {
             try {
-                String selectedRouteId = routeModel.getRouteIdByRouteName(selectedRouteName);
-                double routeFee = routeModel.getRouteFeeByRouteId(selectedRouteId);
+                String selectedRouteId = routeDAO.getRouteIdByRouteName(selectedRouteName);
+                double routeFee = routeDAO.getRouteFeeByRouteId(selectedRouteId);
                 double distance = Double.parseDouble(txtDistance.getText());
                 dayPrice = routeFee * distance;
                 txtDayPrice.setText(String.format("%.2f", dayPrice));
@@ -245,28 +258,36 @@ public class StudentRegistrationController implements Initializable {
         if (!validateSeatCount()) {
             return;
         }
-        String studentId = studentModel.getStudentIdByName(cmbStudentName.getSelectionModel().getSelectedItem());
+        String studentId = studentDAO.getStudentIdByName(cmbStudentName.getSelectionModel().getSelectedItem());
         String studentRegId = lblRegistrationId.getText();
-        String routeId = routeModel.getRouteIdByRouteName(cmbRoute.getSelectionModel().getSelectedItem());
+        String routeId = routeDAO.getRouteIdByRouteName(cmbRoute.getSelectionModel().getSelectedItem());
         String vehicleId = cmbVehicle.getSelectionModel().getSelectedItem();
         dayPrice = Double.parseDouble(txtDayPrice.getText());
         String registrationDate = lblDate.getText();
         double distance = Double.parseDouble(txtDistance.getText());
 
+        Connection connection = null;
         try {
-            CrudUtil.startTransaction();
+            connection = DBConnection.getInstance().getConnection();
+            connection.setAutoCommit(false);
+//            CrudUtil.startTransaction();
 
-            boolean isStudentInserted = studentRegistrationModel.insertStudentRegistration(studentRegId, studentId, distance, dayPrice, registrationDate, routeId, vehicleId);
+            boolean isStudentInserted = studentRegistrationDAO.insertStudentRegistration(studentRegId, studentId, distance, dayPrice, registrationDate, routeId, vehicleId);
             if (!isStudentInserted) throw new SQLException("Failed to insert into StudentRegistration");
 
-            boolean isVehicleUpdated = vehicleModel.updateVehicleSeatCount(vehicleId, 1);
+            boolean isVehicleUpdated = vehicleDAO.updateVehicleSeatCount(vehicleId, 1);
             if (!isVehicleUpdated) throw new SQLException("Failed to update Vehicle seat count");
 
-            CrudUtil.commitTransaction();
+//            CrudUtil.commitTransaction();
+            connection.commit();
+            connection.setAutoCommit(true);
+
             new Alert(Alert.AlertType.INFORMATION, "Student registered successfully!").show();
         } catch (SQLException e) {
             try {
-                CrudUtil.rollbackTransaction();
+//                CrudUtil.rollbackTransaction();
+                connection.rollback();
+                connection.setAutoCommit(true);
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -292,7 +313,7 @@ public class StudentRegistrationController implements Initializable {
         cmbDestination.getSelectionModel().clearSelection();
         txtDayPrice.setText("00.00");
         txtDistance.clear();
-        lblRegistrationId.setText(studentRegistrationModel.getNextRegistrationId());
+        lblRegistrationId.setText(studentRegistrationDAO.getNextRegistrationId());
         lableStudentId.setText("Student Id");
         lblPickupLocation.setText("Pickup Location");
         lblAvailableSeat.setText("00");
@@ -339,7 +360,7 @@ public class StudentRegistrationController implements Initializable {
             e.printStackTrace();
         }
         try {
-            String nextRegistrationId = studentRegistrationModel.getNextRegistrationId();
+            String nextRegistrationId = studentRegistrationDAO.getNextRegistrationId();
             lblRegistrationId.setText(nextRegistrationId);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -354,14 +375,14 @@ public class StudentRegistrationController implements Initializable {
             String studentName = cmbStudentName.getSelectionModel().getSelectedItem();
             String selectedStudentId = null;
             try {
-                selectedStudentId = studentModel.getStudentIdByName(studentName);
+                selectedStudentId = studentDAO.getStudentIdByName(studentName);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
             if (selectedStudentId != null) {
                 try {
                     lableStudentId.setText(selectedStudentId);
-                    lblPickupLocation.setText(studentModel.getPickupLocationById(selectedStudentId));
+                    lblPickupLocation.setText(studentDAO.getPickupLocationById(selectedStudentId));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -372,7 +393,7 @@ public class StudentRegistrationController implements Initializable {
             String selectedVehicleId = cmbVehicle.getSelectionModel().getSelectedItem();
             if (selectedVehicleId != null) {
                 try {
-                    int availableSeats = vehicleModel.getAvailableSeatCountByVehicleId(selectedVehicleId);
+                    int availableSeats = vehicleDAO.getAvailableSeatCountByVehicleId(selectedVehicleId);
                     lblAvailableSeat.setText(String.valueOf(availableSeats));
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -382,27 +403,27 @@ public class StudentRegistrationController implements Initializable {
     }
 
     private void loadStudentRegistrationDetails() throws SQLException {
-        ObservableList<StudentRegistrationDetailsTM> studentRegistrationDetails = studentRegistrationModel.getAllStudentRegistrationDetails();
+        ObservableList<StudentRegistrationDetailsTM> studentRegistrationDetails = studentRegistrationDAO.getAllStudentRegistrationDetails();
         tblStudentRegistration.setItems(studentRegistrationDetails);
     }
 
     private void loadStudentNames() throws SQLException {
-        List<String> studentIds = studentModel.getAllStudentNames();
+        List<String> studentIds = studentDAO.getAllStudentNames();
         cmbStudentName.getItems().addAll(studentIds);
     }
 
     private void loadVehicleIds() throws SQLException {
-        List<String> vehicleIds = vehicleModel.getAllVehicleIds();
+        List<String> vehicleIds = vehicleDAO.getAllVehicleIds();
         cmbVehicle.getItems().addAll(vehicleIds);
     }
 
     private void loadRoutes() throws SQLException {
-        List<String> routes = routeModel.getAllRouteNames();
+        List<String> routes = routeDAO.getAllRouteNames();
         cmbRoute.getItems().addAll(routes);
     }
 
     private void loadDestinations() throws SQLException {
-        List<String> destinations = routeModel.getAllDestinations();
+        List<String> destinations = routeDAO.getAllDestinations();
         cmbDestination.getItems().addAll(destinations);
     }
 

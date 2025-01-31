@@ -1,5 +1,4 @@
-// src/main/java/lk/ijse/gdse72/swiftsts/util/CrudUtil.java
-package lk.ijse.gdse72.swiftsts.util;
+package lk.ijse.gdse72.swiftsts.dao;
 
 import lk.ijse.gdse72.swiftsts.db.DBConnection;
 
@@ -8,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CrudUtil {
+public class SQLUtil {
 
     public static <T> T execute(String sql, Object... obj) throws SQLException {
         Connection connection = DBConnection.getInstance().getConnection();
@@ -28,21 +27,4 @@ public class CrudUtil {
         }
     }
 
-    public static void startTransaction() throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        connection.setAutoCommit(false);
-
-    }
-
-    public static void commitTransaction() throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        connection.commit();
-        connection.setAutoCommit(true);
-    }
-
-    public static void rollbackTransaction() throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        connection.rollback();
-        connection.setAutoCommit(true);
-    }
 }

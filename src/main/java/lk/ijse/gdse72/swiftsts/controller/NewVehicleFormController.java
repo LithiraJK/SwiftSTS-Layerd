@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.VehicleDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.VehicleDto;
 import lk.ijse.gdse72.swiftsts.model.VehicleModel;
 
@@ -17,6 +18,10 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class NewVehicleFormController implements Initializable {
+
+//    VehicleModel vehicleDAO = new VehicleModel();
+    VehicleDAOImpl vehicleDAO = new VehicleDAOImpl();
+
 
     @FXML
     private JFXButton btnDiscard;
@@ -54,7 +59,6 @@ public class NewVehicleFormController implements Initializable {
     private AnchorPane overlayPane;
     private AnchorPane paneStudent;
 
-    private final VehicleModel vehicleModel = new VehicleModel();
 
     public void setOverlayPane(AnchorPane overlayPane, AnchorPane paneStudent) {
         this.overlayPane = overlayPane;
@@ -122,7 +126,7 @@ public class NewVehicleFormController implements Initializable {
             VehicleDto vehicleDto = new VehicleDto(vehicleId, registrationNo, vehicleType, engineCapacity, fuelType, model, seatCount, availableSeatCount);
 
             try {
-                boolean isSaved = vehicleModel.saveVehicle(vehicleDto);
+                boolean isSaved = vehicleDAO.saveVehicle(vehicleDto);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.INFORMATION, "Vehicle saved successfully!").show();
@@ -144,7 +148,7 @@ public class NewVehicleFormController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            String nextVehicleId = vehicleModel.getNextVehicleId();
+            String nextVehicleId = vehicleDAO.getNextVehicleId();
             lblVehicleID.setText(nextVehicleId);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "An error occurred while generating the vehicle ID: " + e.getMessage()).show();

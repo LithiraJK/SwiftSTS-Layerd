@@ -11,6 +11,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.AttendanceDAOImpl;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.DriverDAOImpl;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.AttendanceDto;
 import lk.ijse.gdse72.swiftsts.model.AttendanceModel;
 import lk.ijse.gdse72.swiftsts.model.DriverModel;
@@ -22,6 +25,14 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class UpdateAttendanceController implements Initializable {
+
+//    AttendanceModel attendanceDAO = new AttendanceModel();
+//    DriverModel driverDAO = new DriverModel();
+//    StudentModel studentDAO = new StudentModel();
+
+    AttendanceDAOImpl attendanceDAO = new AttendanceDAOImpl();
+    DriverDAOImpl driverDAO =new DriverDAOImpl();
+    StudentDAOImpl studentDAO = new StudentDAOImpl();
 
     @FXML
     private JFXButton btnDiscard;
@@ -59,9 +70,7 @@ public class UpdateAttendanceController implements Initializable {
     @FXML
     private JFXTextField txtDayCount;
 
-    private final AttendanceModel attendanceModel = new AttendanceModel();
-    DriverModel driverModel = new DriverModel();
-    StudentModel studentModel = new StudentModel();
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -76,14 +85,14 @@ public class UpdateAttendanceController implements Initializable {
     }
 
     private void loadStudentIds() throws SQLException {
-        ArrayList<String> studentNames = studentModel.getAllStudentNames();
+        ArrayList<String> studentNames = studentDAO.getAllStudentNames();
         ObservableList<String> observableList = FXCollections.observableArrayList();
         observableList.addAll(studentNames);
         cbStudentId.setItems(observableList);
     }
 
     private void loadDriverIds() throws SQLException {
-        ArrayList<String> driverIds = driverModel.getAllDriverIds();
+        ArrayList<String> driverIds = driverDAO.getAllDriverIds();
         ObservableList<String> observableList = FXCollections.observableArrayList();
         observableList.addAll(driverIds);
         cbDriverId.setItems(observableList);
@@ -125,7 +134,7 @@ public class UpdateAttendanceController implements Initializable {
                     Integer.parseInt(txtDayCount.getText())
             );
 
-            boolean isUpdated = attendanceModel.updateAttendance(updatedAttendance);
+            boolean isUpdated = attendanceDAO.updateAttendance(updatedAttendance);
 
             if (isUpdated) {
                 new Alert(Alert.AlertType.INFORMATION, "Attendance updated successfully!").show();

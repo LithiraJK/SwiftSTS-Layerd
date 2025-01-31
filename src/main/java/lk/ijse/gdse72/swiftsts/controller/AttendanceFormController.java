@@ -16,6 +16,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.AttendanceDAOImpl;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentRegistrationDAOImpl;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.VehicleDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.AttendanceDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.AttendanceTM;
 import lk.ijse.gdse72.swiftsts.model.*;
@@ -29,6 +33,17 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AttendanceFormController implements Initializable {
+
+    AttendanceDAOImpl attendanceDAO = new AttendanceDAOImpl();
+    StudentDAOImpl studentDAO = new StudentDAOImpl();
+    VehicleDAOImpl vehicleDAO = new VehicleDAOImpl();
+    StudentRegistrationDAOImpl studentRegistrationDAO = new StudentRegistrationDAOImpl();
+
+//    AttendanceModel attendanceModel = new AttendanceModel();
+//    StudentModel studentModel = new StudentModel();
+//    VehicleModel vehicleModel = new VehicleModel();
+//    StudentRegistrationModel studentRegistrationModel = new StudentRegistrationModel();
+
     @FXML
     public JFXButton btnReset;
     @FXML
@@ -90,10 +105,7 @@ public class AttendanceFormController implements Initializable {
     @FXML
     private JFXTextField txtDayCount;
 
-    AttendanceModel attendanceModel = new AttendanceModel();
-    StudentModel studentModel = new StudentModel();
-    VehicleModel vehicleModel = new VehicleModel();
-    StudentRegistrationModel studentRegistrationModel = new StudentRegistrationModel();
+
 
     @FXML
     void btnGoBackOnMouseClicked(MouseEvent event) throws IOException {
@@ -118,7 +130,7 @@ public class AttendanceFormController implements Initializable {
     }
 
     private void loadVehicleIds() throws SQLException {
-        List<String> vehicleIds = vehicleModel.getAllVehicleIds();
+        List<String> vehicleIds = vehicleDAO.getAllVehicleIds();
         ObservableList<String> observableList = FXCollections.observableArrayList();
         observableList.addAll(vehicleIds);
         cbVehicleId.setItems(observableList);
@@ -133,10 +145,10 @@ public class AttendanceFormController implements Initializable {
     }
 
     private void loadStudentNames(String vehicleId) throws SQLException {
-        ArrayList<String> studentIds = studentRegistrationModel.getStudentIdsByVehicleId(vehicleId);
+        ArrayList<String> studentIds = studentRegistrationDAO.getStudentIdsByVehicleId(vehicleId);
         ArrayList<String> studentNames = new ArrayList<>();
         for (String studentId : studentIds) {
-            studentNames.add(studentModel.getStudentNameById(studentId));
+            studentNames.add(studentDAO.getStudentNameById(studentId));
         }
         ObservableList<String> observableList = FXCollections.observableArrayList();
         observableList.addAll(studentNames);
@@ -154,7 +166,7 @@ public class AttendanceFormController implements Initializable {
     }
 
     private void refreshTable() throws SQLException {
-        ArrayList<AttendanceDto> attendenceList = attendanceModel.getAllAttendances();
+        ArrayList<AttendanceDto> attendenceList = attendanceDAO.getAllAttendances();
         ObservableList<AttendanceTM> attendanceTMList = FXCollections.observableArrayList();
         for (AttendanceDto dto : attendenceList) {
             ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/assets/icons/icons8-edit-90.png")));
@@ -213,7 +225,7 @@ public class AttendanceFormController implements Initializable {
         Optional<ButtonType> buttonType = alert.showAndWait();
         if (buttonType.get() == ButtonType.YES) {
             try {
-                boolean isDeleted = attendanceModel.deleteAttendence(dto.getAttendanceId());
+                boolean isDeleted = attendanceDAO.deleteAttendence(dto.getAttendanceId());
                 if (isDeleted) {
                     new Alert(Alert.AlertType.INFORMATION, "Attendance record deleted successfully!").show();
                     refreshTable();
@@ -243,7 +255,7 @@ public class AttendanceFormController implements Initializable {
             loadYears();
             loadMonths();
             refreshTable();
-            String nextAttendanceId = attendanceModel.getNextAttendanceId();
+            String nextAttendanceId = attendanceDAO.getNextAttendanceId();
             lblAttendenceId.setText(nextAttendanceId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -252,7 +264,7 @@ public class AttendanceFormController implements Initializable {
         cbStudentId.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 try {
-                    String studentId = studentModel.getStudentIdByName(newValue);
+                    String studentId = studentDAO.getStudentIdByName(newValue);
                     lblStudentId.setText(studentId);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -263,7 +275,7 @@ public class AttendanceFormController implements Initializable {
         cbVehicleId.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 try {
-                    String registrationNo = vehicleModel.getRegistrationNoById(newValue);
+                    String registrationNo = vehicleDAO.getRegistrationNoById(newValue);
                     lblVehicleRegistrationNo.setText(registrationNo);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -293,7 +305,7 @@ public class AttendanceFormController implements Initializable {
     }
     private void refreshPage() throws SQLException {
         refreshTable();
-        String nextAttendanceId = attendanceModel.getNextAttendanceId();
+        String nextAttendanceId = attendanceDAO.getNextAttendanceId();
         lblAttendenceId.setText(nextAttendanceId);
         cbStudentId.getSelectionModel().clearSelection();
         cbVehicleId.getSelectionModel().clearSelection();
@@ -312,7 +324,7 @@ public class AttendanceFormController implements Initializable {
         }
         try {
             String studentName = cbStudentId.getValue();
-            String studentId = studentModel.getStudentIdByName(studentName); // Add this method to StudentModel
+            String studentId = studentDAO.getStudentIdByName(studentName); // Add this method to StudentModel
 
             AttendanceDto attendanceDto = new AttendanceDto(
                     lblAttendenceId.getText(),
@@ -323,7 +335,7 @@ public class AttendanceFormController implements Initializable {
                     Integer.parseInt(txtDayCount.getText())
             );
 
-            boolean isAttendanceSaved = attendanceModel.saveAttendance(attendanceDto);
+            boolean isAttendanceSaved = attendanceDAO.saveAttendance(attendanceDto);
 
             if (isAttendanceSaved) {
                 new Alert(Alert.AlertType.INFORMATION, "Attendance saved successfully!").show();

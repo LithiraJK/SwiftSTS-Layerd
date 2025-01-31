@@ -1,7 +1,7 @@
 package lk.ijse.gdse72.swiftsts.model;
 
 import lk.ijse.gdse72.swiftsts.dto.DriverDto;
-import lk.ijse.gdse72.swiftsts.util.CrudUtil;
+import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class DriverModel {
 
     public ArrayList<DriverDto> getAllDrivers() throws SQLException {
-        ResultSet rst = CrudUtil.execute("SELECT * FROM Driver");
+        ResultSet rst = SQLUtil.execute("SELECT * FROM Driver");
         ArrayList<DriverDto> driverList = new ArrayList<>();
 
         while (rst.next()) {
@@ -30,7 +30,7 @@ public class DriverModel {
     }
 
     public boolean saveDriver(DriverDto dto) throws SQLException {
-        return CrudUtil.execute("INSERT INTO Driver (DriverId, Name, LicenseNo, NIC, ContactNo, Address, Email) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        return SQLUtil.execute("INSERT INTO Driver (DriverId, Name, LicenseNo, NIC, ContactNo, Address, Email) VALUES (?, ?, ?, ?, ?, ?, ?)",
                 dto.getDriverId(),
                 dto.getName(),
                 dto.getLicenseNo(),
@@ -43,7 +43,7 @@ public class DriverModel {
 
 
     public boolean updateDriver(DriverDto dto) throws SQLException {
-        return CrudUtil.execute("UPDATE Driver SET Name=?, LicenseNo=?, NIC=?, ContactNo=?, Address=?, Email=? WHERE DriverId=?",
+        return SQLUtil.execute("UPDATE Driver SET Name=?, LicenseNo=?, NIC=?, ContactNo=?, Address=?, Email=? WHERE DriverId=?",
                 dto.getName(),
                 dto.getLicenseNo(),
                 dto.getNic(),
@@ -55,7 +55,7 @@ public class DriverModel {
     }
 
     public String getNextDriverId() throws SQLException {
-        ResultSet rst = CrudUtil.execute("SELECT DriverId FROM Driver ORDER BY DriverId DESC LIMIT 1");
+        ResultSet rst = SQLUtil.execute("SELECT DriverId FROM Driver ORDER BY DriverId DESC LIMIT 1");
 
         if (rst.next()) {
             String lastiD = rst.getString(1);
@@ -70,7 +70,7 @@ public class DriverModel {
 
 
     public ArrayList<String> getAllDriverIds() throws SQLException {
-        ResultSet rst = CrudUtil.execute("SELECT DriverId FROM Driver");
+        ResultSet rst = SQLUtil.execute("SELECT DriverId FROM Driver");
 
         ArrayList<String> driverIds = new ArrayList<>();
 
@@ -82,12 +82,12 @@ public class DriverModel {
     }
 
     public boolean deleteDriver(String driverId) throws SQLException {
-        return CrudUtil.execute("DELETE FROM Driver WHERE DriverId=?", driverId);
+        return SQLUtil.execute("DELETE FROM Driver WHERE DriverId=?", driverId);
     }
 
     public int getDriverCount() throws SQLException {
         String query = "SELECT COUNT(*) FROM Driver";
-        ResultSet resultSet = CrudUtil.execute(query);
+        ResultSet resultSet = SQLUtil.execute(query);
         if (resultSet.next()) {
             return resultSet.getInt(1);
         }
@@ -95,7 +95,7 @@ public class DriverModel {
     }
 
     public String getDriverNameById(String driverId) throws SQLException {
-        ResultSet rst = CrudUtil.execute("SELECT Name FROM Driver WHERE DriverId=?", driverId);
+        ResultSet rst = SQLUtil.execute("SELECT Name FROM Driver WHERE DriverId=?", driverId);
         if (rst.next()) {
             return rst.getString(1);
         }

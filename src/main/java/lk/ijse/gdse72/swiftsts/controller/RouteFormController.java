@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.RouteDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.RouteDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.RouteTM;
 import lk.ijse.gdse72.swiftsts.model.RouteModel;
@@ -23,6 +24,9 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class RouteFormController implements Initializable {
+
+//    RouteModel routeDAO = new RouteModel();
+    RouteDAOImpl routeDAO =  new RouteDAOImpl();
 
     @FXML
     private JFXButton btnDelete;
@@ -72,7 +76,7 @@ public class RouteFormController implements Initializable {
     @FXML
     private JFXTextField txtStartPoint;
 
-    private RouteModel routeModel = new RouteModel();
+
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
@@ -82,7 +86,7 @@ public class RouteFormController implements Initializable {
         Optional<ButtonType> buttonType = alert.showAndWait();
         if (buttonType.get() == ButtonType.YES) {
             try {
-                boolean isDeleted = routeModel.deleteRoute(routeId);
+                boolean isDeleted = routeDAO.deleteRoute(routeId);
                 if (isDeleted) {
                     new Alert(Alert.AlertType.INFORMATION, "Route deleted successfully!").show();
                     refreshPage();
@@ -141,7 +145,7 @@ public class RouteFormController implements Initializable {
             RouteDto routeDto = new RouteDto(routeId, routeName, startPoint, destination, routeFee);
 
             try {
-                boolean isSaved = routeModel.saveRoute(routeDto);
+                boolean isSaved = routeDAO.saveRoute(routeDto);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.INFORMATION, "Route saved successfully!").show();
@@ -194,7 +198,7 @@ public class RouteFormController implements Initializable {
 
         if (isValidRouteName && isValidStartPoint && isValidDestination && isValidDayFee) {
             RouteDto routeDto = new RouteDto(routeId, routeName, startPoint, destination, routeFee);
-            boolean isUpdated = routeModel.updateRoute(routeDto);
+            boolean isUpdated = routeDAO.updateRoute(routeDto);
 
             if (isUpdated) {
                 new Alert(Alert.AlertType.INFORMATION, "Route updated successfully!").show();
@@ -241,7 +245,7 @@ public class RouteFormController implements Initializable {
     private void refreshPage() throws SQLException {
         refreshTable();
 
-        String nextRouteId = routeModel.getNextRouteId();
+        String nextRouteId = routeDAO.getNextRouteId();
         lblRouteId.setText(nextRouteId);
 
         txtRouteName.setText("");
@@ -260,7 +264,7 @@ public class RouteFormController implements Initializable {
     }
 
     private void refreshTable() throws SQLException {
-        ArrayList<RouteDto> routeDtos = routeModel.getAllRoutes();
+        ArrayList<RouteDto> routeDtos = routeDAO.getAllRoutes();
         ObservableList<RouteTM> routeTMS = FXCollections.observableArrayList();
 
         for (RouteDto routeDto : routeDtos) {

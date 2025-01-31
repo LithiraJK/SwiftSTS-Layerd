@@ -14,7 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import lk.ijse.gdse72.swiftsts.util.CrudUtil;
+import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -79,7 +79,7 @@ public class SignInFormController {
 
     private boolean isUsernameValid(String username) {
         try {
-            ResultSet resultSet = CrudUtil.execute("SELECT * FROM User WHERE username=?", username);
+            ResultSet resultSet = SQLUtil.execute("SELECT * FROM User WHERE username=?", username);
             return resultSet.next();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -89,7 +89,7 @@ public class SignInFormController {
 
     private boolean validateCredentials(String username, String password) {
         try {
-            ResultSet resultSet = CrudUtil.execute("SELECT * FROM User WHERE username=? AND password=?", username, password);
+            ResultSet resultSet = SQLUtil.execute("SELECT * FROM User WHERE username=? AND password=?", username, password);
             return resultSet.next();
         } catch (SQLException e) {
             e.printStackTrace();

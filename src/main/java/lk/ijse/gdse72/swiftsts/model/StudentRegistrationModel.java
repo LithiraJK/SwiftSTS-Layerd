@@ -5,14 +5,13 @@ import javafx.collections.ObservableList;
 import lk.ijse.gdse72.swiftsts.db.DBConnection;
 import lk.ijse.gdse72.swiftsts.dto.StudentRegistrationDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.StudentRegistrationDetailsTM;
-import lk.ijse.gdse72.swiftsts.util.CrudUtil;
+import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class StudentRegistrationModel {
 
@@ -80,7 +79,7 @@ public class StudentRegistrationModel {
 
 
     public ArrayList<StudentRegistrationDto> getAllStudentRegistrations() throws SQLException {
-        ResultSet rst = CrudUtil.execute("SELECT StudentRegistrationId, " +
+        ResultSet rst = SQLUtil.execute("SELECT StudentRegistrationId, " +
                 "StudentId, Distance,DayPrice,RouteName,VehicleId,Date " +
                 "FROM StudentRegistration sr " +
                 "join Route r " +
@@ -105,12 +104,12 @@ public class StudentRegistrationModel {
     }
 
     public boolean insertStudentRegistration(String studentRegId, String studentId, double distance, double dayPrice, String registrationDate, String routeId, String vehicleId) throws SQLException {
-        return CrudUtil.execute("INSERT INTO StudentRegistration (StudentRegistrationId, StudentId, Distance, DayPrice, Date, RouteId, VehicleId) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        return SQLUtil.execute("INSERT INTO StudentRegistration (StudentRegistrationId, StudentId, Distance, DayPrice, Date, RouteId, VehicleId) VALUES (?, ?, ?, ?, ?, ?, ?)",
                 studentRegId, studentId, distance, dayPrice, registrationDate, routeId, vehicleId);
     }
 
     public String getNextRegistrationId() throws SQLException {
-        ResultSet resultSet = CrudUtil.execute("SELECT StudentRegistrationId FROM StudentRegistration ORDER BY StudentRegistrationId DESC LIMIT 1");
+        ResultSet resultSet = SQLUtil.execute("SELECT StudentRegistrationId FROM StudentRegistration ORDER BY StudentRegistrationId DESC LIMIT 1");
 
         if (resultSet.next()) {
             String lastId = resultSet.getString(1);
@@ -123,7 +122,7 @@ public class StudentRegistrationModel {
     }
 
     public ArrayList<String> getStudentIdsByVehicleId(String vehicleId) throws SQLException {
-        ResultSet rst = CrudUtil.execute("SELECT StudentId FROM StudentRegistration WHERE VehicleId = ?", vehicleId);
+        ResultSet rst = SQLUtil.execute("SELECT StudentId FROM StudentRegistration WHERE VehicleId = ?", vehicleId);
         ArrayList<String> studentIds = new ArrayList<>();
         while (rst.next()) {
             studentIds.add(rst.getString(1));

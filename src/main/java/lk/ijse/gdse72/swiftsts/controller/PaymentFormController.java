@@ -13,13 +13,15 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.AttendanceDAOImpl;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.PaymentDAOImpl;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
 import lk.ijse.gdse72.swiftsts.db.DBConnection;
 import lk.ijse.gdse72.swiftsts.dto.PaymentDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.PaymentTM;
 import lk.ijse.gdse72.swiftsts.model.AttendanceModel;
 import lk.ijse.gdse72.swiftsts.model.PaymentModel;
 import lk.ijse.gdse72.swiftsts.model.StudentModel;
-import lk.ijse.gdse72.swiftsts.util.CrudUtil;
 import lk.ijse.gdse72.swiftsts.util.SendMailUtil;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
@@ -31,6 +33,14 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class PaymentFormController implements Initializable {
+
+//    StudentModel studentDAO = new StudentModel();
+//    PaymentModel paymentDAO = new PaymentModel();
+//    AttendanceModel attendanceDAO = new AttendanceModel();
+
+    StudentDAOImpl studentDAO = new StudentDAOImpl();
+    PaymentDAOImpl paymentDAO = new PaymentDAOImpl();
+    AttendanceDAOImpl attendanceDAO = new AttendanceDAOImpl();
 
 
     @FXML
@@ -101,9 +111,7 @@ public class PaymentFormController implements Initializable {
     @FXML
     private JFXTextField txtPayAmount;
 
-    StudentModel studentModel = new StudentModel();
-    PaymentModel paymentModel = new PaymentModel();
-    AttendanceModel attendanceModel = new AttendanceModel();
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -129,7 +137,7 @@ public class PaymentFormController implements Initializable {
     }
 
     private void loadStudentNames() throws SQLException {
-        ArrayList<String> studentNames = studentModel.getAllStudentNames();
+        ArrayList<String> studentNames = studentDAO.getAllStudentNames();
         ObservableList<String> observableList = FXCollections.observableArrayList(studentNames);
         cmbStudentNames.setItems(observableList);
         cmbStudentNames.setOnAction(event -> {
@@ -137,9 +145,9 @@ public class PaymentFormController implements Initializable {
 
                 String selectedStudent = cmbStudentNames.getValue();
                 loadAttendanceIds(selectedStudent);
-                String studentId = studentModel.getStudentIdByName(selectedStudent);
+                String studentId = studentDAO.getStudentIdByName(selectedStudent);
                 lblStudentId.setText(studentId);
-                double creditBalance = studentModel.getCreditBalanceById(selectedStudent);
+                double creditBalance = studentDAO.getCreditBalanceById(selectedStudent);
                 lblCreditBalance.setText(String.format("%.2f", creditBalance));
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -148,15 +156,15 @@ public class PaymentFormController implements Initializable {
     }
 
     private void setNextPaymentId() throws SQLException {
-        String nextPaymentId = paymentModel.getNextPaymentId();
+        String nextPaymentId = paymentDAO.getNextPaymentId();
         lblPaymentId.setText(nextPaymentId);
     }
 
     private Map<String, String> attendanceMap = new HashMap<>();
 
     private void loadAttendanceIds(String studentName) throws SQLException {
-        String studentId = studentModel.getStudentIdByName(studentName);
-        ArrayList<String> attendanceMonths = attendanceModel.getAttendanceMonthsByStudentId(studentId);
+        String studentId = studentDAO.getStudentIdByName(studentName);
+        ArrayList<String> attendanceMonths = attendanceDAO.getAttendanceMonthsByStudentId(studentId);
         ObservableList<String> observableList = FXCollections.observableArrayList(attendanceMonths);
         cmbAttendanceId.setItems(observableList);
 
@@ -165,14 +173,14 @@ public class PaymentFormController implements Initializable {
             String[] parts = attendanceMonth.split("-");
             String year = parts[0];
             String month = parts[1];
-            String attendanceId = attendanceModel.getAttendanceIdByStudentIdYearMonth(studentId, year, month);
+            String attendanceId = attendanceDAO.getAttendanceIdByStudentIdYearMonth(studentId, year, month);
             attendanceMap.put(attendanceMonth, attendanceId);
         }
     }
 
 
     private void loadPaymentData() throws SQLException {
-        List<PaymentDto> paymentData = new PaymentModel().getPaymentData();
+        List<PaymentDto> paymentData = paymentDAO.getPaymentData();
         ObservableList<PaymentTM> paymentTMs = FXCollections.observableArrayList();
 
         for (PaymentDto dto : paymentData) {
@@ -201,8 +209,8 @@ public class PaymentFormController implements Initializable {
                 return;
             }
 
-            int dayCount = attendanceModel.getDayCountByAttendanceId(attendanceId);
-            double monthlyFee = paymentModel.calculateMonthlyFee(lblStudentId.getText(), dayCount);
+            int dayCount = attendanceDAO.getDayCountByAttendanceId(attendanceId);
+            double monthlyFee = paymentDAO.calculateMonthlyFee(lblStudentId.getText(), dayCount);
 
             lblMonthlyFee.setText(String.format("%.2f", monthlyFee));
 
@@ -219,7 +227,7 @@ public class PaymentFormController implements Initializable {
     private void NotifyStudentByEmail() {
         try {
             String studentId = (String) cmbStudentNames.getValue();
-            String email = studentModel.getEmailByStudentId(studentId);
+            String email = studentDAO.getEmailByStudentId(studentId);
             String subject = "Monthly Fee Notification";
             String body = "Dear Student,\n\nYour monthly fee is: RS." + lblMonthlyFee.getText() + " \n\nYour Credit Balance is: RS." + lblCreditBalance.getText() + " \n\nThank you.";
 
@@ -235,7 +243,10 @@ public class PaymentFormController implements Initializable {
 
     @FXML
     void btnMakePaymentOnAction(ActionEvent event) throws SQLException {
+        Connection connection = null;
         try {
+            connection = DBConnection.getInstance().getConnection();
+
             String studentId = lblStudentId.getText();
             String selectedMonthYear = cmbAttendanceId.getValue();
             String attendanceId = attendanceMap.get(selectedMonthYear);
@@ -247,8 +258,8 @@ public class PaymentFormController implements Initializable {
                 return;
             }
 
-            int dayCount = attendanceModel.getDayCountByAttendanceId(attendanceId);
-            double monthlyFee = paymentModel.calculateMonthlyFee(lblStudentId.getText(), dayCount);
+            int dayCount = attendanceDAO.getDayCountByAttendanceId(attendanceId);
+            double monthlyFee = paymentDAO.calculateMonthlyFee(lblStudentId.getText(), dayCount);
             double totalDue = monthlyFee + creditBalance;
             double remainingBalance = totalDue - payAmount;
 
@@ -278,20 +289,25 @@ public class PaymentFormController implements Initializable {
                     LocalDate.now().toString()
             );
 
-            CrudUtil.startTransaction();
+//            CrudUtil.startTransaction();
+            connection.setAutoCommit(false);
 
-            boolean isPaymentInserted = paymentModel.savePayment(paymentDto);
+            boolean isPaymentInserted = paymentDAO.savePayment(paymentDto);
             if (!isPaymentInserted) throw new SQLException("Failed to insert into Payment");
 
-            boolean isCreditBalanceUpdated = studentModel.updateCreditBalance(studentId, creditBalance);
+            boolean isCreditBalanceUpdated = studentDAO.updateCreditBalance(studentId, creditBalance);
             if (!isCreditBalanceUpdated) throw new SQLException("Failed to update credit balance");
 
-            CrudUtil.commitTransaction();
+//            CrudUtil.commitTransaction();
+            connection.setAutoCommit(false);
+
             new Alert(Alert.AlertType.INFORMATION, "Payment made successfully!").show();
             loadPaymentData();
         } catch (SQLException | NumberFormatException e) {
             try {
-                CrudUtil.rollbackTransaction();
+//                CrudUtil.rollbackTransaction();
+                connection.commit();
+                connection.setAutoCommit(true);
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
