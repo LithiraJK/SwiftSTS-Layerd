@@ -16,6 +16,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import lk.ijse.gdse72.swiftsts.dao.custom.AttendanceDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.StudentRegistrationDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.VehicleDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.AttendanceDAOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentRegistrationDAOImpl;
@@ -34,10 +38,10 @@ import java.util.ResourceBundle;
 
 public class AttendanceFormController implements Initializable {
 
-    AttendanceDAOImpl attendanceDAO = new AttendanceDAOImpl();
-    StudentDAOImpl studentDAO = new StudentDAOImpl();
-    VehicleDAOImpl vehicleDAO = new VehicleDAOImpl();
-    StudentRegistrationDAOImpl studentRegistrationDAO = new StudentRegistrationDAOImpl();
+    AttendanceDAO attendanceDAO = new AttendanceDAOImpl();
+    StudentDAO studentDAO = new StudentDAOImpl();
+    VehicleDAO vehicleDAO = new VehicleDAOImpl();
+    StudentRegistrationDAO studentRegistrationDAO = new StudentRegistrationDAOImpl();
 
 //    AttendanceModel attendanceModel = new AttendanceModel();
 //    StudentModel studentModel = new StudentModel();

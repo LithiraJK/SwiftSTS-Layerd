@@ -1,13 +1,15 @@
 package lk.ijse.gdse72.swiftsts.dao.custom.impl;
 
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
+import lk.ijse.gdse72.swiftsts.dao.custom.DriverDAO;
 import lk.ijse.gdse72.swiftsts.dto.DriverDto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class DriverDAOImpl {
+public class DriverDAOImpl implements DriverDAO {
+    @Override
     public ArrayList<DriverDto> getAllDrivers() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT * FROM Driver");
         ArrayList<DriverDto> driverList = new ArrayList<>();
@@ -27,7 +29,7 @@ public class DriverDAOImpl {
 
         return driverList;
     }
-
+    @Override
     public boolean saveDriver(DriverDto dto) throws SQLException {
         return SQLUtil.execute("INSERT INTO Driver (DriverId, Name, LicenseNo, NIC, ContactNo, Address, Email) VALUES (?, ?, ?, ?, ?, ?, ?)",
                 dto.getDriverId(),
@@ -40,7 +42,7 @@ public class DriverDAOImpl {
         );
     }
 
-
+    @Override
     public boolean updateDriver(DriverDto dto) throws SQLException {
         return SQLUtil.execute("UPDATE Driver SET Name=?, LicenseNo=?, NIC=?, ContactNo=?, Address=?, Email=? WHERE DriverId=?",
                 dto.getName(),
@@ -52,7 +54,7 @@ public class DriverDAOImpl {
                 dto.getDriverId()
         );
     }
-
+    @Override
     public String getNextDriverId() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT DriverId FROM Driver ORDER BY DriverId DESC LIMIT 1");
 
@@ -67,7 +69,7 @@ public class DriverDAOImpl {
         return "D001";
     }
 
-
+    @Override
     public ArrayList<String> getAllDriverIds() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT DriverId FROM Driver");
 
@@ -79,11 +81,11 @@ public class DriverDAOImpl {
 
         return driverIds;
     }
-
+    @Override
     public boolean deleteDriver(String driverId) throws SQLException {
         return SQLUtil.execute("DELETE FROM Driver WHERE DriverId=?", driverId);
     }
-
+    @Override
     public int getDriverCount() throws SQLException {
         String query = "SELECT COUNT(*) FROM Driver";
         ResultSet resultSet = SQLUtil.execute(query);
@@ -93,11 +95,4 @@ public class DriverDAOImpl {
         return 0;
     }
 
-    public String getDriverNameById(String driverId) throws SQLException {
-        ResultSet rst = SQLUtil.execute("SELECT Name FROM Driver WHERE DriverId=?", driverId);
-        if (rst.next()) {
-            return rst.getString(1);
-        }
-        return null;
-    }
 }

@@ -10,6 +10,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.UserDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.StudentDto;
@@ -25,8 +27,8 @@ public class NewStudentFormController implements Initializable {
 //    StudentModel studentDAO = new StudentModel();
 //    UserModel userDAO = new UserModel();
 
-    StudentDAOImpl studentDAO = new StudentDAOImpl();
-    UserDAOImpl userDAO =  new UserDAOImpl();
+    StudentDAO studentDAO = new StudentDAOImpl();
+    UserDAO userDAO =  new UserDAOImpl();
 
 
     @FXML

@@ -13,8 +13,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.gdse72.swiftsts.dao.custom.AttendanceDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.PaymentDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.QueryDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.AttendanceDAOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.PaymentDAOImpl;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.QueryDAOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
 import lk.ijse.gdse72.swiftsts.db.DBConnection;
 import lk.ijse.gdse72.swiftsts.dto.PaymentDto;
@@ -38,9 +43,10 @@ public class PaymentFormController implements Initializable {
 //    PaymentModel paymentDAO = new PaymentModel();
 //    AttendanceModel attendanceDAO = new AttendanceModel();
 
-    StudentDAOImpl studentDAO = new StudentDAOImpl();
-    PaymentDAOImpl paymentDAO = new PaymentDAOImpl();
-    AttendanceDAOImpl attendanceDAO = new AttendanceDAOImpl();
+    StudentDAO studentDAO = new StudentDAOImpl();
+    PaymentDAO paymentDAO = new PaymentDAOImpl();
+    AttendanceDAO attendanceDAO = new AttendanceDAOImpl();
+    QueryDAO queryDAO = new QueryDAOImpl();
 
 
     @FXML
@@ -180,7 +186,7 @@ public class PaymentFormController implements Initializable {
 
 
     private void loadPaymentData() throws SQLException {
-        List<PaymentDto> paymentData = paymentDAO.getPaymentData();
+        List<PaymentDto> paymentData = queryDAO.getPaymentData();
         ObservableList<PaymentTM> paymentTMs = FXCollections.observableArrayList();
 
         for (PaymentDto dto : paymentData) {

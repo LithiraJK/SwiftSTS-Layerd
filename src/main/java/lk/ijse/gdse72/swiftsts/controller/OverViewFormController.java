@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import lk.ijse.gdse72.swiftsts.dao.custom.*;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.*;
 import lk.ijse.gdse72.swiftsts.db.DBConnection;
 import lk.ijse.gdse72.swiftsts.model.*;
@@ -37,11 +38,11 @@ public class OverViewFormController implements Initializable {
 //    DriverModel driverDAO = new DriverModel();
 //    VehicleModel vehicleDAO = new VehicleModel();
 
-    ExpenseDAOImpl expenseDAO = new ExpenseDAOImpl();
-    PaymentDAOImpl paymentDAO = new PaymentDAOImpl();
-    StudentDAOImpl studentDAO = new StudentDAOImpl();
-    DriverDAOImpl driverDAO = new DriverDAOImpl();
-    VehicleDAOImpl vehicleDAO =  new VehicleDAOImpl();
+    ExpenseDAO expenseDAO = new ExpenseDAOImpl();
+    PaymentDAO paymentDAO = new PaymentDAOImpl();
+    StudentDAO studentDAO = new StudentDAOImpl();
+    DriverDAO driverDAO = new DriverDAOImpl();
+    VehicleDAO vehicleDAO =  new VehicleDAOImpl();
 
 
     @FXML

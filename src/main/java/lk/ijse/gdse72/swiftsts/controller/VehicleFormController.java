@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.dao.custom.VehicleDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.VehicleDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.VehicleDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.VehicleTM;
@@ -25,7 +26,7 @@ import java.util.ResourceBundle;
 public class VehicleFormController implements Initializable {
 
 //    VehicleModel vehicleDAO = new VehicleModel();
-    VehicleDAOImpl vehicleDAO = new VehicleDAOImpl();
+    VehicleDAO vehicleDAO = new VehicleDAOImpl();
 
 
     @FXML

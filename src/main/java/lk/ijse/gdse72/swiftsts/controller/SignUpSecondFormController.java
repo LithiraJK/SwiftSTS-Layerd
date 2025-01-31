@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.UserDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.UserDto;
 import lk.ijse.gdse72.swiftsts.model.UserModel;
@@ -20,7 +21,7 @@ import java.sql.SQLException;
 public class SignUpSecondFormController {
 
 //    UserModel userDAO = new UserModel();
-    UserDAOImpl userDAO = new UserDAOImpl();
+    UserDAO userDAO = new UserDAOImpl();
 
     @FXML
     private Label txtSignIn;

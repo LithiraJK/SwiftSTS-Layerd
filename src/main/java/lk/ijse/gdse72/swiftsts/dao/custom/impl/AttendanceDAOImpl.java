@@ -1,13 +1,15 @@
 package lk.ijse.gdse72.swiftsts.dao.custom.impl;
 
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
+import lk.ijse.gdse72.swiftsts.dao.custom.AttendanceDAO;
 import lk.ijse.gdse72.swiftsts.dto.AttendanceDto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class AttendanceDAOImpl {
+public class AttendanceDAOImpl implements AttendanceDAO {
+    @Override
     public ArrayList<AttendanceDto> getAllAttendances() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT * FROM Attendance");
         ArrayList<AttendanceDto> attendenceList = new ArrayList<>();
@@ -26,7 +28,7 @@ public class AttendanceDAOImpl {
 
         return attendenceList;
     }
-
+    @Override
     public int getDayCountByAttendanceId(String attendanceId) {
         try {
             ResultSet rst = SQLUtil.execute("SELECT DayCount FROM Attendance WHERE AttendanceId = ?", attendanceId);
@@ -38,7 +40,7 @@ public class AttendanceDAOImpl {
         }
         return 0;
     }
-
+    @Override
     public String getAttendanceIdByStudentIdYearMonth(String studentId, String year, String month) throws SQLException {
         String query = "SELECT AttendanceId FROM Attendance WHERE StudentId = ? AND Year = ? AND Month = ?";
         ResultSet rst = SQLUtil.execute(query, studentId, year, month);
@@ -47,7 +49,7 @@ public class AttendanceDAOImpl {
         }
         return null;
     }
-
+    @Override
     public ArrayList<String> getAttendanceMonthsByStudentId(String studentId) throws SQLException {
         String query = "SELECT Year, Month FROM Attendance WHERE StudentId = ?";
         ResultSet rst = SQLUtil.execute(query, studentId);
@@ -59,7 +61,7 @@ public class AttendanceDAOImpl {
         }
         return attendanceMonths;
     }
-
+    @Override
     public boolean saveAttendance(AttendanceDto dto) throws SQLException {
         return SQLUtil.execute("INSERT INTO Attendance (AttendanceId, StudentId, VehicleId, Year, Month, DayCount) VALUES (?, ?, ?, ?, ?, ?)",
                 dto.getAttendanceId(),
@@ -70,7 +72,7 @@ public class AttendanceDAOImpl {
                 dto.getDayCount()
         );
     }
-
+    @Override
     public boolean updateAttendance(AttendanceDto dto) throws SQLException {
         return SQLUtil.execute("UPDATE Attendance SET StudentId=?, VehicleId=?, Year=?, Month=?, DayCount=? WHERE AttendanceId=?",
                 dto.getStudentId(),
@@ -82,11 +84,11 @@ public class AttendanceDAOImpl {
         );
     }
 
-
+    @Override
     public boolean deleteAttendence(String attendenceId) throws SQLException {
         return SQLUtil.execute("DELETE FROM Attendance WHERE AttendanceId=?", attendenceId);
     }
-
+    @Override
     public String getNextAttendanceId() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT AttendanceId FROM Attendance ORDER BY AttendanceId DESC LIMIT 1");
 

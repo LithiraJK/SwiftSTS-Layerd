@@ -19,10 +19,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.RouteDAOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentRegistrationDAOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.VehicleDAOImpl;
+import lk.ijse.gdse72.swiftsts.dao.custom.*;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.*;
 import lk.ijse.gdse72.swiftsts.db.DBConnection;
 import lk.ijse.gdse72.swiftsts.dto.tm.StudentRegistrationDetailsTM;
 import lk.ijse.gdse72.swiftsts.model.RouteModel;
@@ -47,10 +45,11 @@ public class StudentRegistrationController implements Initializable {
 //    StudentModel studentDAO = new StudentModel();
 //    RouteModel routeDAO = new RouteModel();
 
-    StudentRegistrationDAOImpl studentRegistrationDAO = new StudentRegistrationDAOImpl();
-    VehicleDAOImpl vehicleDAO = new VehicleDAOImpl();
-    StudentDAOImpl studentDAO = new StudentDAOImpl();
-    RouteDAOImpl routeDAO = new RouteDAOImpl();
+    StudentRegistrationDAO studentRegistrationDAO = new StudentRegistrationDAOImpl();
+    VehicleDAO vehicleDAO = new VehicleDAOImpl();
+    StudentDAO studentDAO = new StudentDAOImpl();
+    RouteDAO routeDAO = new RouteDAOImpl();
+    QueryDAO queryDAO = new QueryDAOImpl();
 
     @FXML
     public Label lblManageStudentOnClick;
@@ -403,7 +402,7 @@ public class StudentRegistrationController implements Initializable {
     }
 
     private void loadStudentRegistrationDetails() throws SQLException {
-        ObservableList<StudentRegistrationDetailsTM> studentRegistrationDetails = studentRegistrationDAO.getAllStudentRegistrationDetails();
+        ObservableList<StudentRegistrationDetailsTM> studentRegistrationDetails = queryDAO.getAllStudentRegistrationDetails();
         tblStudentRegistration.setItems(studentRegistrationDetails);
     }
 

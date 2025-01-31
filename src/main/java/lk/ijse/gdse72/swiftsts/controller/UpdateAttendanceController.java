@@ -11,6 +11,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.gdse72.swiftsts.dao.custom.AttendanceDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.DriverDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.AttendanceDAOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.DriverDAOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
@@ -30,9 +33,9 @@ public class UpdateAttendanceController implements Initializable {
 //    DriverModel driverDAO = new DriverModel();
 //    StudentModel studentDAO = new StudentModel();
 
-    AttendanceDAOImpl attendanceDAO = new AttendanceDAOImpl();
-    DriverDAOImpl driverDAO =new DriverDAOImpl();
-    StudentDAOImpl studentDAO = new StudentDAOImpl();
+    AttendanceDAO attendanceDAO = new AttendanceDAOImpl();
+    DriverDAO driverDAO =new DriverDAOImpl();
+    StudentDAO studentDAO = new StudentDAOImpl();
 
     @FXML
     private JFXButton btnDiscard;

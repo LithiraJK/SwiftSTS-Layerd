@@ -1,6 +1,7 @@
 package lk.ijse.gdse72.swiftsts.dao.custom.impl;
 
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
+import lk.ijse.gdse72.swiftsts.dao.custom.PaymentDAO;
 import lk.ijse.gdse72.swiftsts.dto.PaymentDto;
 
 import java.sql.ResultSet;
@@ -8,7 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaymentDAOImpl {
+public class PaymentDAOImpl implements PaymentDAO {
+    @Override
     public boolean savePayment(PaymentDto paymentDto) throws SQLException {
         String query = "INSERT INTO Payment (PaymentId, StudentId, MonthlyFee, Amount, Balance, Status, Date) VALUES (?,?,?,?,?,?,?)";
         return SQLUtil.execute(query,
@@ -22,36 +24,36 @@ public class PaymentDAOImpl {
         );
     }
 
-    public List<PaymentDto> getPaymentData() {
-        List<PaymentDto> paymentData = new ArrayList<>();
-        String query = """
-                SELECT p.PaymentId, s.StudentId, p.MonthlyFee, p.Amount,
-                       p.Balance, s.CreditBalance, p.Status, p.Date
-                FROM Payment p
-                INNER JOIN Student s ON p.StudentId = s.StudentId
-                """;
-
-        try {
-            ResultSet rs = SQLUtil.execute(query);
-            while (rs.next()) {
-                String paymentId = rs.getString(1);
-                String studentId = rs.getString(2);
-                double monthlyFee = rs.getDouble(3);
-                double amount = rs.getDouble(4);
-                double balance = rs.getDouble(5);
-                double creditBalance = rs.getDouble(6);
-                String status = rs.getString(7);
-                String date = rs.getString(8);
-
-                paymentData.add(new PaymentDto(paymentId, studentId, monthlyFee, amount, balance, creditBalance, status, date));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return paymentData;
-    }
-
+//    public List<PaymentDto> getPaymentData() {
+//        List<PaymentDto> paymentData = new ArrayList<>();
+//        String query = """
+//                SELECT p.PaymentId, s.StudentId, p.MonthlyFee, p.Amount,
+//                       p.Balance, s.CreditBalance, p.Status, p.Date
+//                FROM Payment p
+//                INNER JOIN Student s ON p.StudentId = s.StudentId
+//                """;
+//
+//        try {
+//            ResultSet rs = SQLUtil.execute(query);
+//            while (rs.next()) {
+//                String paymentId = rs.getString(1);
+//                String studentId = rs.getString(2);
+//                double monthlyFee = rs.getDouble(3);
+//                double amount = rs.getDouble(4);
+//                double balance = rs.getDouble(5);
+//                double creditBalance = rs.getDouble(6);
+//                String status = rs.getString(7);
+//                String date = rs.getString(8);
+//
+//                paymentData.add(new PaymentDto(paymentId, studentId, monthlyFee, amount, balance, creditBalance, status, date));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return paymentData;
+//    }
+    @Override
     public double getMonthlyIncome(String month) throws SQLException {
         String query = "SELECT SUM(Amount) AS TotalIncome FROM Payment WHERE Date LIKE ?";
         ResultSet rs = SQLUtil.execute(query, month + "%");
@@ -62,7 +64,7 @@ public class PaymentDAOImpl {
             return 0.0;
         }
     }
-
+    @Override
     public double calculateMonthlyFee(String studentId, int dayCount) throws SQLException {
         String query = "SELECT DayPrice FROM StudentRegistration WHERE StudentId = ?";
         ResultSet rs = SQLUtil.execute(query, studentId);
@@ -78,7 +80,7 @@ public class PaymentDAOImpl {
         }
     }
 
-
+    @Override
     public String getNextPaymentId() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT PaymentId FROM Payment ORDER BY PaymentId DESC LIMIT 1");
 

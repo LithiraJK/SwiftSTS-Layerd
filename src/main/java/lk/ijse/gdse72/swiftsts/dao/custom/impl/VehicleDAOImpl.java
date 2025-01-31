@@ -1,6 +1,7 @@
 package lk.ijse.gdse72.swiftsts.dao.custom.impl;
 
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
+import lk.ijse.gdse72.swiftsts.dao.custom.VehicleDAO;
 import lk.ijse.gdse72.swiftsts.dto.VehicleDto;
 
 import java.sql.ResultSet;
@@ -8,7 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VehicleDAOImpl {
+public class VehicleDAOImpl implements VehicleDAO {
+    @Override
     public ArrayList<VehicleDto> getAllVehicles() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT * FROM Vehicle");
         ArrayList<VehicleDto> vehicleDtos = new ArrayList<>();
@@ -30,6 +32,7 @@ public class VehicleDAOImpl {
         return vehicleDtos;
     }
 
+    @Override
     public String getNextVehicleId() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT vehicleId FROM Vehicle ORDER BY vehicleId DESC LIMIT 1");
 
@@ -43,6 +46,7 @@ public class VehicleDAOImpl {
         return "V001";
     }
 
+    @Override
     public boolean saveVehicle(VehicleDto vehicleDto) throws SQLException {
         return SQLUtil.execute("INSERT INTO Vehicle VALUES (?,?,?,?,?,?,?,?)",
                 vehicleDto.getVehicleId(),
@@ -57,6 +61,7 @@ public class VehicleDAOImpl {
     }
 
 
+    @Override
     public boolean updateVehicle(VehicleDto vehicleDto) throws SQLException {
         return SQLUtil.execute("UPDATE Vehicle SET registrationNo=?, vehicleType=?, engineCapacity=?, fuelType=?, model=?, seatCount=?, availableSeatCount=? WHERE vehicleId=?",
                 vehicleDto.getRegistrationNo(),
@@ -70,14 +75,17 @@ public class VehicleDAOImpl {
         );
     }
 
+    @Override
     public boolean deleteVehicle(String vehicleId) throws SQLException {
         return SQLUtil.execute("DELETE FROM Vehicle WHERE vehicleId=?", vehicleId);
     }
 
+    @Override
     public boolean updateVehicleSeatCount(String vehicleId, int decrementBy) throws SQLException {
         return SQLUtil.execute("UPDATE Vehicle SET AvailableSeatCount = AvailableSeatCount - ? WHERE VehicleId = ?", decrementBy, vehicleId);
     }
 
+    @Override
     public List<String> getAllVehicleIds() throws SQLException {
         List<String> vehicleIds = new ArrayList<>();
         ResultSet resultSet = SQLUtil.execute("SELECT VehicleId FROM Vehicle");
@@ -87,6 +95,7 @@ public class VehicleDAOImpl {
         return vehicleIds;
     }
 
+    @Override
     public int getAvailableSeatCountByVehicleId(String vehicleId) throws SQLException {
         ResultSet resultSet = SQLUtil.execute("SELECT AvailableSeatCount FROM Vehicle WHERE VehicleId = ?", vehicleId);
         if (resultSet.next()) {
@@ -95,6 +104,7 @@ public class VehicleDAOImpl {
         return 0;
     }
 
+    @Override
     public String getRegistrationNoById(String vehicleId) throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT RegistrationNo FROM Vehicle WHERE VehicleId=?", vehicleId);
         if (rst.next()) {
@@ -103,6 +113,7 @@ public class VehicleDAOImpl {
         return null;
     }
 
+    @Override
     public int getVehicleCount() throws SQLException {
         String query = "SELECT COUNT(*) FROM Vehicle";
         ResultSet resultSet = SQLUtil.execute(query);

@@ -12,6 +12,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.dao.custom.ExpenseDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.ExpenseDAOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.UserDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.ExpenseDto;
@@ -32,8 +34,8 @@ public class ExpensesController implements Initializable {
 //    ExpenseModel expenseDAO = new ExpenseModel();
 //    UserModel userDAO = new UserModel();
 
-    ExpenseDAOImpl expenseDAO = new ExpenseDAOImpl();
-    UserDAOImpl userDAO = new UserDAOImpl();
+    ExpenseDAO expenseDAO = new ExpenseDAOImpl();
+    UserDAO userDAO = new UserDAOImpl();
 
     @FXML
     private JFXButton btnDelete;

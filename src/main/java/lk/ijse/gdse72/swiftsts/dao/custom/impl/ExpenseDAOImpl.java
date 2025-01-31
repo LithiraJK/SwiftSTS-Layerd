@@ -1,13 +1,15 @@
 package lk.ijse.gdse72.swiftsts.dao.custom.impl;
 
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
+import lk.ijse.gdse72.swiftsts.dao.custom.ExpenseDAO;
 import lk.ijse.gdse72.swiftsts.dto.ExpenseDto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class ExpenseDAOImpl {
+public class ExpenseDAOImpl implements ExpenseDAO {
+    @Override
     public ArrayList<ExpenseDto> getAllExpenses() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT * FROM Expense");
         ArrayList<ExpenseDto> expenseDtos = new ArrayList<>();
@@ -25,7 +27,7 @@ public class ExpenseDAOImpl {
 
         return expenseDtos;
     }
-
+    @Override
     public String getNextExpenseId() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT expenseId FROM Expense ORDER BY expenseId DESC LIMIT 1");
 
@@ -38,7 +40,7 @@ public class ExpenseDAOImpl {
         }
         return "E001";
     }
-
+    @Override
     public double getMonthlyExpense(String month) throws SQLException {
         String query = "SELECT SUM(Amount) AS TotalExpense FROM Expense WHERE Date LIKE ?";
         ResultSet rs = SQLUtil.execute(query, month + "%");
@@ -49,7 +51,7 @@ public class ExpenseDAOImpl {
             return 0.0;
         }
     }
-
+    @Override
     public boolean saveExpense(ExpenseDto expenseDto) throws SQLException {
         return SQLUtil.execute("INSERT INTO Expense VALUES (?,?,?,?,?)",
                 expenseDto.getExpenseId(),
@@ -59,7 +61,7 @@ public class ExpenseDAOImpl {
                 expenseDto.getUserId()
         );
     }
-
+    @Override
     public boolean updateExpense(ExpenseDto expenseDto) throws SQLException {
         return SQLUtil.execute("UPDATE Expense SET Date=?, Amount=?, Description=?, UserId=? WHERE ExpenseId=?",
                 expenseDto.getDate(),
@@ -69,7 +71,7 @@ public class ExpenseDAOImpl {
                 expenseDto.getExpenseId()
         );
     }
-
+    @Override
     public boolean deleteExpense(String expenseId) throws SQLException {
         return SQLUtil.execute("DELETE FROM Expense WHERE ExpenseId=?", expenseId);
     }
