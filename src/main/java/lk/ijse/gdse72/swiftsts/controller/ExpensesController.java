@@ -18,8 +18,7 @@ import lk.ijse.gdse72.swiftsts.dao.custom.impl.ExpenseDAOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.UserDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.ExpenseDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.ExpenseTM;
-import lk.ijse.gdse72.swiftsts.model.ExpenseModel;
-import lk.ijse.gdse72.swiftsts.model.UserModel;
+
 
 import java.net.URL;
 import java.sql.Date;

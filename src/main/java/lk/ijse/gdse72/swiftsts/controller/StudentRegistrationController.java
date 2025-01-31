@@ -23,10 +23,6 @@ import lk.ijse.gdse72.swiftsts.dao.custom.*;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.*;
 import lk.ijse.gdse72.swiftsts.db.DBConnection;
 import lk.ijse.gdse72.swiftsts.dto.tm.StudentRegistrationDetailsTM;
-import lk.ijse.gdse72.swiftsts.model.RouteModel;
-import lk.ijse.gdse72.swiftsts.model.StudentModel;
-import lk.ijse.gdse72.swiftsts.model.StudentRegistrationModel;
-import lk.ijse.gdse72.swiftsts.model.VehicleModel;
 
 import java.io.IOException;
 import java.net.URL;

@@ -15,12 +15,16 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
+import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.UserDAOImpl;
 
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SignInFormController {
+
+    UserDAO userDAO = new UserDAOImpl();
     @FXML
     public Label lblInvalidUserName;
     @FXML
@@ -57,10 +61,11 @@ public class SignInFormController {
     void btnSignInOnAction(ActionEvent event) throws IOException {
         String username = txtusername.getText();
         String password = txtpassword.getText();
-
-        if (isUsernameValid(username)) {
+        boolean isUsernameValid = userDAO.isUsernameValid(username);
+        boolean validateCredentials = userDAO.validateCredentials(username, password);
+        if (isUsernameValid) {
             lblInvalidUserName.setVisible(false);
-            if (validateCredentials(username, password)) {
+            if (validateCredentials) {
                 lblInvalidPassword.setVisible(false);
                 loadDashboard("/view/DashBoardForm.fxml");
             } else {
@@ -77,25 +82,7 @@ public class SignInFormController {
         }
     }
 
-    private boolean isUsernameValid(String username) {
-        try {
-            ResultSet resultSet = SQLUtil.execute("SELECT * FROM User WHERE username=?", username);
-            return resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 
-    private boolean validateCredentials(String username, String password) {
-        try {
-            ResultSet resultSet = SQLUtil.execute("SELECT * FROM User WHERE username=? AND password=?", username, password);
-            return resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 
     private void loadDashboard(String fxmlPath) throws IOException {
         Window window = signInPage.getScene().getWindow();

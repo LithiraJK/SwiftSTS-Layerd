@@ -13,7 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.UserDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.UserDto;
-import lk.ijse.gdse72.swiftsts.model.UserModel;
+
 
 import java.io.IOException;
 import java.sql.SQLException;
