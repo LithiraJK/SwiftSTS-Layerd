@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class ExpenseDAOImpl implements ExpenseDAO {
     @Override
-    public ArrayList<ExpenseDto> getAllExpenses() throws SQLException {
+    public ArrayList<ExpenseDto> getAllData() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT * FROM Expense");
         ArrayList<ExpenseDto> expenseDtos = new ArrayList<>();
 
@@ -28,7 +28,7 @@ public class ExpenseDAOImpl implements ExpenseDAO {
         return expenseDtos;
     }
     @Override
-    public String getNextExpenseId() throws SQLException {
+    public String getNewId() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT expenseId FROM Expense ORDER BY expenseId DESC LIMIT 1");
 
         if (rst.next()) {
@@ -40,6 +40,31 @@ public class ExpenseDAOImpl implements ExpenseDAO {
         }
         return "E001";
     }
+
+    @Override
+    public boolean save(ExpenseDto expenseDto) throws SQLException {
+        return SQLUtil.execute("INSERT INTO Expense VALUES (?,?,?,?,?)",
+                expenseDto.getExpenseId(),
+                expenseDto.getDate(),
+                expenseDto.getAmount(),
+                expenseDto.getDescription(),
+                expenseDto.getUserId()
+        );
+    }
+    @Override
+    public boolean update(ExpenseDto expenseDto) throws SQLException {
+        return SQLUtil.execute("UPDATE Expense SET Date=?, Amount=?, Description=?, UserId=? WHERE ExpenseId=?",
+                expenseDto.getDate(),
+                expenseDto.getAmount(),
+                expenseDto.getDescription(),
+                expenseDto.getUserId(),
+                expenseDto.getExpenseId()
+        );
+    }
+    @Override
+    public boolean delete(String expenseId) throws SQLException {
+        return SQLUtil.execute("DELETE FROM Expense WHERE ExpenseId=?", expenseId);
+    }
     @Override
     public double getMonthlyExpense(String month) throws SQLException {
         String query = "SELECT SUM(Amount) AS TotalExpense FROM Expense WHERE Date LIKE ?";
@@ -50,29 +75,5 @@ public class ExpenseDAOImpl implements ExpenseDAO {
         } else {
             return 0.0;
         }
-    }
-    @Override
-    public boolean saveExpense(ExpenseDto expenseDto) throws SQLException {
-        return SQLUtil.execute("INSERT INTO Expense VALUES (?,?,?,?,?)",
-                expenseDto.getExpenseId(),
-                expenseDto.getDate(),
-                expenseDto.getAmount(),
-                expenseDto.getDescription(),
-                expenseDto.getUserId()
-        );
-    }
-    @Override
-    public boolean updateExpense(ExpenseDto expenseDto) throws SQLException {
-        return SQLUtil.execute("UPDATE Expense SET Date=?, Amount=?, Description=?, UserId=? WHERE ExpenseId=?",
-                expenseDto.getDate(),
-                expenseDto.getAmount(),
-                expenseDto.getDescription(),
-                expenseDto.getUserId(),
-                expenseDto.getExpenseId()
-        );
-    }
-    @Override
-    public boolean deleteExpense(String expenseId) throws SQLException {
-        return SQLUtil.execute("DELETE FROM Expense WHERE ExpenseId=?", expenseId);
     }
 }

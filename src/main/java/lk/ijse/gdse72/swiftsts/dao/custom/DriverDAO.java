@@ -6,12 +6,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface DriverDAO {
-    public ArrayList<DriverDto> getAllDrivers() throws SQLException;
-    public boolean saveDriver(DriverDto dto) throws SQLException;
-    public boolean updateDriver(DriverDto dto) throws SQLException;
-    public String getNextDriverId() throws SQLException;
+    public ArrayList<DriverDto> getAllData() throws SQLException;
+    public boolean save(DriverDto dto) throws SQLException;
+    public boolean update(DriverDto dto) throws SQLException;
+    public boolean delete(String driverId) throws SQLException;
+    public String getNewId() throws SQLException;
     public ArrayList<String> getAllDriverIds() throws SQLException;
-    public boolean deleteDriver(String driverId) throws SQLException;
+
     public int getDriverCount() throws SQLException;
 
 

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class VehicleDAOImpl implements VehicleDAO {
     @Override
-    public ArrayList<VehicleDto> getAllVehicles() throws SQLException {
+    public ArrayList<VehicleDto> getAllData() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT * FROM Vehicle");
         ArrayList<VehicleDto> vehicleDtos = new ArrayList<>();
 
@@ -33,7 +33,7 @@ public class VehicleDAOImpl implements VehicleDAO {
     }
 
     @Override
-    public String getNextVehicleId() throws SQLException {
+    public String getNewId() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT vehicleId FROM Vehicle ORDER BY vehicleId DESC LIMIT 1");
 
         if (rst.next()) {
@@ -47,7 +47,7 @@ public class VehicleDAOImpl implements VehicleDAO {
     }
 
     @Override
-    public boolean saveVehicle(VehicleDto vehicleDto) throws SQLException {
+    public boolean save(VehicleDto vehicleDto) throws SQLException {
         return SQLUtil.execute("INSERT INTO Vehicle VALUES (?,?,?,?,?,?,?,?)",
                 vehicleDto.getVehicleId(),
                 vehicleDto.getRegistrationNo(),
@@ -62,7 +62,7 @@ public class VehicleDAOImpl implements VehicleDAO {
 
 
     @Override
-    public boolean updateVehicle(VehicleDto vehicleDto) throws SQLException {
+    public boolean update(VehicleDto vehicleDto) throws SQLException {
         return SQLUtil.execute("UPDATE Vehicle SET registrationNo=?, vehicleType=?, engineCapacity=?, fuelType=?, model=?, seatCount=?, availableSeatCount=? WHERE vehicleId=?",
                 vehicleDto.getRegistrationNo(),
                 vehicleDto.getVehicleType(),
@@ -76,7 +76,7 @@ public class VehicleDAOImpl implements VehicleDAO {
     }
 
     @Override
-    public boolean deleteVehicle(String vehicleId) throws SQLException {
+    public boolean delete(String vehicleId) throws SQLException {
         return SQLUtil.execute("DELETE FROM Vehicle WHERE vehicleId=?", vehicleId);
     }
 

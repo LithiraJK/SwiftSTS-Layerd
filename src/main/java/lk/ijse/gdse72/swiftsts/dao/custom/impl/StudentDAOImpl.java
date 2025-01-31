@@ -11,7 +11,7 @@ import java.util.List;
 
 public class StudentDAOImpl implements StudentDAO {
     @Override
-    public ArrayList<StudentDto> getAllStudents() throws SQLException {
+    public ArrayList<StudentDto> getAllData() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT * FROM Student");
         ArrayList<StudentDto> studentDtos = new ArrayList<>();
 
@@ -31,6 +31,64 @@ public class StudentDAOImpl implements StudentDAO {
         }
 
         return studentDtos;
+    }
+
+    @Override
+    public String getNewId() throws SQLException {
+        ResultSet rst = SQLUtil.execute("SELECT studentId FROM Student ORDER BY studentId DESC LIMIT 1");
+
+        if (rst.next()) {
+            String lastId = rst.getString(1);
+            String substring = lastId.substring(1);
+            int i = Integer.parseInt(substring);
+            int newIdIndex = i + 1;
+            return String.format("S%03d", newIdIndex);
+        }
+        return "S001";
+    }
+
+    @Override
+    public boolean save(StudentDto studentDto) throws SQLException {
+        return SQLUtil.execute("INSERT INTO Student VALUES (?,?,?,?,?,?,?,?,?)",
+                studentDto.getStudentId(),
+                studentDto.getStudentName(),
+                studentDto.getParentName(),
+                studentDto.getAddress(),
+                studentDto.getEmail(),
+                studentDto.getStudentGrade(),
+                studentDto.getPhoneNo(),
+                studentDto.getUserId(),
+                studentDto.getCreditBalance()
+        );
+    }
+
+    @Override
+    public boolean update(StudentDto studentDto) throws SQLException {
+        return SQLUtil.execute("UPDATE Student SET StudentName=?, ParentName=?, PickupLocation=?, Email=?, StudentGrade=?, ContactNo=?, UserId=?, CreditBalance=?  WHERE StudentId=?",
+                studentDto.getStudentName(),
+                studentDto.getParentName(),
+                studentDto.getAddress(),
+                studentDto.getEmail(),
+                studentDto.getStudentGrade(),
+                studentDto.getPhoneNo(),
+                studentDto.getUserId(),
+                studentDto.getCreditBalance(),
+                studentDto.getStudentId()
+        );
+    }
+
+    @Override
+    public boolean delete(String studentId) throws SQLException {
+        return SQLUtil.execute("DELETE FROM Student WHERE StudentId=?", studentId);
+    }
+
+    @Override
+    public String getStudentNameById(String studentId) throws SQLException {
+        ResultSet rst = SQLUtil.execute("SELECT StudentName FROM Student WHERE StudentId=?", studentId);
+        if (rst.next()) {
+            return rst.getString(1);
+        }
+        return null;
     }
 
     @Override
@@ -72,73 +130,6 @@ public class StudentDAOImpl implements StudentDAO {
         return studentNames;
     }
 
-    @Override
-    public String getNextStudentId() throws SQLException {
-        ResultSet rst = SQLUtil.execute("SELECT studentId FROM Student ORDER BY studentId DESC LIMIT 1");
-
-        if (rst.next()) {
-            String lastId = rst.getString(1);
-            String substring = lastId.substring(1);
-            int i = Integer.parseInt(substring);
-            int newIdIndex = i + 1;
-            return String.format("S%03d", newIdIndex);
-        }
-        return "S001";
-    }
-
-    @Override
-    public boolean saveStudent(StudentDto studentDto) throws SQLException {
-        return SQLUtil.execute("INSERT INTO Student VALUES (?,?,?,?,?,?,?,?,?)",
-                studentDto.getStudentId(),
-                studentDto.getStudentName(),
-                studentDto.getParentName(),
-                studentDto.getAddress(),
-                studentDto.getEmail(),
-                studentDto.getStudentGrade(),
-                studentDto.getPhoneNo(),
-                studentDto.getUserId(),
-                studentDto.getCreditBalance()
-        );
-    }
-
-    @Override
-    public boolean updateStudent(StudentDto studentDto) throws SQLException {
-        return SQLUtil.execute("UPDATE Student SET StudentName=?, ParentName=?, PickupLocation=?, Email=?, StudentGrade=?, ContactNo=?, UserId=?, CreditBalance=?  WHERE StudentId=?",
-                studentDto.getStudentName(),
-                studentDto.getParentName(),
-                studentDto.getAddress(),
-                studentDto.getEmail(),
-                studentDto.getStudentGrade(),
-                studentDto.getPhoneNo(),
-                studentDto.getUserId(),
-                studentDto.getCreditBalance(),
-                studentDto.getStudentId()
-        );
-    }
-
-    @Override
-    public boolean deleteStudent(String studentId) throws SQLException {
-        return SQLUtil.execute("DELETE FROM Student WHERE StudentId=?", studentId);
-    }
-
-    @Override
-    public String getStudentNameById(String studentId) throws SQLException {
-        ResultSet rst = SQLUtil.execute("SELECT StudentName FROM Student WHERE StudentId=?", studentId);
-        if (rst.next()) {
-            return rst.getString(1);
-        }
-        return null;
-    }
-
-    @Override
-    public List<String> getAllStudentIds() throws SQLException {
-        List<String> studentIds = new ArrayList<>();
-        ResultSet resultSet = SQLUtil.execute("SELECT StudentId FROM Student");
-        while (resultSet.next()) {
-            studentIds.add(resultSet.getString(1));
-        }
-        return studentIds;
-    }
 
     @Override
     public String getPickupLocationById(String studentId) throws SQLException {
