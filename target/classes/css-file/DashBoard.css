@@ -1,0 +1,212 @@
+
+.buttonDash {
+    -fx-border-radius: 50; /* Rounded edges */
+    -fx-background-radius: 50; /* Match border radius */
+    -fx-background-color: #000000; /* Black background */
+    -fx-border-width: 3; /* Border thickness */
+    -fx-font-weight: 700;
+    -fx-text-fill: #ffffff; /* White text */
+    -fx-font-family: lufga ;
+    -fx-font-size: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.5, 0, 0); /* Subtle shadow */
+    -fx-cursor: hand; /* Pointer cursor */
+    -fx-transition: all 0.3s ease-in-out; /* Smooth animations */
+
+}
+
+.buttonDash:hover {
+    -fx-text-fill: #ffd600; /* Yellow text color on hover */
+    -fx-background-color: #000000; /* Keep black background */
+    /*-fx-border-color: #ffd600; !* Yellow border on hover *!*/
+    -fx-scale-x: 1.05; /* Slight zoom */
+    -fx-scale-y: 1.05;
+    -fx-effect: dropshadow(gaussian, rgba(255, 214, 0, 0.8), 10, 0.7, 0, 0); /* Glow effect */
+}
+
+.buttonDash:pressed {
+    -fx-background-color: #ffd600; /* Yellow background on click */
+    -fx-text-fill: #000000; /* Black text on click */
+    -fx-effect: none; /* Remove shadow for pressed state */
+    -fx-scale-x: 1; /* Reset scale */
+    -fx-scale-y: 1;
+}
+
+
+
+.button-1{
+    /*-fx-border-radius: 50;*/
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-background-color: #000000;
+    /*-fx-border-width: 3;*/
+    /*-fx-border-style: solid;*/
+    -fx-text-fill: #ffffff;
+    -fx-font-family: lufga ;
+    -fx-font-size: 15;
+    -fx-font-weight: 700;
+}
+.button-1:hover{
+    -fx-text-fill: #000000;
+    -fx-background-color: #ffd600;
+}
+
+.label-text {
+    -fx-text-fill: #000000; /* Default text color */
+    -fx-font-size: 16px;   /* Default font size */
+    -fx-font-weight: 600;  /* Default font weight */
+}
+
+.label-text:hover {
+    -fx-text-fill: #000000; /* Change color on hover (example: orange) */
+    -fx-font-weight: 700;  /* Make the text bolder on hover */
+    -fx-font-size: 16px;   /* Increase font size on hover */
+}
+.buttonWhite{
+    -fx-border-radius: 30;
+    -fx-border-color: black;
+    -fx-background-radius: 30;
+    -fx-background-color: transparent;
+    -fx-border-width: 2;
+    -fx-border-style: solid;
+    -fx-text-fill: #000000;
+    -fx-font-family: lufga ;
+    -fx-font-size: 15;
+    -fx-font-weight: 700;
+    -fx-alignment: CENTER-RIGHT;
+}
+
+.buttonWhite:hover{
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #000000;
+    -fx-border-color: #000000;
+}
+
+.bg-bodypane{
+    /*-fx-background-color: rgba(0, 0, 0, 0.4);*/
+    -fx-background-color: #d8d8d8;
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
+}
+
+.bg-whitepane{
+    /*-fx-background-color: rgba(0, 0, 0, 0.4);*/
+    /*-fx-background-color: #ffffff;*/
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
+}
+
+.label-H2-{
+    -fx-font-size:24;
+    /*-fx-font-style:SemiBold;*/
+    -fx-font-family: lufga;
+    -fx-font-weight:700;
+}
+
+.label-H1-{
+    -fx-font-size:30;
+    -fx-text-fill: white;
+    -fx-font-family: poppins;
+    -fx-font-weight:700;
+}
+.label-H4-{
+    -fx-font-size:30;
+    -fx-text-fill: #ffdf00 ;
+    -fx-font-family: poppins;
+    -fx-font-weight:700;
+}
+
+.label-H5-{
+    -fx-font-size:15;
+    /*-fx-font-style:SemiBold;*/
+    -fx-font-family: lufga;
+}
+
+.textfields-{
+    -fx-prompt-text-fill: #636e72; /* Custom color for the placeholder (prompt) */
+    -fx-font-style: lufga ; /* Optional: make placeholder  */
+    -fx-text-fill: black; /* Text color for inputted text */
+    -fx-text-opacity: 0.3; /* Adjust opacity as needed (0.0 to 1.0) */
+    -jfx-unfocus-color: black;
+    -jfx-focus-color: black;
+    -jfx-label-float: true;
+}
+
+.combo-box{
+    -fx-prompt-text-fill: #636e72; /* Custom color for the placeholder (prompt) */
+    -fx-font-style: lufga ; /* Optional: make placeholder  */
+    -fx-text-fill: black; /* Text color for inputted text */
+    -fx-text-opacity: 0.3; /* Adjust opacity as needed (0.0 to 1.0) */
+    -jfx-unfocus-color: black;
+    -jfx-focus-color: black;
+    -jfx-label-float: true;
+}
+
+.combo-box .list-cell:hover {
+    -fx-background-color: #ffdf00; /* Yellow hover color */
+    -fx-text-fill: black; /* Text color */
+}
+
+.combo-box .list-cell:filled:selected {
+    -fx-background-color: transparent;
+    -fx-text-fill: black; /* Text color for selected item */
+}
+
+.combo-box-popup {
+    -fx-background-color: #f9f9f9; /* Light background for dropdown */
+    -fx-border-color: #ffdf00; /* Yellow border */
+}
+
+.combo-box .arrow-button:hover {
+    -fx-background-color: #ffdf00; /* Yellow background for the arrow button */
+    -fx-text-fill: black; /* Arrow color */
+}
+
+/*.student-btn {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    background-color: #1e1e1e; !* Dark background *!*/
+/*    color: white; !* White text color *!*/
+/*    border: none; !* Remove border *!*/
+/*    border-radius: 50px; !* Rounded edges *!*/
+/*    padding: 10px 20px; !* Padding around the button *!*/
+/*    font-size: 16px; !* Font size *!*/
+/*    cursor: pointer; !* Pointer on hover *!*/
+/*    outline: none;*/
+/*}*/
+
+/*.student-btn .icon {*/
+/*    margin-right: 8px; !* Space between icon and text *!*/
+/*    font-size: 18px; !* Adjust icon size *!*/
+/*}*/
+
+/*.student-btn:hover {*/
+/*    background-color: #333333; !* Darker color on hover *!*/
+/*}*/
+
+/*.student-btn .text {*/
+/*    font-weight: bold; !* Make text bold *!*/
+/*}*/
+
+/* Transparent ScrollPane */
+.scroll-pane {
+    -fx-background: transparent; /* Set ScrollPane background to transparent */
+    -fx-background-insets: 0; /* Remove any insets */
+}
+
+/* Optional: Style Scrollbars (if needed) */
+.scroll-pane .thumb {
+    -fx-background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent scrollbar thumb */
+}
+
+.scroll-pane .track {
+    -fx-background-color: transparent; /* Transparent track */
+}
+
+.popup {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 0);
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 20px;
+
+}

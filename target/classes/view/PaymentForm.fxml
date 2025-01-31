@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="panePayment" prefHeight="555.0" prefWidth="1036.0" styleClass="bg-bodypane" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse72.swiftsts.controller.PaymentFormController">
+   <children>
+      <Pane layoutX="-1.0" layoutY="125.0" prefHeight="46.0" prefWidth="530.0" styleClass="bg-bodypane" />
+      <AnchorPane layoutX="28.0" layoutY="253.0" prefHeight="277.0" prefWidth="986.0" style="-fx-background-color: white;" styleClass="bg-whitepane">
+         <children>
+            <TableView fx:id="tblPayments" layoutY="-6.0" onMouseClicked="#tblPaymentsOnClicked" prefHeight="282.0" prefWidth="986.0" stylesheets="@../css-file/tbl.css">
+               <columns>
+                  <TableColumn fx:id="colPaymentId" prefWidth="108.0" text="Payment ID" />
+                  <TableColumn fx:id="colStudentId" prefWidth="119.0" text="Student ID" />
+                  <TableColumn fx:id="colMonthlyFee" prefWidth="120.0" text="Monthly Fee" />
+                  <TableColumn fx:id="colAmount" prefWidth="119.0" text="Amount" />
+                  <TableColumn fx:id="colBalance" prefWidth="94.0" text="Balance" />
+                  <TableColumn fx:id="colCreditBalance" minWidth="0.0" prefWidth="128.0" text="Credit Balance" />
+                  <TableColumn fx:id="colStatus" prefWidth="120.0" text="Status" />
+                  <TableColumn fx:id="colDate" prefWidth="216.0" text="Date" />
+               </columns>
+            </TableView>
+         </children>
+         <stylesheets>
+            <URL value="@../css-file/tbl.css" />
+            <URL value="@../css-file/Scrool.css" />
+         </stylesheets>
+      </AnchorPane>
+
+      <!-- Payment History Label -->
+      <Label layoutX="34.0" layoutY="21.0" styleClass="label-H2-" text="Payment" />
+
+      <!-- Payment Details -->
+      <Label layoutX="34.0" layoutY="87.0" styleClass="label-H5-" text="Payment ID" />
+      <Label fx:id="lblPaymentId" layoutX="152.0" layoutY="85.0" styleClass="label-H5-" text="P001" />
+
+      <!-- Student Selection ComboBox -->
+      <JFXComboBox fx:id="cmbStudentNames" layoutX="253.0" layoutY="76.0" prefHeight="26.0" prefWidth="163.0" promptText="Select Student ID" />
+
+      <!-- Student Name Label -->
+      <Label fx:id="lblStudentId" layoutX="681.0" layoutY="75.0" prefHeight="18.0" prefWidth="105.0" styleClass="label-H5-" text="Student Name" />
+
+      <!-- Calculate Payment Button -->
+      <JFXButton fx:id="btnMakePayment" layoutX="266.0" layoutY="185.0" onAction="#btnMakePaymentOnAction" prefHeight="37.0" prefWidth="203.0" styleClass="button-1" text="Make Payment" />
+      <JFXTextField fx:id="txtPayAmount" layoutX="37.0" layoutY="189.0" prefHeight="26.0" prefWidth="180.0" promptText="Pay Amount" styleClass="textfields-" />
+      <Label layoutX="518.0" layoutY="194.0" text="Balance :">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblBalance" layoutX="626.0" layoutY="192.0" prefHeight="21.0" prefWidth="90.0" styleClass="label-H5-" text="0000.00" />
+      <Label fx:id="lblMonthlyFee" layoutX="176.0" layoutY="137.0" prefHeight="21.0" prefWidth="90.0" styleClass="label-H5-" text="0000.00" />
+      <Label layoutX="293.0" layoutY="136.0" text="Credit balance :">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCreditBalance" layoutX="448.0" layoutY="136.0" prefHeight="21.0" prefWidth="79.0" styleClass="label-H5-" text="0000.00" />
+      <Label layoutX="35.0" layoutY="138.0" text="Monthly Fee : ">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="780.0" layoutY="19.0" text="Payment Date : ">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblPaymentDate" layoutX="920.0" layoutY="20.0" text="2021-01-01">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <JFXComboBox fx:id="cmbAttendanceId" layoutX="464.0" layoutY="74.0" prefHeight="26.0" prefWidth="156.0" promptText="Select Attendance ID" styleClass="combo-box" />
+      <JFXButton fx:id="btnCalculatepayment" layoutX="736.0" layoutY="126.0" onAction="#btnCalculatepaymentOnAction" prefHeight="37.0" prefWidth="180.0" styleClass="button-1" text="Calculate Payment" />
+      <Label layoutX="145.0" layoutY="138.0" text="RS.">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="417.0" layoutY="136.0" text="RS.">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="593.0" layoutY="194.0" text="RS.">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnPaymentReceipt" layoutX="732.0" layoutY="184.0" onAction="#btnPaymentReceipt" prefHeight="37.0" prefWidth="192.0" styleClass="button-1" text="Get Payment Receipt" />
+      <JFXToggleButton fx:id="trbtnSendMail" layoutX="545.0" layoutY="118.0" text="Send Mail" toggleColor="#ffd600" toggleLineColor="#ffd600" unToggleLineColor="BLACK" />
+
+   </children>
+   <stylesheets>
+      <URL value="@../css-file/DashBoard.css" />
+      <URL value="@../css-file/Scrool.css" />
+   </stylesheets>
+</AnchorPane>
