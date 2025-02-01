@@ -19,7 +19,7 @@ import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.UserDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.StudentDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.StudentTM;
-import lk.ijse.gdse72.swiftsts.model.UserModel;
+
 
 import java.net.URL;
 import java.sql.SQLException;

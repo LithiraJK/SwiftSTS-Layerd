@@ -18,9 +18,6 @@ import lk.ijse.gdse72.swiftsts.dao.custom.impl.AttendanceDAOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.DriverDAOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.AttendanceDto;
-import lk.ijse.gdse72.swiftsts.model.AttendanceModel;
-import lk.ijse.gdse72.swiftsts.model.DriverModel;
-import lk.ijse.gdse72.swiftsts.model.StudentModel;
 
 import java.net.URL;
 import java.sql.SQLException;

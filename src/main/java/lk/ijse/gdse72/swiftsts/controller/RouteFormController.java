@@ -16,7 +16,7 @@ import lk.ijse.gdse72.swiftsts.dao.custom.RouteDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.RouteDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.RouteDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.RouteTM;
-import lk.ijse.gdse72.swiftsts.model.RouteModel;
+
 
 import java.net.URL;
 import java.sql.SQLException;

@@ -63,8 +63,11 @@ public class SignInFormController {
         String username = txtusername.getText();
         String password = txtpassword.getText();
 
+
+
         boolean isUsernameValid = userDAO.isUsernameValid(username);
         boolean validateCredentials = userDAO.validateCredentials(username, password);
+
 
         if (isUsernameValid) {
             lblInvalidUserName.setVisible(false);
@@ -85,25 +88,6 @@ public class SignInFormController {
         }
     }
 
-//    private boolean isUsernameValid(String username) {
-//        try {
-//            ResultSet resultSet = SQLUtil.execute("SELECT * FROM User WHERE username=?", username);
-//            return resultSet.next();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
-//
-//    private boolean validateCredentials(String username, String password) {
-//        try {
-//            ResultSet resultSet = SQLUtil.execute("SELECT * FROM User WHERE username=? AND password=?", username, password);
-//            return resultSet.next();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
 
     private void loadDashboard(String fxmlPath) throws IOException {
         Window window = signInPage.getScene().getWindow();

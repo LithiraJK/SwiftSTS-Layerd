@@ -17,7 +17,6 @@ import javafx.scene.paint.Paint;
 import lk.ijse.gdse72.swiftsts.dao.custom.DriverDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.DriverDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.DriverDto;
-import lk.ijse.gdse72.swiftsts.model.DriverModel;
 
 import java.net.URL;
 import java.sql.SQLException;
