@@ -11,6 +11,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.gdse72.swiftsts.dao.custom.QueryDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.QueryDAOImpl;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentRegistrationDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.StudentRegistrationDto;
 import lk.ijse.gdse72.swiftsts.model.StudentRegistrationModel;
 
@@ -22,6 +25,12 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class StudentRegistrationsController implements Initializable {
+
+//    StudentRegistrationModel studentRegistrationDAO = new StudentRegistrationModel();
+//    StudentRegistrationDAOImpl studentRegistrationDAO = new StudentRegistrationDAOImpl();
+
+    QueryDAO queryDAO = new QueryDAOImpl();
+
 
     @FXML
     private ImageView btnBack;
@@ -53,7 +62,6 @@ public class StudentRegistrationsController implements Initializable {
     @FXML
     private TableView<StudentRegistrationDto> tblStudentRegistration;
 
-    private StudentRegistrationModel studentRegistrationModel = new StudentRegistrationModel();
 
     @FXML
     void btnBackOnClick(MouseEvent event) throws IOException {
@@ -85,7 +93,7 @@ public class StudentRegistrationsController implements Initializable {
     }
 
     private void loadStudentRegistrations() throws SQLException {
-        ArrayList<StudentRegistrationDto> studentRegistrations = studentRegistrationModel.getAllStudentRegistrations();
+        ArrayList<StudentRegistrationDto> studentRegistrations = queryDAO.getAllStudentRegistrations();
         ObservableList<StudentRegistrationDto> studentRegistrationList = FXCollections.observableArrayList(studentRegistrations);
         tblStudentRegistration.setItems(studentRegistrationList);
     }

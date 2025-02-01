@@ -9,6 +9,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.dao.custom.RouteDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.RouteDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.RouteDto;
 import lk.ijse.gdse72.swiftsts.model.RouteModel;
 
@@ -17,6 +19,9 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class NewRouteFormController implements Initializable {
+
+//    RouteModel routeDAO = new RouteModel();
+    RouteDAO routeDAO = new RouteDAOImpl();
 
     @FXML
     private JFXButton btnDiscard;
@@ -45,7 +50,7 @@ public class NewRouteFormController implements Initializable {
     private AnchorPane overlayPane;
     private AnchorPane paneStudent;
 
-    private final RouteModel routeModel = new RouteModel();
+
 
     public void setOverlayPane(AnchorPane overlayPane, AnchorPane paneStudent) {
         this.overlayPane = overlayPane;
@@ -98,7 +103,7 @@ public class NewRouteFormController implements Initializable {
             RouteDto routeDto = new RouteDto(routeId, routeName, startPoint, destination, routeFee);
 
             try {
-                boolean isSaved = routeModel.saveRoute(routeDto);
+                boolean isSaved = routeDAO.saveRoute(routeDto);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.INFORMATION, "Route saved successfully!").show();
@@ -115,7 +120,7 @@ public class NewRouteFormController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            String nextRouteId = routeModel.getNextRouteId();
+            String nextRouteId = routeDAO.getNextRouteId();
             lblRouteId.setText(nextRouteId);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "An error occurred while generating the route ID: " + e.getMessage()).show();

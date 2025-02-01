@@ -1,7 +1,7 @@
 package lk.ijse.gdse72.swiftsts.model;
 
 import lk.ijse.gdse72.swiftsts.dto.VehicleDto;
-import lk.ijse.gdse72.swiftsts.util.CrudUtil;
+import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ import java.util.List;
 public class VehicleModel {
 
     public ArrayList<VehicleDto> getAllVehicles() throws SQLException {
-        ResultSet rst = CrudUtil.execute("SELECT * FROM Vehicle");
+        ResultSet rst = SQLUtil.execute("SELECT * FROM Vehicle");
         ArrayList<VehicleDto> vehicleDtos = new ArrayList<>();
 
         while (rst.next()) {
@@ -32,7 +32,7 @@ public class VehicleModel {
     }
 
     public String getNextVehicleId() throws SQLException {
-        ResultSet rst = CrudUtil.execute("SELECT vehicleId FROM Vehicle ORDER BY vehicleId DESC LIMIT 1");
+        ResultSet rst = SQLUtil.execute("SELECT vehicleId FROM Vehicle ORDER BY vehicleId DESC LIMIT 1");
 
         if (rst.next()) {
             String lastId = rst.getString(1);
@@ -45,7 +45,7 @@ public class VehicleModel {
     }
 
     public boolean saveVehicle(VehicleDto vehicleDto) throws SQLException {
-        return CrudUtil.execute("INSERT INTO Vehicle VALUES (?,?,?,?,?,?,?,?)",
+        return SQLUtil.execute("INSERT INTO Vehicle VALUES (?,?,?,?,?,?,?,?)",
                 vehicleDto.getVehicleId(),
                 vehicleDto.getRegistrationNo(),
                 vehicleDto.getVehicleType(),
@@ -59,7 +59,7 @@ public class VehicleModel {
 
 
     public boolean updateVehicle(VehicleDto vehicleDto) throws SQLException {
-        return CrudUtil.execute("UPDATE Vehicle SET registrationNo=?, vehicleType=?, engineCapacity=?, fuelType=?, model=?, seatCount=?, availableSeatCount=? WHERE vehicleId=?",
+        return SQLUtil.execute("UPDATE Vehicle SET registrationNo=?, vehicleType=?, engineCapacity=?, fuelType=?, model=?, seatCount=?, availableSeatCount=? WHERE vehicleId=?",
                 vehicleDto.getRegistrationNo(),
                 vehicleDto.getVehicleType(),
                 vehicleDto.getEngineCapacity(),
@@ -72,16 +72,16 @@ public class VehicleModel {
     }
 
     public boolean deleteVehicle(String vehicleId) throws SQLException {
-        return CrudUtil.execute("DELETE FROM Vehicle WHERE vehicleId=?", vehicleId);
+        return SQLUtil.execute("DELETE FROM Vehicle WHERE vehicleId=?", vehicleId);
     }
 
     public boolean updateVehicleSeatCount(String vehicleId, int decrementBy) throws SQLException {
-        return CrudUtil.execute("UPDATE Vehicle SET AvailableSeatCount = AvailableSeatCount - ? WHERE VehicleId = ?", decrementBy, vehicleId);
+        return SQLUtil.execute("UPDATE Vehicle SET AvailableSeatCount = AvailableSeatCount - ? WHERE VehicleId = ?", decrementBy, vehicleId);
     }
 
     public List<String> getAllVehicleIds() throws SQLException {
         List<String> vehicleIds = new ArrayList<>();
-        ResultSet resultSet = CrudUtil.execute("SELECT VehicleId FROM Vehicle");
+        ResultSet resultSet = SQLUtil.execute("SELECT VehicleId FROM Vehicle");
         while (resultSet.next()) {
             vehicleIds.add(resultSet.getString("VehicleId"));
         }
@@ -89,7 +89,7 @@ public class VehicleModel {
     }
 
     public int getAvailableSeatCountByVehicleId(String vehicleId) throws SQLException {
-        ResultSet resultSet = CrudUtil.execute("SELECT AvailableSeatCount FROM Vehicle WHERE VehicleId = ?", vehicleId);
+        ResultSet resultSet = SQLUtil.execute("SELECT AvailableSeatCount FROM Vehicle WHERE VehicleId = ?", vehicleId);
         if (resultSet.next()) {
             return resultSet.getInt("AvailableSeatCount");
         }
@@ -97,7 +97,7 @@ public class VehicleModel {
     }
 
     public String getRegistrationNoById(String vehicleId) throws SQLException {
-        ResultSet rst = CrudUtil.execute("SELECT RegistrationNo FROM Vehicle WHERE VehicleId=?", vehicleId);
+        ResultSet rst = SQLUtil.execute("SELECT RegistrationNo FROM Vehicle WHERE VehicleId=?", vehicleId);
         if (rst.next()) {
             return rst.getString(1);
         }
@@ -106,7 +106,7 @@ public class VehicleModel {
 
     public int getVehicleCount() throws SQLException {
         String query = "SELECT COUNT(*) FROM Vehicle";
-        ResultSet resultSet = CrudUtil.execute(query);
+        ResultSet resultSet = SQLUtil.execute(query);
         if (resultSet.next()) {
             return resultSet.getInt(1);
         }

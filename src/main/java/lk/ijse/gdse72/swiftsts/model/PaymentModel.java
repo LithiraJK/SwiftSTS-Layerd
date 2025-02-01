@@ -1,7 +1,7 @@
 package lk.ijse.gdse72.swiftsts.model;
 
 import lk.ijse.gdse72.swiftsts.dto.PaymentDto;
-import lk.ijse.gdse72.swiftsts.util.CrudUtil;
+import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +12,7 @@ public class PaymentModel {
 
     public boolean savePayment(PaymentDto paymentDto) throws SQLException {
         String query = "INSERT INTO Payment (PaymentId, StudentId, MonthlyFee, Amount, Balance, Status, Date) VALUES (?,?,?,?,?,?,?)";
-        return CrudUtil.execute(query,
+        return SQLUtil.execute(query,
                 paymentDto.getPaymentId(),
                 paymentDto.getStudentId(),
                 paymentDto.getMonthlyFee(),
@@ -33,7 +33,7 @@ public class PaymentModel {
                 """;
 
         try {
-            ResultSet rs = CrudUtil.execute(query);
+            ResultSet rs = SQLUtil.execute(query);
             while (rs.next()) {
                 String paymentId = rs.getString(1);
                 String studentId = rs.getString(2);
@@ -55,7 +55,7 @@ public class PaymentModel {
 
     public double getMonthlyIncome(String month) throws SQLException {
         String query = "SELECT SUM(Amount) AS TotalIncome FROM Payment WHERE Date LIKE ?";
-        ResultSet rs = CrudUtil.execute(query, month + "%");
+        ResultSet rs = SQLUtil.execute(query, month + "%");
 
         if (rs.next()) {
             return rs.getDouble("TotalIncome");
@@ -66,7 +66,7 @@ public class PaymentModel {
 
     public double calculateMonthlyFee(String studentId, int dayCount) throws SQLException {
         String query = "SELECT DayPrice FROM StudentRegistration WHERE StudentId = ?";
-        ResultSet rs = CrudUtil.execute(query, studentId);
+        ResultSet rs = SQLUtil.execute(query, studentId);
 
         if (rs.next()) {
             double dayPrice = rs.getDouble("DayPrice");
@@ -81,7 +81,7 @@ public class PaymentModel {
 
 
     public String getNextPaymentId() throws SQLException {
-        ResultSet rst = CrudUtil.execute("SELECT PaymentId FROM Payment ORDER BY PaymentId DESC LIMIT 1");
+        ResultSet rst = SQLUtil.execute("SELECT PaymentId FROM Payment ORDER BY PaymentId DESC LIMIT 1");
 
         if (rst.next()) {
             String lastId = rst.getString(1);

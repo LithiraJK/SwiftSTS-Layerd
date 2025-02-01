@@ -11,6 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.dao.custom.VehicleDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.VehicleDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.VehicleDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.VehicleTM;
 import lk.ijse.gdse72.swiftsts.model.VehicleModel;
@@ -22,6 +24,10 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class VehicleFormController implements Initializable {
+
+//    VehicleModel vehicleDAO = new VehicleModel();
+    VehicleDAO vehicleDAO = new VehicleDAOImpl();
+
 
     @FXML
     private JFXButton btnDelete;
@@ -86,7 +92,6 @@ public class VehicleFormController implements Initializable {
     @FXML
     private JFXTextField txtVehicleType;
 
-    private VehicleModel vehicleModel = new VehicleModel();
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
@@ -96,7 +101,7 @@ public class VehicleFormController implements Initializable {
         Optional<ButtonType> buttonType = alert.showAndWait();
         if (buttonType.get() == ButtonType.YES) {
             try {
-                boolean isDeleted = vehicleModel.deleteVehicle(vehicleId);
+                boolean isDeleted = vehicleDAO.deleteVehicle(vehicleId);
                 if (isDeleted) {
                     new Alert(Alert.AlertType.INFORMATION, "Vehicle deleted successfully!").show();
                     refreshPage();
@@ -174,7 +179,7 @@ public class VehicleFormController implements Initializable {
             VehicleDto vehicleDto = new VehicleDto(vehicleId, registrationNo, vehicleType, engineCapacity, fuelType, model, seatCount, availableSeatCount);
 
             try {
-                boolean isSaved = vehicleModel.saveVehicle(vehicleDto);
+                boolean isSaved = vehicleDAO.saveVehicle(vehicleDto);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.INFORMATION, "Vehicle saved successfully!").show();
@@ -245,7 +250,7 @@ public class VehicleFormController implements Initializable {
 
         if (isValidRegistrationNo && isValidVehicleType && isValidFuelType && isValidModel && isValidEngineCapacity && isValidSeatCount && isValidAvailableSeatCount) {
             VehicleDto vehicleDto = new VehicleDto(vehicleId, registrationNo, vehicleType, engineCapacity, fuelType, model, seatCount, availableSeatCount);
-            boolean isUpdated = vehicleModel.updateVehicle(vehicleDto);
+            boolean isUpdated = vehicleDAO.updateVehicle(vehicleDto);
 
             if (isUpdated) {
                 new Alert(Alert.AlertType.INFORMATION, "Vehicle updated successfully!").show();
@@ -298,7 +303,7 @@ public class VehicleFormController implements Initializable {
     private void refreshPage() throws SQLException {
         refreshTable();
 
-        String nextVehicleId = vehicleModel.getNextVehicleId();
+        String nextVehicleId = vehicleDAO.getNextVehicleId();
         lblVehicleID.setText(nextVehicleId);
 
         txtRegistrationNo.setText("");
@@ -323,7 +328,7 @@ public class VehicleFormController implements Initializable {
     }
 
     private void refreshTable() throws SQLException {
-        ArrayList<VehicleDto> vehicleDtos = vehicleModel.getAllVehicles();
+        ArrayList<VehicleDto> vehicleDtos = vehicleDAO.getAllVehicles();
         ObservableList<VehicleTM> vehicleTMS = FXCollections.observableArrayList();
 
         for (VehicleDto vehicleDto : vehicleDtos) {

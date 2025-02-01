@@ -10,6 +10,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.UserDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.StudentDto;
 import lk.ijse.gdse72.swiftsts.model.StudentModel;
 import lk.ijse.gdse72.swiftsts.model.UserModel;
@@ -19,6 +23,14 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class NewStudentFormController implements Initializable {
+
+//    StudentModel studentDAO = new StudentModel();
+//    UserModel userDAO = new UserModel();
+
+    StudentDAO studentDAO = new StudentDAOImpl();
+    UserDAO userDAO =  new UserDAOImpl();
+
+
     @FXML
     public AnchorPane paneRegister;
     @FXML
@@ -46,8 +58,7 @@ public class NewStudentFormController implements Initializable {
     @FXML
     private AnchorPane paneStudent;
 
-    private final StudentModel studentModel = new StudentModel();
-    UserModel userModel = new UserModel();
+
 
     public void setOverlayPane(AnchorPane overlayPane, AnchorPane paneStudent) {
         this.overlayPane = overlayPane;
@@ -108,7 +119,7 @@ public class NewStudentFormController implements Initializable {
             StudentDto studentDto = new StudentDto(studentId, studentName, parentName, address, email, studentGrade, phoneNo, userId, 0.0);
 
             try {
-                boolean isSaved = studentModel.saveStudent(studentDto);
+                boolean isSaved = studentDAO.saveStudent(studentDto);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.INFORMATION, "Student saved successfully!").show();
@@ -130,14 +141,14 @@ public class NewStudentFormController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            String nextStudentId = studentModel.getNextStudentId();
+            String nextStudentId = studentDAO.getNextStudentId();
             lblStudentId.setText(nextStudentId);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "An error occurred while generating the student ID: " + e.getMessage()).show();
         }
 
         try {
-            cbUserID.getItems().addAll(userModel.getAllUserIds());
+            cbUserID.getItems().addAll(userDAO.getAllUserIds());
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "An error occurred while loading user IDs: " + e.getMessage()).show();
         }

@@ -1,7 +1,7 @@
 package lk.ijse.gdse72.swiftsts.model;
 
 import lk.ijse.gdse72.swiftsts.dto.ExpenseDto;
-import lk.ijse.gdse72.swiftsts.util.CrudUtil;
+import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class ExpenseModel {
 
     public ArrayList<ExpenseDto> getAllExpenses() throws SQLException {
-        ResultSet rst = CrudUtil.execute("SELECT * FROM Expense");
+        ResultSet rst = SQLUtil.execute("SELECT * FROM Expense");
         ArrayList<ExpenseDto> expenseDtos = new ArrayList<>();
 
         while (rst.next()) {
@@ -28,7 +28,7 @@ public class ExpenseModel {
     }
 
     public String getNextExpenseId() throws SQLException {
-        ResultSet rst = CrudUtil.execute("SELECT expenseId FROM Expense ORDER BY expenseId DESC LIMIT 1");
+        ResultSet rst = SQLUtil.execute("SELECT expenseId FROM Expense ORDER BY expenseId DESC LIMIT 1");
 
         if (rst.next()) {
             String lastId = rst.getString(1);
@@ -42,7 +42,7 @@ public class ExpenseModel {
 
     public double getMonthlyExpense(String month) throws SQLException {
         String query = "SELECT SUM(Amount) AS TotalExpense FROM Expense WHERE Date LIKE ?";
-        ResultSet rs = CrudUtil.execute(query, month + "%");
+        ResultSet rs = SQLUtil.execute(query, month + "%");
 
         if (rs.next()) {
             return rs.getDouble("TotalExpense");
@@ -52,7 +52,7 @@ public class ExpenseModel {
     }
 
     public boolean saveExpense(ExpenseDto expenseDto) throws SQLException {
-        return CrudUtil.execute("INSERT INTO Expense VALUES (?,?,?,?,?)",
+        return SQLUtil.execute("INSERT INTO Expense VALUES (?,?,?,?,?)",
                 expenseDto.getExpenseId(),
                 expenseDto.getDate(),
                 expenseDto.getAmount(),
@@ -62,7 +62,7 @@ public class ExpenseModel {
     }
 
     public boolean updateExpense(ExpenseDto expenseDto) throws SQLException {
-        return CrudUtil.execute("UPDATE Expense SET Date=?, Amount=?, Description=?, UserId=? WHERE ExpenseId=?",
+        return SQLUtil.execute("UPDATE Expense SET Date=?, Amount=?, Description=?, UserId=? WHERE ExpenseId=?",
                 expenseDto.getDate(),
                 expenseDto.getAmount(),
                 expenseDto.getDescription(),
@@ -72,6 +72,6 @@ public class ExpenseModel {
     }
 
     public boolean deleteExpense(String expenseId) throws SQLException {
-        return CrudUtil.execute("DELETE FROM Expense WHERE ExpenseId=?", expenseId);
+        return SQLUtil.execute("DELETE FROM Expense WHERE ExpenseId=?", expenseId);
     }
 }

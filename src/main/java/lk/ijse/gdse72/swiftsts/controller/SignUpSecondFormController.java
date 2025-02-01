@@ -10,6 +10,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.UserDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.UserDto;
 import lk.ijse.gdse72.swiftsts.model.UserModel;
 
@@ -17,6 +19,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class SignUpSecondFormController {
+
+//    UserModel userDAO = new UserModel();
+    UserDAO userDAO = new UserDAOImpl();
 
     @FXML
     private Label txtSignIn;
@@ -64,11 +69,10 @@ public class SignUpSecondFormController {
         }
 
         try {
-            UserModel userModel = new UserModel();
-            String userId = userModel.generateNextUserId();
+            String userId = userDAO.generateNextUserId();
             UserDto userDto = new UserDto(userId, userName, password, role, email);
 
-            boolean isUserAdded = userModel.saveUser(userDto);
+            boolean isUserAdded = userDAO.saveUser(userDto);
 
             if (isUserAdded) {
                 showAlert(Alert.AlertType.INFORMATION, "Success", "User created successfully");

@@ -13,9 +13,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.UserDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.StudentDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.StudentTM;
-import lk.ijse.gdse72.swiftsts.model.StudentModel;
 import lk.ijse.gdse72.swiftsts.model.UserModel;
 
 import java.net.URL;
@@ -25,8 +28,12 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class StudentFormController implements Initializable {
-    StudentModel studentModel = new StudentModel();
-    UserModel userModel = new UserModel();
+//    StudentModel studentDAO = new StudentModel();
+    //    UserModel userDAO = new UserModel();
+
+    StudentDAO studentDAO = new StudentDAOImpl();
+    UserDAO userDAO =  new UserDAOImpl();
+
 
     @FXML
     public Label lblCreditBalance;
@@ -160,7 +167,7 @@ public class StudentFormController implements Initializable {
             StudentDto studentDto = new StudentDto(studentId, studentName, parentName, address, email, studentGrade, phoneNo, userId, creditBalance);
 
             try {
-                boolean isSaved = studentModel.saveStudent(studentDto);
+                boolean isSaved = studentDAO.saveStudent(studentDto);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.INFORMATION, "Student saved successfully!").show();
@@ -227,7 +234,7 @@ public class StudentFormController implements Initializable {
 
         if (isValidName && isValidParentName && isValidAddress && isValidEmail && isValidPhoneNo && isValidGrade) {
             StudentDto studentDto = new StudentDto(studentId, studentName, parentName, address, email, studentGrade, phoneNo, userId, creditBalance);
-            boolean isUpdated = studentModel.updateStudent(studentDto);
+            boolean isUpdated = studentDAO.updateStudent(studentDto);
 
             if (isUpdated) {
                 new Alert(Alert.AlertType.INFORMATION, "Student updated successfully!").show();
@@ -246,7 +253,7 @@ public class StudentFormController implements Initializable {
         Optional<ButtonType> buttonType = alert.showAndWait();
         if (buttonType.get() == ButtonType.YES) {
             try {
-                boolean isDeleted = studentModel.deleteStudent(studentId);
+                boolean isDeleted = studentDAO.deleteStudent(studentId);
                 if (isDeleted) {
                     new Alert(Alert.AlertType.INFORMATION, "Student deleted successfully!").show();
                     refreshPage();
@@ -303,14 +310,14 @@ public class StudentFormController implements Initializable {
     }
 
     private void loadUserIds() throws SQLException {
-        ArrayList<String> userIds = userModel.getAllUserIds();
+        ArrayList<String> userIds = userDAO.getAllUserIds();
         cbUserID.setItems(FXCollections.observableArrayList(userIds));
     }
 
     private void refreshPage() throws SQLException {
         refreshTable();
 
-        String nextStudentId = studentModel.getNextStudentId();
+        String nextStudentId = studentDAO.getNextStudentId();
         lblStudentId.setText(nextStudentId);
 
         txtStudentName.setText("");
@@ -329,7 +336,7 @@ public class StudentFormController implements Initializable {
     }
 
     private void refreshTable() throws SQLException {
-        ArrayList<StudentDto> studentDtos = studentModel.getAllStudents();
+        ArrayList<StudentDto> studentDtos = studentDAO.getAllStudents();
         ObservableList<StudentTM> studentTMS = FXCollections.observableArrayList();
 
         for (StudentDto studentDto : studentDtos) {

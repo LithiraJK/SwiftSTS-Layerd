@@ -12,6 +12,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.dao.custom.ExpenseDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.ExpenseDAOImpl;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.UserDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.ExpenseDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.ExpenseTM;
 import lk.ijse.gdse72.swiftsts.model.ExpenseModel;
@@ -26,6 +30,12 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ExpensesController implements Initializable {
+
+//    ExpenseModel expenseDAO = new ExpenseModel();
+//    UserModel userDAO = new UserModel();
+
+    ExpenseDAO expenseDAO = new ExpenseDAOImpl();
+    UserDAO userDAO = new UserDAOImpl();
 
     @FXML
     private JFXButton btnDelete;
@@ -70,8 +80,7 @@ public class ExpensesController implements Initializable {
     private JFXTextField txtDescription;
 
 
-    private ExpenseModel expenseModel = new ExpenseModel();
-    UserModel userModel = new UserModel();
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -99,7 +108,7 @@ public class ExpensesController implements Initializable {
         Optional<ButtonType> buttonType = alert.showAndWait();
         if (buttonType.get() == ButtonType.YES) {
             try {
-                boolean isDeleted = expenseModel.deleteExpense(expenseId);
+                boolean isDeleted = expenseDAO.deleteExpense(expenseId);
                 if (isDeleted) {
                     new Alert(Alert.AlertType.INFORMATION, "Expense deleted successfully!").show();
                     refreshPage();
@@ -146,7 +155,7 @@ public class ExpensesController implements Initializable {
             ExpenseDto expenseDto = new ExpenseDto(expenseId, date, amount, description, userId);
 
             try {
-                boolean isSaved = expenseModel.saveExpense(expenseDto);
+                boolean isSaved = expenseDAO.saveExpense(expenseDto);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.INFORMATION, "Expense saved successfully!").show();
@@ -187,7 +196,7 @@ public class ExpensesController implements Initializable {
 
         if (isValidDescription && isValidAmount) {
             ExpenseDto expenseDto = new ExpenseDto(expenseId, date, amount, description, userId);
-            boolean isUpdated = expenseModel.updateExpense(expenseDto);
+            boolean isUpdated = expenseDAO.updateExpense(expenseDto);
 
             if (isUpdated) {
                 new Alert(Alert.AlertType.INFORMATION, "Expense updated successfully!").show();
@@ -214,14 +223,14 @@ public class ExpensesController implements Initializable {
     }
 
     private void loadUserIds() throws SQLException {
-        ArrayList<String> userIds = userModel.getAllUserIds();
+        ArrayList<String> userIds = userDAO.getAllUserIds();
         cmbUserID.setItems(FXCollections.observableArrayList(userIds));
     }
 
     private void refreshPage() throws SQLException {
         refreshTable();
 
-        String nextExpenseId = expenseModel.getNextExpenseId();
+        String nextExpenseId = expenseDAO.getNextExpenseId();
         lblExpenseId.setText(nextExpenseId);
 
         txtAmount.setText("");
@@ -234,7 +243,7 @@ public class ExpensesController implements Initializable {
     }
 
     private void refreshTable() throws SQLException {
-        ArrayList<ExpenseDto> expenseDtos = expenseModel.getAllExpenses();
+        ArrayList<ExpenseDto> expenseDtos = expenseDAO.getAllExpenses();
         ObservableList<ExpenseTM> expenseTMS = FXCollections.observableArrayList();
 
         for (ExpenseDto expenseDto : expenseDtos) {

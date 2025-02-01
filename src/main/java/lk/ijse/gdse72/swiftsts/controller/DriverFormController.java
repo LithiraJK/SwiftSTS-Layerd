@@ -14,6 +14,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.dao.custom.DriverDAO;
+import lk.ijse.gdse72.swiftsts.dao.custom.impl.DriverDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.DriverDto;
 import lk.ijse.gdse72.swiftsts.model.DriverModel;
 
@@ -23,6 +25,10 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class DriverFormController implements Initializable {
+
+//    DriverModel driverModel = new DriverModel();
+    DriverDAO driverDAO = new DriverDAOImpl();
+
 
     @FXML
     private JFXButton btnDelete;
@@ -81,12 +87,12 @@ public class DriverFormController implements Initializable {
     @FXML
     private JFXTextField txtNIC;
 
-    private DriverModel driverModel = new DriverModel();
+
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) throws SQLException {
         String driverId = lblDriverId.getText();
-        boolean isDeleted = driverModel.deleteDriver(driverId);
+        boolean isDeleted = driverDAO.deleteDriver(driverId);
         if (isDeleted) {
             new Alert(Alert.AlertType.INFORMATION, "Driver deleted successfully!").show();
             refreshPage();
@@ -147,7 +153,7 @@ public class DriverFormController implements Initializable {
 
         if (isValidName && isValidNIC && isValidEmail && isValidPhoneNo && isValidLicenseNo) {
             DriverDto driverDto = new DriverDto(driverId, name, licenseNo, nic, contactNo, address, email);
-            boolean isSaved = driverModel.saveDriver(driverDto);
+            boolean isSaved = driverDAO.saveDriver(driverDto);
 
             if (isSaved) {
                 new Alert(Alert.AlertType.INFORMATION, "Driver saved successfully!").show();
@@ -205,7 +211,7 @@ public class DriverFormController implements Initializable {
 
         if (isValidName && isValidNIC && isValidEmail && isValidPhoneNo && isValidLicenseNo) {
             DriverDto driverDto = new DriverDto(driverId, name, licenseNo, nic, contactNo, address, email);
-            boolean isUpdated = driverModel.updateDriver(driverDto);
+            boolean isUpdated = driverDAO.updateDriver(driverDto);
 
             if (isUpdated) {
                 new Alert(Alert.AlertType.INFORMATION, "Driver updated successfully!").show();
@@ -256,7 +262,7 @@ public class DriverFormController implements Initializable {
     private void refreshPage() throws SQLException {
         refreshTable();
 
-        String nextDriverId = driverModel.getNextDriverId();
+        String nextDriverId = driverDAO.getNextDriverId();
         lblDriverId.setText(nextDriverId);
 
         txtDriverName.setText("");
@@ -272,7 +278,7 @@ public class DriverFormController implements Initializable {
     }
 
     private void refreshTable() throws SQLException {
-        ArrayList<DriverDto> driverDtos = driverModel.getAllDrivers();
+        ArrayList<DriverDto> driverDtos = driverDAO.getAllDrivers();
         ObservableList<DriverDto> driverTMS = FXCollections.observableArrayList(driverDtos);
         tblDriver.setItems(driverTMS);
     }
