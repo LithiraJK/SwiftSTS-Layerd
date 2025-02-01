@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class DriverDAOImpl implements DriverDAO {
     @Override
-    public ArrayList<DriverDto> getAllDrivers() throws SQLException {
+    public ArrayList<DriverDto> getAllData() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT * FROM Driver");
         ArrayList<DriverDto> driverList = new ArrayList<>();
 
@@ -30,7 +30,7 @@ public class DriverDAOImpl implements DriverDAO {
         return driverList;
     }
     @Override
-    public boolean saveDriver(DriverDto dto) throws SQLException {
+    public boolean save(DriverDto dto) throws SQLException {
         return SQLUtil.execute("INSERT INTO Driver (DriverId, Name, LicenseNo, NIC, ContactNo, Address, Email) VALUES (?, ?, ?, ?, ?, ?, ?)",
                 dto.getDriverId(),
                 dto.getName(),
@@ -43,7 +43,7 @@ public class DriverDAOImpl implements DriverDAO {
     }
 
     @Override
-    public boolean updateDriver(DriverDto dto) throws SQLException {
+    public boolean update(DriverDto dto) throws SQLException {
         return SQLUtil.execute("UPDATE Driver SET Name=?, LicenseNo=?, NIC=?, ContactNo=?, Address=?, Email=? WHERE DriverId=?",
                 dto.getName(),
                 dto.getLicenseNo(),
@@ -55,7 +55,7 @@ public class DriverDAOImpl implements DriverDAO {
         );
     }
     @Override
-    public String getNextDriverId() throws SQLException {
+    public String getNewId() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT DriverId FROM Driver ORDER BY DriverId DESC LIMIT 1");
 
         if (rst.next()) {
@@ -67,6 +67,10 @@ public class DriverDAOImpl implements DriverDAO {
 
         }
         return "D001";
+    }
+    @Override
+    public boolean delete(String driverId) throws SQLException {
+        return SQLUtil.execute("DELETE FROM Driver WHERE DriverId=?", driverId);
     }
 
     @Override
@@ -81,10 +85,7 @@ public class DriverDAOImpl implements DriverDAO {
 
         return driverIds;
     }
-    @Override
-    public boolean deleteDriver(String driverId) throws SQLException {
-        return SQLUtil.execute("DELETE FROM Driver WHERE DriverId=?", driverId);
-    }
+
     @Override
     public int getDriverCount() throws SQLException {
         String query = "SELECT COUNT(*) FROM Driver";

@@ -25,6 +25,7 @@ import java.sql.SQLException;
 public class SignInFormController {
 
     UserDAO userDAO = new UserDAOImpl();
+
     @FXML
     public Label lblInvalidUserName;
     @FXML
@@ -61,8 +62,13 @@ public class SignInFormController {
     void btnSignInOnAction(ActionEvent event) throws IOException {
         String username = txtusername.getText();
         String password = txtpassword.getText();
+
+
+
         boolean isUsernameValid = userDAO.isUsernameValid(username);
         boolean validateCredentials = userDAO.validateCredentials(username, password);
+
+
         if (isUsernameValid) {
             lblInvalidUserName.setVisible(false);
             if (validateCredentials) {
@@ -81,7 +87,6 @@ public class SignInFormController {
             lblInvalidUserName.setText("Invalid Username. Try Again !");
         }
     }
-
 
 
     private void loadDashboard(String fxmlPath) throws IOException {

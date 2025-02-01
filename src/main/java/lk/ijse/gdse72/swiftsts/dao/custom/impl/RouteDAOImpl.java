@@ -11,7 +11,7 @@ import java.util.List;
 
 public class RouteDAOImpl implements RouteDAO {
     @Override
-    public ArrayList<RouteDto> getAllRoutes() throws SQLException {
+    public ArrayList<RouteDto> getAllData() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT * FROM Route");
         ArrayList<RouteDto> routeDtos = new ArrayList<>();
 
@@ -29,7 +29,7 @@ public class RouteDAOImpl implements RouteDAO {
         return routeDtos;
     }
     @Override
-    public String getNextRouteId() throws SQLException {
+    public String getNewId() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT routeId FROM Route ORDER BY routeId DESC LIMIT 1");
 
         if (rst.next()) {
@@ -43,7 +43,7 @@ public class RouteDAOImpl implements RouteDAO {
     }
 
     @Override
-    public boolean saveRoute(RouteDto routeDto) throws SQLException {
+    public boolean save(RouteDto routeDto) throws SQLException {
         return SQLUtil.execute("INSERT INTO Route VALUES (?,?,?,?,?)",
                 routeDto.getRouteId(),
                 routeDto.getRouteName(),
@@ -54,7 +54,7 @@ public class RouteDAOImpl implements RouteDAO {
     }
 
     @Override
-    public boolean updateRoute(RouteDto routeDto) throws SQLException {
+    public boolean update(RouteDto routeDto) throws SQLException {
         return SQLUtil.execute("UPDATE Route SET routeName=?, startPoint=?, destination=?, routeFee=? WHERE routeId=?",
                 routeDto.getRouteName(),
                 routeDto.getStartPoint(),
@@ -65,7 +65,7 @@ public class RouteDAOImpl implements RouteDAO {
     }
 
     @Override
-    public boolean deleteRoute(String routeId) throws SQLException {
+    public boolean delete(String routeId) throws SQLException {
         return SQLUtil.execute("DELETE FROM Route WHERE routeId=?", routeId);
     }
 
