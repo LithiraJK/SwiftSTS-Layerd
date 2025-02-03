@@ -9,6 +9,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.bo.custom.NewVehicleBO;
+import lk.ijse.gdse72.swiftsts.bo.custom.impl.NewVehicleBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.VehicleDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.VehicleDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.VehicleDto;
@@ -21,8 +23,9 @@ import java.util.ResourceBundle;
 public class NewVehicleFormController implements Initializable {
 
 //    VehicleModel vehicleDAO = new VehicleModel();
-    VehicleDAO vehicleDAO = new VehicleDAOImpl();
+//    VehicleDAO vehicleDAO = new VehicleDAOImpl();
 
+    NewVehicleBO newVehicleBO = new NewVehicleBOImpl();
 
     @FXML
     private JFXButton btnDiscard;
@@ -127,7 +130,7 @@ public class NewVehicleFormController implements Initializable {
             VehicleDto vehicleDto = new VehicleDto(vehicleId, registrationNo, vehicleType, engineCapacity, fuelType, model, seatCount, availableSeatCount);
 
             try {
-                boolean isSaved = vehicleDAO.saveVehicle(vehicleDto);
+                boolean isSaved = newVehicleBO.saveNewVehicle(vehicleDto);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.INFORMATION, "Vehicle saved successfully!").show();
@@ -149,7 +152,7 @@ public class NewVehicleFormController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            String nextVehicleId = vehicleDAO.getNextVehicleId();
+            String nextVehicleId = newVehicleBO.getNewId();
             lblVehicleID.setText(nextVehicleId);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "An error occurred while generating the vehicle ID: " + e.getMessage()).show();

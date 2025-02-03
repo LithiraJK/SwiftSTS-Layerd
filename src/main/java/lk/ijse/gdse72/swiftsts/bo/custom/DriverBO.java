@@ -6,11 +6,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface DriverBO {
-    public ArrayList<DriverDto> getAllDrivers() throws SQLException;
+    public ArrayList<DriverDto> getAllDriver() throws SQLException;
     public boolean saveDriver(DriverDto dto) throws SQLException;
     public boolean updateDriver(DriverDto dto) throws SQLException;
-    public String getNextDriverId() throws SQLException;
-    public ArrayList<String> getAllDriverIds() throws SQLException;
     public boolean deleteDriver(String driverId) throws SQLException;
-    public int getDriverCount() throws SQLException;
+    public String getNewId() throws SQLException;
 }

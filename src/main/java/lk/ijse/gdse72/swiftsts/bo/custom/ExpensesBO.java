@@ -7,9 +7,10 @@ import java.util.ArrayList;
 
 public interface ExpensesBO {
     public ArrayList<ExpenseDto> getAllExpenses() throws SQLException;
-    public String getNextExpenseId() throws SQLException;
-    public double getMonthlyExpense(String month) throws SQLException;
+    public String getNewId() throws SQLException;
     public boolean saveExpense(ExpenseDto expenseDto) throws SQLException;
     public boolean updateExpense(ExpenseDto expenseDto) throws SQLException;
     public boolean deleteExpense(String expenseId) throws SQLException;
+    public ArrayList<String> getAllUserIds() throws SQLException;
+
 }

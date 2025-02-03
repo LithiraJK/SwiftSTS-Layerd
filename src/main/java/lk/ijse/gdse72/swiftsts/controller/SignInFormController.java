@@ -14,6 +14,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import lk.ijse.gdse72.swiftsts.bo.custom.SignInBO;
+import lk.ijse.gdse72.swiftsts.bo.custom.impl.SignInBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.UserDAOImpl;
@@ -24,7 +26,9 @@ import java.sql.SQLException;
 
 public class SignInFormController {
 
-    UserDAO userDAO = new UserDAOImpl();
+//    UserDAO userDAO = new UserDAOImpl();
+
+    SignInBO signInBO = new SignInBOImpl();
 
     @FXML
     public Label lblInvalidUserName;
@@ -65,8 +69,8 @@ public class SignInFormController {
 
 
 
-        boolean isUsernameValid = userDAO.isUsernameValid(username);
-        boolean validateCredentials = userDAO.validateCredentials(username, password);
+        boolean isUsernameValid = signInBO.isUsernameValid(username);
+        boolean validateCredentials = signInBO.validateCredentials(username, password);
 
 
         if (isUsernameValid) {

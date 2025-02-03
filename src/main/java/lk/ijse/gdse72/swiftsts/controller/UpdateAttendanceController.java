@@ -11,6 +11,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.gdse72.swiftsts.bo.custom.UpdateAttendanceBO;
+import lk.ijse.gdse72.swiftsts.bo.custom.impl.UpdateAttendanceBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.AttendanceDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.DriverDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
@@ -30,9 +32,11 @@ public class UpdateAttendanceController implements Initializable {
 //    DriverModel driverDAO = new DriverModel();
 //    StudentModel studentDAO = new StudentModel();
 
-    AttendanceDAO attendanceDAO = new AttendanceDAOImpl();
-    DriverDAO driverDAO =new DriverDAOImpl();
-    StudentDAO studentDAO = new StudentDAOImpl();
+//    AttendanceDAO attendanceDAO = new AttendanceDAOImpl();
+//    DriverDAO driverDAO =new DriverDAOImpl();
+//    StudentDAO studentDAO = new StudentDAOImpl();
+
+    UpdateAttendanceBO updateAttendanceBO = new UpdateAttendanceBOImpl();
 
     @FXML
     private JFXButton btnDiscard;
@@ -85,14 +89,14 @@ public class UpdateAttendanceController implements Initializable {
     }
 
     private void loadStudentIds() throws SQLException {
-        ArrayList<String> studentNames = studentDAO.getAllStudentNames();
+        ArrayList<String> studentNames = updateAttendanceBO.getAllStudentNames();
         ObservableList<String> observableList = FXCollections.observableArrayList();
         observableList.addAll(studentNames);
         cbStudentId.setItems(observableList);
     }
 
     private void loadDriverIds() throws SQLException {
-        ArrayList<String> driverIds = driverDAO.getAllDriverIds();
+        ArrayList<String> driverIds = updateAttendanceBO.getAllDriverIds();
         ObservableList<String> observableList = FXCollections.observableArrayList();
         observableList.addAll(driverIds);
         cbDriverId.setItems(observableList);
@@ -134,7 +138,7 @@ public class UpdateAttendanceController implements Initializable {
                     Integer.parseInt(txtDayCount.getText())
             );
 
-            boolean isUpdated = attendanceDAO.updateAttendance(updatedAttendance);
+            boolean isUpdated = updateAttendanceBO.updateAttendance(updatedAttendance);
 
             if (isUpdated) {
                 new Alert(Alert.AlertType.INFORMATION, "Attendance updated successfully!").show();

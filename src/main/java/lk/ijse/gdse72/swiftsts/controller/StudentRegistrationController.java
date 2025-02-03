@@ -19,9 +19,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.bo.custom.StudentRegistrationBO;
+import lk.ijse.gdse72.swiftsts.bo.custom.impl.StudentRegistrationBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.*;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.*;
 import lk.ijse.gdse72.swiftsts.db.DBConnection;
+import lk.ijse.gdse72.swiftsts.dto.StudentRegistrationDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.StudentRegistrationDetailsTM;
 
 import java.io.IOException;
@@ -41,11 +44,13 @@ public class StudentRegistrationController implements Initializable {
 //    StudentModel studentDAO = new StudentModel();
 //    RouteModel routeDAO = new RouteModel();
 
-    StudentRegistrationDAO studentRegistrationDAO = new StudentRegistrationDAOImpl();
-    VehicleDAO vehicleDAO = new VehicleDAOImpl();
-    StudentDAO studentDAO = new StudentDAOImpl();
-    RouteDAO routeDAO = new RouteDAOImpl();
-    QueryDAO queryDAO = new QueryDAOImpl();
+//    StudentRegistrationDAO studentRegistrationDAO = new StudentRegistrationDAOImpl();
+//    VehicleDAO vehicleDAO = new VehicleDAOImpl();
+//    StudentDAO studentDAO = new StudentDAOImpl();
+//    RouteDAO routeDAO = new RouteDAOImpl();
+//    QueryDAO queryDAO = new QueryDAOImpl();
+
+    StudentRegistrationBO studentRegistrationBO = new StudentRegistrationBOImpl();
 
     @FXML
     public Label lblManageStudentOnClick;
@@ -233,8 +238,8 @@ public class StudentRegistrationController implements Initializable {
         String selectedRouteName = cmbRoute.getSelectionModel().getSelectedItem();
         if (selectedRouteName != null && !txtDistance.getText().isEmpty()) {
             try {
-                String selectedRouteId = routeDAO.getRouteIdByRouteName(selectedRouteName);
-                double routeFee = routeDAO.getRouteFeeByRouteId(selectedRouteId);
+                String selectedRouteId = studentRegistrationBO.getRouteIdByRouteName(selectedRouteName);
+                double routeFee = studentRegistrationBO.getRouteFeeByRouteId(selectedRouteId);
                 double distance = Double.parseDouble(txtDistance.getText());
                 dayPrice = routeFee * distance;
                 txtDayPrice.setText(String.format("%.2f", dayPrice));
@@ -253,12 +258,12 @@ public class StudentRegistrationController implements Initializable {
         if (!validateSeatCount()) {
             return;
         }
-        String studentId = studentDAO.getStudentIdByName(cmbStudentName.getSelectionModel().getSelectedItem());
+        String studentId = studentRegistrationBO.getStudentIdByName(cmbStudentName.getSelectionModel().getSelectedItem());
         String studentRegId = lblRegistrationId.getText();
-        String routeId = routeDAO.getRouteIdByRouteName(cmbRoute.getSelectionModel().getSelectedItem());
+        String routeId = studentRegistrationBO.getRouteIdByRouteName(cmbRoute.getSelectionModel().getSelectedItem());
         String vehicleId = cmbVehicle.getSelectionModel().getSelectedItem();
         dayPrice = Double.parseDouble(txtDayPrice.getText());
-        String registrationDate = lblDate.getText();
+        Date registrationDate = Date.valueOf(lblDate.getText());
         double distance = Double.parseDouble(txtDistance.getText());
 
         Connection connection = null;
@@ -266,11 +271,10 @@ public class StudentRegistrationController implements Initializable {
             connection = DBConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
 //            CrudUtil.startTransaction();
-
-            boolean isStudentInserted = studentRegistrationDAO.insertStudentRegistration(studentRegId, studentId, distance, dayPrice, registrationDate, routeId, vehicleId);
+            boolean isStudentInserted = studentRegistrationBO.insertStudentRegistration(new StudentRegistrationDto(studentRegId, studentId, distance, dayPrice,routeId,vehicleId,registrationDate));
             if (!isStudentInserted) throw new SQLException("Failed to insert into StudentRegistration");
 
-            boolean isVehicleUpdated = vehicleDAO.updateVehicleSeatCount(vehicleId, 1);
+            boolean isVehicleUpdated = studentRegistrationBO.updateVehicleSeatCount(vehicleId, 1);
             if (!isVehicleUpdated) throw new SQLException("Failed to update Vehicle seat count");
 
 //            CrudUtil.commitTransaction();
@@ -308,7 +312,7 @@ public class StudentRegistrationController implements Initializable {
         cmbDestination.getSelectionModel().clearSelection();
         txtDayPrice.setText("00.00");
         txtDistance.clear();
-        lblRegistrationId.setText(studentRegistrationDAO.getNextRegistrationId());
+        lblRegistrationId.setText(studentRegistrationBO.getNextRegistrationId());
         lableStudentId.setText("Student Id");
         lblPickupLocation.setText("Pickup Location");
         lblAvailableSeat.setText("00");
@@ -355,7 +359,7 @@ public class StudentRegistrationController implements Initializable {
             e.printStackTrace();
         }
         try {
-            String nextRegistrationId = studentRegistrationDAO.getNextRegistrationId();
+            String nextRegistrationId = studentRegistrationBO.getNextRegistrationId();
             lblRegistrationId.setText(nextRegistrationId);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -370,14 +374,14 @@ public class StudentRegistrationController implements Initializable {
             String studentName = cmbStudentName.getSelectionModel().getSelectedItem();
             String selectedStudentId = null;
             try {
-                selectedStudentId = studentDAO.getStudentIdByName(studentName);
+                selectedStudentId = studentRegistrationBO.getStudentIdByName(studentName);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
             if (selectedStudentId != null) {
                 try {
                     lableStudentId.setText(selectedStudentId);
-                    lblPickupLocation.setText(studentDAO.getPickupLocationById(selectedStudentId));
+                    lblPickupLocation.setText(studentRegistrationBO.getPickupLocationById(selectedStudentId));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -388,7 +392,7 @@ public class StudentRegistrationController implements Initializable {
             String selectedVehicleId = cmbVehicle.getSelectionModel().getSelectedItem();
             if (selectedVehicleId != null) {
                 try {
-                    int availableSeats = vehicleDAO.getAvailableSeatCountByVehicleId(selectedVehicleId);
+                    int availableSeats = studentRegistrationBO.getAvailableSeatCountByVehicleId(selectedVehicleId);
                     lblAvailableSeat.setText(String.valueOf(availableSeats));
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -398,27 +402,27 @@ public class StudentRegistrationController implements Initializable {
     }
 
     private void loadStudentRegistrationDetails() throws SQLException {
-        ObservableList<StudentRegistrationDetailsTM> studentRegistrationDetails = queryDAO.getAllStudentRegistrationDetails();
+        ObservableList<StudentRegistrationDetailsTM> studentRegistrationDetails = studentRegistrationBO.getAllStudentRegistrationDetails();
         tblStudentRegistration.setItems(studentRegistrationDetails);
     }
 
     private void loadStudentNames() throws SQLException {
-        List<String> studentIds = studentDAO.getAllStudentNames();
+        List<String> studentIds = studentRegistrationBO.getAllStudentNames();
         cmbStudentName.getItems().addAll(studentIds);
     }
 
     private void loadVehicleIds() throws SQLException {
-        List<String> vehicleIds = vehicleDAO.getAllVehicleIds();
+        List<String> vehicleIds = studentRegistrationBO.getAllVehicleIds();
         cmbVehicle.getItems().addAll(vehicleIds);
     }
 
     private void loadRoutes() throws SQLException {
-        List<String> routes = routeDAO.getAllRouteNames();
+        List<String> routes = studentRegistrationBO.getAllRouteNames();
         cmbRoute.getItems().addAll(routes);
     }
 
     private void loadDestinations() throws SQLException {
-        List<String> destinations = routeDAO.getAllDestinations();
+        List<String> destinations = studentRegistrationBO.getAllDestinations();
         cmbDestination.getItems().addAll(destinations);
     }
 

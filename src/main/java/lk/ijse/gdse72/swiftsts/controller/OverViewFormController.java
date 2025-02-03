@@ -14,10 +14,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import lk.ijse.gdse72.swiftsts.bo.custom.OverviewBO;
+import lk.ijse.gdse72.swiftsts.bo.custom.impl.OverviewBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.*;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.*;
 import lk.ijse.gdse72.swiftsts.db.DBConnection;
-import lk.ijse.gdse72.swiftsts.model.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -38,11 +39,13 @@ public class OverViewFormController implements Initializable {
 //    DriverModel driverDAO = new DriverModel();
 //    VehicleModel vehicleDAO = new VehicleModel();
 
-    ExpenseDAO expenseDAO = new ExpenseDAOImpl();
-    PaymentDAO paymentDAO = new PaymentDAOImpl();
-    StudentDAO studentDAO = new StudentDAOImpl();
-    DriverDAO driverDAO = new DriverDAOImpl();
-    VehicleDAO vehicleDAO =  new VehicleDAOImpl();
+//    ExpenseDAO expenseDAO = new ExpenseDAOImpl();
+//    PaymentDAO paymentDAO = new PaymentDAOImpl();
+//    StudentDAO studentDAO = new StudentDAOImpl();
+//    DriverDAO driverDAO = new DriverDAOImpl();
+//    VehicleDAO vehicleDAO =  new VehicleDAOImpl();
+
+    OverviewBO overviewBO = new OverviewBOImpl();
 
 
     @FXML
@@ -83,7 +86,7 @@ public class OverViewFormController implements Initializable {
         String formattedMonth = currentYearMonth.format(DateTimeFormatter.ofPattern("yyyy-MM"));
 
         try {
-            double expense = expenseDAO.getMonthlyExpense(formattedMonth);
+            double expense = overviewBO.getMonthlyExpense(formattedMonth);
             if (expense > 0) {
                 lblExpense.setText("-" + String.format("%.2f", expense));
             } else {
@@ -100,7 +103,7 @@ public class OverViewFormController implements Initializable {
         String formattedMonth = currentYearMonth.format(DateTimeFormatter.ofPattern("yyyy-MM"));
 
         try {
-            double income = paymentDAO.getMonthlyIncome(formattedMonth);
+            double income = overviewBO.getMonthlyIncome(formattedMonth);
             if (income > 0) {
                 lblIncome.setText("+" + String.format("%.2f", income));
             } else {
@@ -121,7 +124,7 @@ public class OverViewFormController implements Initializable {
             String formattedMonth = yearMonth.format(DateTimeFormatter.ofPattern("yyyy-MM"));
 
             try {
-                double expense = expenseDAO.getMonthlyExpense(formattedMonth);
+                double expense = overviewBO.getMonthlyExpense(formattedMonth);
                 if (expense > 0) {
                     lblExpense.setText("-" + String.format("%.2f", expense));
                 } else {
@@ -145,7 +148,7 @@ public class OverViewFormController implements Initializable {
             String formattedMonth = yearMonth.format(DateTimeFormatter.ofPattern("yyyy-MM"));
 
             try {
-                double income = paymentDAO.getMonthlyIncome(formattedMonth);
+                double income = overviewBO.getMonthlyIncome(formattedMonth);
                 if (income > 0) {
                     Thread reportThread = new Thread(new Runnable() {
                         @Override
@@ -194,8 +197,8 @@ public class OverViewFormController implements Initializable {
         String formattedMonth = currentYearMonth.format(DateTimeFormatter.ofPattern("yyyy-MM"));
 
         try {
-            double income = paymentDAO.getMonthlyIncome(formattedMonth);
-            double expense = expenseDAO.getMonthlyExpense(formattedMonth);
+            double income = overviewBO.getMonthlyIncome(formattedMonth);
+            double expense = overviewBO.getMonthlyExpense(formattedMonth);
             double profit = income - expense;
 
             lblProfit.setText(String.format("+%.2f", profit));
@@ -207,7 +210,7 @@ public class OverViewFormController implements Initializable {
 
     private void updateStudentCountLabel() {
         try {
-            int studentCount = studentDAO.getStudentCount();
+            int studentCount = overviewBO.getStudentCount();
             lblStudentCount.setText(String.valueOf(studentCount));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -217,7 +220,7 @@ public class OverViewFormController implements Initializable {
 
     private void updateDriverCountLabel() {
         try {
-            int driverCount = driverDAO.getDriverCount();
+            int driverCount = overviewBO.getDriverCount();
             lblDriverCount.setText(String.valueOf(driverCount));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -227,7 +230,7 @@ public class OverViewFormController implements Initializable {
 
     private void updateVehicleCountLabel() {
         try {
-            int vehicleCount = vehicleDAO.getVehicleCount();
+            int vehicleCount = overviewBO.getVehicleCount();
             lblVehicleCount.setText(String.valueOf(vehicleCount));
         } catch (SQLException e) {
             e.printStackTrace();

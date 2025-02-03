@@ -10,6 +10,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.bo.custom.NewStudentBO;
+import lk.ijse.gdse72.swiftsts.bo.custom.impl.NewStudentBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
@@ -26,8 +28,10 @@ public class NewStudentFormController implements Initializable {
 //    StudentModel studentDAO = new StudentModel();
 //    UserModel userDAO = new UserModel();
 
-    StudentDAO studentDAO = new StudentDAOImpl();
-    UserDAO userDAO =  new UserDAOImpl();
+//    StudentDAO studentDAO = new StudentDAOImpl();
+//    UserDAO userDAO =  new UserDAOImpl();
+
+    NewStudentBO newStudentBO = new NewStudentBOImpl();
 
 
     @FXML
@@ -118,7 +122,7 @@ public class NewStudentFormController implements Initializable {
             StudentDto studentDto = new StudentDto(studentId, studentName, parentName, address, email, studentGrade, phoneNo, userId, 0.0);
 
             try {
-                boolean isSaved = studentDAO.saveStudent(studentDto);
+                boolean isSaved = newStudentBO.saveNewStudent(studentDto);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.INFORMATION, "Student saved successfully!").show();
@@ -140,14 +144,14 @@ public class NewStudentFormController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            String nextStudentId = studentDAO.getNextStudentId();
+            String nextStudentId = newStudentBO.getNewId();
             lblStudentId.setText(nextStudentId);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "An error occurred while generating the student ID: " + e.getMessage()).show();
         }
 
         try {
-            cbUserID.getItems().addAll(userDAO.getAllUserIds());
+            cbUserID.getItems().addAll(newStudentBO.getAllUserIds());
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "An error occurred while loading user IDs: " + e.getMessage()).show();
         }

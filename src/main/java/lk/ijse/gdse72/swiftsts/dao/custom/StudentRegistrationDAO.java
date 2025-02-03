@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface StudentRegistrationDAO {
-    public boolean insertStudentRegistration(String studentRegId, String studentId, double distance, double dayPrice, String registrationDate, String routeId, String vehicleId) throws SQLException;
+    public boolean insertStudentRegistration(StudentRegistrationDto studentRegistrationDto) throws SQLException;
     public String getNextRegistrationId() throws SQLException;
     public ArrayList<String> getStudentIdsByVehicleId(String vehicleId) throws SQLException;
 
