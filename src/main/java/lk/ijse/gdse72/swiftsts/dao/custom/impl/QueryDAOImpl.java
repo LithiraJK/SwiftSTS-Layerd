@@ -8,6 +8,8 @@ import lk.ijse.gdse72.swiftsts.db.DBConnection;
 import lk.ijse.gdse72.swiftsts.dto.PaymentDto;
 import lk.ijse.gdse72.swiftsts.dto.StudentRegistrationDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.StudentRegistrationDetailsTM;
+import lk.ijse.gdse72.swiftsts.entity.Payment;
+import lk.ijse.gdse72.swiftsts.entity.StudentRegistration;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -80,16 +82,16 @@ public class QueryDAOImpl implements QueryDAO {
         return list;
     }
     @Override
-    public ArrayList<StudentRegistrationDto> getAllStudentRegistrations() throws SQLException {
+    public ArrayList<StudentRegistration> getAllStudentRegistrations() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT StudentRegistrationId, " +
                 "StudentId, Distance,DayPrice,RouteName,VehicleId,Date " +
                 "FROM StudentRegistration sr " +
                 "join Route r " +
                 "on sr.RouteId = r.RouteId");
-        ArrayList<StudentRegistrationDto> studentRegistrationList = new ArrayList<>();
+        ArrayList<StudentRegistration> studentRegistrationList = new ArrayList<>();
 
         while (rst.next()) {
-            StudentRegistrationDto dto = new StudentRegistrationDto(
+            studentRegistrationList.add(new StudentRegistration(
                     rst.getString("StudentRegistrationId"),
                     rst.getString("StudentId"),
                     rst.getDouble("DayPrice"),
@@ -98,16 +100,15 @@ public class QueryDAOImpl implements QueryDAO {
                     rst.getString("VehicleId"),
                     rst.getDate("Date")
 
-            );
-            studentRegistrationList.add(dto);
+            ));
         }
 
         return studentRegistrationList;
     }
 
     @Override
-    public List<PaymentDto> getPaymentData() {
-        List<PaymentDto> paymentData = new ArrayList<>();
+    public List<Payment> getPaymentData() {
+        List<Payment> paymentList = new ArrayList<>();
         String query = """
                 SELECT p.PaymentId, s.StudentId, p.MonthlyFee, p.Amount,
                        p.Balance, s.CreditBalance, p.Status, p.Date
@@ -118,21 +119,21 @@ public class QueryDAOImpl implements QueryDAO {
         try {
             ResultSet rs = SQLUtil.execute(query);
             while (rs.next()) {
-                String paymentId = rs.getString(1);
-                String studentId = rs.getString(2);
-                double monthlyFee = rs.getDouble(3);
-                double amount = rs.getDouble(4);
-                double balance = rs.getDouble(5);
-                double creditBalance = rs.getDouble(6);
-                String status = rs.getString(7);
-                String date = rs.getString(8);
-
-                paymentData.add(new PaymentDto(paymentId, studentId, monthlyFee, amount, balance, creditBalance, status, date));
+                paymentList.add(new Payment(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getDouble(3),
+                        rs.getDouble(4),
+                        rs.getDouble(5),
+                        rs.getDouble(6),
+                        rs.getString(7),
+                        rs.getString(8)
+                ));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return paymentData;
+        return paymentList;
     }
 }

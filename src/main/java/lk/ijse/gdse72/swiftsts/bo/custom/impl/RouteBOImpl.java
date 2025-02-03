@@ -5,6 +5,7 @@ import lk.ijse.gdse72.swiftsts.dao.DAOFactory;
 import lk.ijse.gdse72.swiftsts.dao.custom.RouteDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.RouteDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.RouteDto;
+import lk.ijse.gdse72.swiftsts.entity.Route;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,7 +16,19 @@ public class RouteBOImpl implements RouteBO {
 
     @Override
     public ArrayList<RouteDto> getAllRoutes() throws SQLException {
-        return routeDAO.getAllData();
+        ArrayList<Route> routes = routeDAO.getAllData();
+        ArrayList<RouteDto> routeDtos = new ArrayList<>();
+
+        for (Route route : routes){
+            routeDtos.add(new RouteDto(
+                    route.getRouteId(),
+                    route.getRouteName(),
+                    route.getStartPoint(),
+                    route.getDestination(),
+                    route.getRouteFee()
+            ));
+        }
+        return routeDtos;
     }
 
     @Override
@@ -24,13 +37,23 @@ public class RouteBOImpl implements RouteBO {
     }
 
     @Override
-    public boolean saveRoute(RouteDto routeDto) throws SQLException {
-        return routeDAO.save(routeDto);
+    public boolean saveRoute(RouteDto dto) throws SQLException {
+        return routeDAO.save(new Route( dto.getRouteId(),
+                dto.getRouteName(),
+                dto.getStartPoint(),
+                dto.getDestination(),
+                dto.getRouteFee()
+        ));
     }
 
     @Override
-    public boolean updateRoute(RouteDto routeDto) throws SQLException {
-        return routeDAO.update(routeDto);
+    public boolean updateRoute(RouteDto dto) throws SQLException {
+        return routeDAO.update(new Route( dto.getRouteId(),
+                dto.getRouteName(),
+                dto.getStartPoint(),
+                dto.getDestination(),
+                dto.getRouteFee()
+        ));
     }
 
     @Override

@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.VehicleBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.impl.VehicleBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.VehicleDAO;
@@ -29,7 +30,7 @@ public class VehicleFormController implements Initializable {
 //    VehicleModel vehicleDAO = new VehicleModel();
 //    VehicleDAO vehicleDAO = new VehicleDAOImpl();
 
-    VehicleBO vehicleBO =  new VehicleBOImpl();
+    VehicleBO vehicleBO = (VehicleBO) BOFactory.getInstance().getBO(BOFactory.BOType.VEHICLE);
 
 
     @FXML

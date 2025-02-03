@@ -1,12 +1,13 @@
 package lk.ijse.gdse72.swiftsts.bo.custom;
 
+import lk.ijse.gdse72.swiftsts.bo.SuperBO;
 import lk.ijse.gdse72.swiftsts.dto.VehicleDto;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface VehicleBO {
+public interface VehicleBO extends SuperBO {
     public ArrayList<VehicleDto> getAllVehicles() throws SQLException;
     public String getNewId() throws SQLException;
     public boolean updateVehicle(VehicleDto vehicleDto) throws SQLException;

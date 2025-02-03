@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.NewVehicleBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.impl.NewVehicleBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.VehicleDAO;
@@ -25,7 +26,7 @@ public class NewVehicleFormController implements Initializable {
 //    VehicleModel vehicleDAO = new VehicleModel();
 //    VehicleDAO vehicleDAO = new VehicleDAOImpl();
 
-    NewVehicleBO newVehicleBO = new NewVehicleBOImpl();
+    NewVehicleBO newVehicleBO = (NewVehicleBO) BOFactory.getInstance().getBO(BOFactory.BOType.NEW_VEHICLE);
 
     @FXML
     private JFXButton btnDiscard;

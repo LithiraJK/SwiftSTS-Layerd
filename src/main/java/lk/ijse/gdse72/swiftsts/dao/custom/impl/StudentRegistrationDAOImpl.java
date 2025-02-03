@@ -7,6 +7,7 @@ import lk.ijse.gdse72.swiftsts.dao.custom.StudentRegistrationDAO;
 import lk.ijse.gdse72.swiftsts.db.DBConnection;
 import lk.ijse.gdse72.swiftsts.dto.StudentRegistrationDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.StudentRegistrationDetailsTM;
+import lk.ijse.gdse72.swiftsts.entity.StudentRegistration;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,9 +18,9 @@ import java.util.ArrayList;
 public class StudentRegistrationDAOImpl implements StudentRegistrationDAO {
 
     @Override
-    public boolean insertStudentRegistration(StudentRegistrationDto studentRegistrationDto) throws SQLException {
+    public boolean insertStudentRegistration(StudentRegistration studentRegistration) throws SQLException {
         return SQLUtil.execute("INSERT INTO StudentRegistration (StudentRegistrationId, StudentId, Distance, DayPrice, Date, RouteId, VehicleId) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                studentRegistrationDto.getRegistrationId(), studentRegistrationDto.getStudentId(),studentRegistrationDto.getDistance(),studentRegistrationDto.getDayPrice(),studentRegistrationDto.getRegistrationDate(),studentRegistrationDto.getRouteId(),studentRegistrationDto.getVehicleId());
+                studentRegistration.getRegistrationId(), studentRegistration.getStudentId(),studentRegistration.getDistance(),studentRegistration.getDayPrice(),studentRegistration.getRegistrationDate(),studentRegistration.getRouteId(),studentRegistration.getVehicleId());
     }
 
     @Override

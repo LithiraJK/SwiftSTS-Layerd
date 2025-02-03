@@ -13,6 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.PaymentBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.impl.PaymentBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.AttendanceDAO;
@@ -47,7 +48,7 @@ public class PaymentFormController implements Initializable {
 //    AttendanceDAO attendanceDAO = new AttendanceDAOImpl();
 //    QueryDAO queryDAO = new QueryDAOImpl();
 
-    PaymentBO paymentBO = new PaymentBOImpl();
+    PaymentBO paymentBO = (PaymentBO) BOFactory.getInstance().getBO(BOFactory.BOType.PAYMENT);
 
 
     @FXML
@@ -136,6 +137,7 @@ public class PaymentFormController implements Initializable {
             loadStudentNames();
             loadAttendanceIds((String) cmbStudentNames.getValue());
             loadPaymentData();
+            refreshPage();
             lblPaymentDate.setText(LocalDate.now().toString());
             btnPaymentReceipt.setDisable(true);
         } catch (SQLException e) {

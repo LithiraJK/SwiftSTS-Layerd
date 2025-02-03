@@ -3,6 +3,7 @@ package lk.ijse.gdse72.swiftsts.dao.custom.impl;
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
 import lk.ijse.gdse72.swiftsts.dto.StudentDto;
+import lk.ijse.gdse72.swiftsts.entity.Student;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,12 +12,12 @@ import java.util.List;
 
 public class StudentDAOImpl implements StudentDAO {
     @Override
-    public ArrayList<StudentDto> getAllData() throws SQLException {
+    public ArrayList<Student> getAllData() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT * FROM Student");
-        ArrayList<StudentDto> studentDtos = new ArrayList<>();
+        ArrayList<Student> students = new ArrayList<>();
 
         while (rst.next()) {
-            StudentDto studentDto = new StudentDto(
+            students.add(new Student(
                     rst.getString(1),
                     rst.getString(2),
                     rst.getString(3),
@@ -25,12 +26,10 @@ public class StudentDAOImpl implements StudentDAO {
                     rst.getString(6),
                     rst.getString(7),
                     rst.getString(8),
-                    rst.getDouble("CreditBalance")
-            );
-            studentDtos.add(studentDto);
+                    rst.getDouble(9)
+            ));
         }
-
-        return studentDtos;
+        return students;
     }
 
     @Override
@@ -48,32 +47,32 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     @Override
-    public boolean save(StudentDto studentDto) throws SQLException {
+    public boolean save(Student student) throws SQLException {
         return SQLUtil.execute("INSERT INTO Student VALUES (?,?,?,?,?,?,?,?,?)",
-                studentDto.getStudentId(),
-                studentDto.getStudentName(),
-                studentDto.getParentName(),
-                studentDto.getAddress(),
-                studentDto.getEmail(),
-                studentDto.getStudentGrade(),
-                studentDto.getPhoneNo(),
-                studentDto.getUserId(),
-                studentDto.getCreditBalance()
+                student.getStudentId(),
+                student.getStudentName(),
+                student.getParentName(),
+                student.getAddress(),
+                student.getEmail(),
+                student.getStudentGrade(),
+                student.getPhoneNo(),
+                student.getUserId(),
+                student.getCreditBalance()
         );
     }
 
     @Override
-    public boolean update(StudentDto studentDto) throws SQLException {
+    public boolean update(Student student) throws SQLException {
         return SQLUtil.execute("UPDATE Student SET StudentName=?, ParentName=?, PickupLocation=?, Email=?, StudentGrade=?, ContactNo=?, UserId=?, CreditBalance=?  WHERE StudentId=?",
-                studentDto.getStudentName(),
-                studentDto.getParentName(),
-                studentDto.getAddress(),
-                studentDto.getEmail(),
-                studentDto.getStudentGrade(),
-                studentDto.getPhoneNo(),
-                studentDto.getUserId(),
-                studentDto.getCreditBalance(),
-                studentDto.getStudentId()
+                student.getStudentName(),
+                student.getParentName(),
+                student.getAddress(),
+                student.getEmail(),
+                student.getStudentGrade(),
+                student.getPhoneNo(),
+                student.getUserId(),
+                student.getCreditBalance(),
+                student.getStudentId()
         );
     }
 

@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.RouteBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.impl.RouteBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.RouteDAO;
@@ -30,7 +31,7 @@ public class RouteFormController implements Initializable {
 
 //    RouteModel routeDAO = new RouteModel();
 //    RouteDAO routeDAO =  new RouteDAOImpl();
-    RouteBO routeBO = new RouteBOImpl();
+    RouteBO routeBO = (RouteBO) BOFactory.getInstance().getBO(BOFactory.BOType.ROUTE);
 
     @FXML
     private JFXButton btnDelete;

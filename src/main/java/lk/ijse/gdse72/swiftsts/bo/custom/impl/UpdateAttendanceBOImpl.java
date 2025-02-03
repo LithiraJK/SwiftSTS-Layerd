@@ -10,6 +10,7 @@ import lk.ijse.gdse72.swiftsts.dao.custom.impl.AttendanceDAOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.DriverDAOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.AttendanceDto;
+import lk.ijse.gdse72.swiftsts.entity.Attendance;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class UpdateAttendanceBOImpl implements UpdateAttendanceBO {
 
     @Override
     public boolean updateAttendance(AttendanceDto dto) throws SQLException {
-        return attendanceDAO.update(dto);
+        return attendanceDAO.update(new Attendance(dto.getAttendanceId(), dto.getStudentId(), dto.getVehicleId(),dto.getYear(),dto.getMonth(),dto.getDayCount()));
     }
 
     @Override

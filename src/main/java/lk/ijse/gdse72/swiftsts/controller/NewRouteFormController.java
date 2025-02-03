@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.NewRouteBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.impl.NewRouteBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.RouteDAO;
@@ -24,7 +25,7 @@ public class NewRouteFormController implements Initializable {
 
 //    RouteModel routeDAO = new RouteModel();
 //    RouteDAO routeDAO = new RouteDAOImpl();
-    NewRouteBO newRouteBO = new NewRouteBOImpl();
+    NewRouteBO newRouteBO = (NewRouteBO) BOFactory.getInstance().getBO(BOFactory.BOType.NEW_ROUTE);
 
     @FXML
     private JFXButton btnDiscard;

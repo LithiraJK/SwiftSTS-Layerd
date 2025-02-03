@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.StudentBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.impl.StudentBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
@@ -36,7 +37,7 @@ public class StudentFormController implements Initializable {
 //    StudentDAO studentDAO = new StudentDAOImpl();
 //    UserDAO userDAO =  new UserDAOImpl();
 
-    StudentBO studentBO = new StudentBOImpl();
+    StudentBO studentBO = (StudentBO) BOFactory.getInstance().getBO(BOFactory.BOType.STUDENT);
 
 
     @FXML

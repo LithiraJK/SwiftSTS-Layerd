@@ -7,6 +7,7 @@ import lk.ijse.gdse72.swiftsts.dao.custom.*;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.*;
 import lk.ijse.gdse72.swiftsts.dto.StudentRegistrationDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.StudentRegistrationDetailsTM;
+import lk.ijse.gdse72.swiftsts.entity.StudentRegistration;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,8 +22,16 @@ public class StudentRegistrationBOImpl implements StudentRegistrationBO {
     QueryDAO queryDAO = (QueryDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.QUERY);
 
     @Override
-    public boolean insertStudentRegistration(StudentRegistrationDto studentRegistrationDto) throws SQLException {
-        return studentRegistrationDAO.insertStudentRegistration(studentRegistrationDto);
+    public boolean insertStudentRegistration(StudentRegistrationDto dto) throws SQLException {
+        return studentRegistrationDAO.insertStudentRegistration(new StudentRegistration(
+                dto.getRegistrationId(),
+                dto.getStudentId(),
+                dto.getDistance(),
+                dto.getDayPrice(),
+                dto.getRouteId(),
+                dto.getVehicleId(),
+                dto.getRegistrationDate()
+        ));
     }
 
     @Override

@@ -7,6 +7,7 @@ import lk.ijse.gdse72.swiftsts.dao.custom.PaymentDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.QueryDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
 import lk.ijse.gdse72.swiftsts.dto.PaymentDto;
+import lk.ijse.gdse72.swiftsts.entity.Payment;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -55,8 +56,8 @@ public class PaymentBOImpl implements PaymentBO {
     }
 
     @Override
-    public boolean savePayment(PaymentDto paymentDto) throws SQLException {
-        return paymentDAO.savePayment(paymentDto);
+    public boolean savePayment(PaymentDto dto) throws SQLException {
+        return paymentDAO.savePayment(new Payment(dto.getPaymentId(),dto.getStudentId(),dto.getMonthlyFee(),dto.getAmount(),dto.getBalance(),dto.getCreditBalance(),dto.getStatus(),dto.getDate()));
     }
 
     @Override
@@ -76,6 +77,20 @@ public class PaymentBOImpl implements PaymentBO {
 
     @Override
     public List<PaymentDto> getPaymentData() {
-        return queryDAO.getPaymentData();
+        List<Payment> paymentData = queryDAO.getPaymentData();
+        List<PaymentDto> paymentDtos = new ArrayList<>();
+        for (Payment payment : paymentData){
+            paymentDtos.add(new PaymentDto(
+                    payment.getPaymentId(),
+                    payment.getStudentId(),
+                    payment.getMonthlyFee(),
+                    payment.getAmount(),
+                    payment.getBalance(),
+                    payment.getCreditBalance(),
+                    payment.getStatus(),
+                    payment.getDate()
+            ));
+        }
+        return paymentDtos;
     }
 }

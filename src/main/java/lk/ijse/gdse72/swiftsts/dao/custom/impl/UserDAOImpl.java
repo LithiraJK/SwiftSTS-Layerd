@@ -3,6 +3,7 @@ package lk.ijse.gdse72.swiftsts.dao.custom.impl;
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
 import lk.ijse.gdse72.swiftsts.dto.UserDto;
+import lk.ijse.gdse72.swiftsts.entity.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,13 +11,13 @@ import java.util.ArrayList;
 
 public class UserDAOImpl implements UserDAO {
     @Override
-    public boolean saveUser(final UserDto dto) throws SQLException {
+    public boolean saveUser(User user) throws SQLException {
         return SQLUtil.execute("INSERT INTO User(UserId, UserName, Password, RoleType, Email) VALUES (?, ?, ?, ?, ?)",
-                dto.getId(),
-                dto.getUsername(),
-                dto.getPassword(),
-                dto.getRole(),
-                dto.getEmail()
+                user.getId(),
+                user.getUsername(),
+                user.getPassword(),
+                user.getRole(),
+                user.getEmail()
         );
     }
 

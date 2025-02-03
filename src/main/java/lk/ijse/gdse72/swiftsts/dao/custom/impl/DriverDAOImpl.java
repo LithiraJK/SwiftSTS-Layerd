@@ -3,6 +3,7 @@ package lk.ijse.gdse72.swiftsts.dao.custom.impl;
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.DriverDAO;
 import lk.ijse.gdse72.swiftsts.dto.DriverDto;
+import lk.ijse.gdse72.swiftsts.entity.Driver;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,12 +11,12 @@ import java.util.ArrayList;
 
 public class DriverDAOImpl implements DriverDAO {
     @Override
-    public ArrayList<DriverDto> getAllData() throws SQLException {
+    public ArrayList<Driver> getAllData() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT * FROM Driver");
-        ArrayList<DriverDto> driverList = new ArrayList<>();
+        ArrayList<Driver> driverList = new ArrayList<>();
 
         while (rst.next()) {
-            DriverDto dto = new DriverDto(
+            driverList.add(new Driver(
                     rst.getString("DriverId"),
                     rst.getString("Name"),
                     rst.getString("LicenseNo"),
@@ -23,35 +24,34 @@ public class DriverDAOImpl implements DriverDAO {
                     rst.getString("ContactNo"),
                     rst.getString("Address"),
                     rst.getString("Email")
-            );
-            driverList.add(dto);
+            ));
         }
 
         return driverList;
     }
     @Override
-    public boolean save(DriverDto dto) throws SQLException {
+    public boolean save(Driver driver) throws SQLException {
         return SQLUtil.execute("INSERT INTO Driver (DriverId, Name, LicenseNo, NIC, ContactNo, Address, Email) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                dto.getDriverId(),
-                dto.getName(),
-                dto.getLicenseNo(),
-                dto.getNic(),
-                dto.getContactNo(),
-                dto.getAddress(),
-                dto.getEmail()
+                driver.getDriverId(),
+                driver.getName(),
+                driver.getLicenseNo(),
+                driver.getNic(),
+                driver.getContactNo(),
+                driver.getAddress(),
+                driver.getEmail()
         );
     }
 
     @Override
-    public boolean update(DriverDto dto) throws SQLException {
+    public boolean update(Driver driver) throws SQLException {
         return SQLUtil.execute("UPDATE Driver SET Name=?, LicenseNo=?, NIC=?, ContactNo=?, Address=?, Email=? WHERE DriverId=?",
-                dto.getName(),
-                dto.getLicenseNo(),
-                dto.getNic(),
-                dto.getContactNo(),
-                dto.getAddress(),
-                dto.getEmail(),
-                dto.getDriverId()
+                driver.getName(),
+                driver.getLicenseNo(),
+                driver.getNic(),
+                driver.getContactNo(),
+                driver.getAddress(),
+                driver.getEmail(),
+                driver.getDriverId()
         );
     }
     @Override

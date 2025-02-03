@@ -14,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.DriverBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.impl.DriverBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.DriverDAO;
@@ -31,7 +32,7 @@ public class DriverFormController implements Initializable {
 
 //    DriverDAO driverDAO = new DriverDAOImpl() ;
 
-    DriverBO driverBO = new DriverBOImpl();
+    DriverBO driverBO = (DriverBO) BOFactory.getInstance().getBO(BOFactory.BOType.DRIVER);
 
     @FXML
     private JFXButton btnDelete;

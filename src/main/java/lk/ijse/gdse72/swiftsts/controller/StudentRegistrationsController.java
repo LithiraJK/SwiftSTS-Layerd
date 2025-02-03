@@ -11,6 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.StudentRegistrationsBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.impl.StudentRegistrationsBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.QueryDAO;
@@ -32,7 +33,7 @@ public class StudentRegistrationsController implements Initializable {
 //    StudentRegistrationDAOImpl studentRegistrationDAO = new StudentRegistrationDAOImpl();
 
 //    QueryDAO queryDAO = new QueryDAOImpl();
-    StudentRegistrationsBO studentRegistrationsBO = new StudentRegistrationsBOImpl();
+    StudentRegistrationsBO studentRegistrationsBO = (StudentRegistrationsBO) BOFactory.getInstance().getBO(BOFactory.BOType.STUDENT_REGISTRATIONS);
 
 
     @FXML

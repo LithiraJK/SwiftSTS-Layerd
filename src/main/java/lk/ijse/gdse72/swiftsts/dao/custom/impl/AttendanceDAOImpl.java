@@ -3,6 +3,7 @@ package lk.ijse.gdse72.swiftsts.dao.custom.impl;
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.AttendanceDAO;
 import lk.ijse.gdse72.swiftsts.dto.AttendanceDto;
+import lk.ijse.gdse72.swiftsts.entity.Attendance;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,20 +11,19 @@ import java.util.ArrayList;
 
 public class AttendanceDAOImpl implements AttendanceDAO {
     @Override
-    public ArrayList<AttendanceDto> getAllData() throws SQLException {
+    public ArrayList<Attendance> getAllData() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT * FROM Attendance");
-        ArrayList<AttendanceDto> attendenceList = new ArrayList<>();
+        ArrayList<Attendance> attendenceList = new ArrayList<>();
 
         while (rst.next()) {
-            AttendanceDto dto = new AttendanceDto(
+            attendenceList.add(new Attendance(
                     rst.getString("AttendanceId"),
                     rst.getString("StudentId"),
                     rst.getString("VehicleId"),
                     rst.getInt("Year"),
                     rst.getString("Month"),
                     rst.getInt("DayCount")
-            );
-            attendenceList.add(dto);
+            ));
         }
 
         return attendenceList;
@@ -62,25 +62,25 @@ public class AttendanceDAOImpl implements AttendanceDAO {
         return attendanceMonths;
     }
     @Override
-    public boolean save(AttendanceDto dto) throws SQLException {
+    public boolean save(Attendance attendance) throws SQLException {
         return SQLUtil.execute("INSERT INTO Attendance (AttendanceId, StudentId, VehicleId, Year, Month, DayCount) VALUES (?, ?, ?, ?, ?, ?)",
-                dto.getAttendanceId(),
-                dto.getStudentId(),
-                dto.getVehicleId(),
-                dto.getYear(),
-                dto.getMonth(),
-                dto.getDayCount()
+                attendance.getAttendanceId(),
+                attendance.getStudentId(),
+                attendance.getVehicleId(),
+                attendance.getYear(),
+                attendance.getMonth(),
+                attendance.getDayCount()
         );
     }
     @Override
-    public boolean update(AttendanceDto dto) throws SQLException {
+    public boolean update(Attendance attendance) throws SQLException {
         return SQLUtil.execute("UPDATE Attendance SET StudentId=?, VehicleId=?, Year=?, Month=?, DayCount=? WHERE AttendanceId=?",
-                dto.getStudentId(),
-                dto.getVehicleId(),
-                dto.getYear(),
-                dto.getMonth(),
-                dto.getDayCount(),
-                dto.getAttendanceId()
+                attendance.getStudentId(),
+                attendance.getVehicleId(),
+                attendance.getYear(),
+                attendance.getMonth(),
+                attendance.getDayCount(),
+                attendance.getAttendanceId()
         );
     }
 

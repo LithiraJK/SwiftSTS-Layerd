@@ -1,11 +1,12 @@
 package lk.ijse.gdse72.swiftsts.bo.custom;
 
+import lk.ijse.gdse72.swiftsts.bo.SuperBO;
 import lk.ijse.gdse72.swiftsts.dto.DriverDto;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface DriverBO {
+public interface DriverBO extends SuperBO {
     public ArrayList<DriverDto> getAllDriver() throws SQLException;
     public boolean saveDriver(DriverDto dto) throws SQLException;
     public boolean updateDriver(DriverDto dto) throws SQLException;

@@ -3,6 +3,7 @@ package lk.ijse.gdse72.swiftsts.dao.custom.impl;
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.RouteDAO;
 import lk.ijse.gdse72.swiftsts.dto.RouteDto;
+import lk.ijse.gdse72.swiftsts.entity.Route;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,22 +12,20 @@ import java.util.List;
 
 public class RouteDAOImpl implements RouteDAO {
     @Override
-    public ArrayList<RouteDto> getAllData() throws SQLException {
+    public ArrayList<Route> getAllData() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT * FROM Route");
-        ArrayList<RouteDto> routeDtos = new ArrayList<>();
+        ArrayList<Route> routes = new ArrayList<>();
 
         while (rst.next()) {
-            RouteDto routeDto = new RouteDto(
+            routes.add(new Route(
                     rst.getString(1),
                     rst.getString(2),
                     rst.getString(3),
                     rst.getString(4),
                     rst.getDouble(5)
-            );
-            routeDtos.add(routeDto);
+            ));
         }
-
-        return routeDtos;
+        return routes;
     }
     @Override
     public String getNewId() throws SQLException {
@@ -43,24 +42,24 @@ public class RouteDAOImpl implements RouteDAO {
     }
 
     @Override
-    public boolean save(RouteDto routeDto) throws SQLException {
+    public boolean save(Route route) throws SQLException {
         return SQLUtil.execute("INSERT INTO Route VALUES (?,?,?,?,?)",
-                routeDto.getRouteId(),
-                routeDto.getRouteName(),
-                routeDto.getStartPoint(),
-                routeDto.getDestination(),
-                routeDto.getRouteFee()
+                route.getRouteId(),
+                route.getRouteName(),
+                route.getStartPoint(),
+                route.getDestination(),
+                route.getRouteFee()
         );
     }
 
     @Override
-    public boolean update(RouteDto routeDto) throws SQLException {
+    public boolean update(Route route) throws SQLException {
         return SQLUtil.execute("UPDATE Route SET routeName=?, startPoint=?, destination=?, routeFee=? WHERE routeId=?",
-                routeDto.getRouteName(),
-                routeDto.getStartPoint(),
-                routeDto.getDestination(),
-                routeDto.getRouteFee(),
-                routeDto.getRouteId()
+                route.getRouteName(),
+                route.getStartPoint(),
+                route.getDestination(),
+                route.getRouteFee(),
+                route.getRouteId()
         );
     }
 

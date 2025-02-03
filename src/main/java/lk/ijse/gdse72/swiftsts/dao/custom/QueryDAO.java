@@ -5,6 +5,8 @@ import lk.ijse.gdse72.swiftsts.dao.SuperDAO;
 import lk.ijse.gdse72.swiftsts.dto.PaymentDto;
 import lk.ijse.gdse72.swiftsts.dto.StudentRegistrationDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.StudentRegistrationDetailsTM;
+import lk.ijse.gdse72.swiftsts.entity.Payment;
+import lk.ijse.gdse72.swiftsts.entity.StudentRegistration;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,6 +14,6 @@ import java.util.List;
 
 public interface QueryDAO extends SuperDAO {
     public ObservableList<StudentRegistrationDetailsTM> getAllStudentRegistrationDetails();
-    public ArrayList<StudentRegistrationDto> getAllStudentRegistrations() throws SQLException;
-    public List<PaymentDto> getPaymentData();
+    public ArrayList<StudentRegistration> getAllStudentRegistrations() throws SQLException;
+    public List<Payment> getPaymentData();
 }

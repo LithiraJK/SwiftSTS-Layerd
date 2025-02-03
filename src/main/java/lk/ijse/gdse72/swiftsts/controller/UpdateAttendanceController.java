@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.UpdateAttendanceBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.impl.UpdateAttendanceBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.AttendanceDAO;
@@ -36,7 +37,7 @@ public class UpdateAttendanceController implements Initializable {
 //    DriverDAO driverDAO =new DriverDAOImpl();
 //    StudentDAO studentDAO = new StudentDAOImpl();
 
-    UpdateAttendanceBO updateAttendanceBO = new UpdateAttendanceBOImpl();
+    UpdateAttendanceBO updateAttendanceBO = (UpdateAttendanceBO) BOFactory.getInstance().getBO(BOFactory.BOType.UPDATE_ATTENDANCE);
 
     @FXML
     private JFXButton btnDiscard;

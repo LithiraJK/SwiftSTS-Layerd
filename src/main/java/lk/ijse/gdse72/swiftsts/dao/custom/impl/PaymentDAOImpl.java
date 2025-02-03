@@ -3,6 +3,7 @@ package lk.ijse.gdse72.swiftsts.dao.custom.impl;
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.PaymentDAO;
 import lk.ijse.gdse72.swiftsts.dto.PaymentDto;
+import lk.ijse.gdse72.swiftsts.entity.Payment;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,48 +12,19 @@ import java.util.List;
 
 public class PaymentDAOImpl implements PaymentDAO {
     @Override
-    public boolean savePayment(PaymentDto paymentDto) throws SQLException {
+    public boolean savePayment(Payment payment) throws SQLException {
         String query = "INSERT INTO Payment (PaymentId, StudentId, MonthlyFee, Amount, Balance, Status, Date) VALUES (?,?,?,?,?,?,?)";
         return SQLUtil.execute(query,
-                paymentDto.getPaymentId(),
-                paymentDto.getStudentId(),
-                paymentDto.getMonthlyFee(),
-                paymentDto.getAmount(),
-                paymentDto.getBalance(),
-                paymentDto.getStatus(),
-                paymentDto.getDate()
+                payment.getPaymentId(),
+                payment.getStudentId(),
+                payment.getMonthlyFee(),
+                payment.getAmount(),
+                payment.getBalance(),
+                payment.getStatus(),
+                payment.getDate()
         );
     }
 
-//    public List<PaymentDto> getPaymentData() {
-//        List<PaymentDto> paymentData = new ArrayList<>();
-//        String query = """
-//                SELECT p.PaymentId, s.StudentId, p.MonthlyFee, p.Amount,
-//                       p.Balance, s.CreditBalance, p.Status, p.Date
-//                FROM Payment p
-//                INNER JOIN Student s ON p.StudentId = s.StudentId
-//                """;
-//
-//        try {
-//            ResultSet rs = SQLUtil.execute(query);
-//            while (rs.next()) {
-//                String paymentId = rs.getString(1);
-//                String studentId = rs.getString(2);
-//                double monthlyFee = rs.getDouble(3);
-//                double amount = rs.getDouble(4);
-//                double balance = rs.getDouble(5);
-//                double creditBalance = rs.getDouble(6);
-//                String status = rs.getString(7);
-//                String date = rs.getString(8);
-//
-//                paymentData.add(new PaymentDto(paymentId, studentId, monthlyFee, amount, balance, creditBalance, status, date));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return paymentData;
-//    }
     @Override
     public double getMonthlyIncome(String month) throws SQLException {
         String query = "SELECT SUM(Amount) AS TotalIncome FROM Payment WHERE Date LIKE ?";

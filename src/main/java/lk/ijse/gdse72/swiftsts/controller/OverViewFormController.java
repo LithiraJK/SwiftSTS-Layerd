@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.OverviewBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.impl.OverviewBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.*;
@@ -45,7 +46,7 @@ public class OverViewFormController implements Initializable {
 //    DriverDAO driverDAO = new DriverDAOImpl();
 //    VehicleDAO vehicleDAO =  new VehicleDAOImpl();
 
-    OverviewBO overviewBO = new OverviewBOImpl();
+    OverviewBO overviewBO = (OverviewBO) BOFactory.getInstance().getBO(BOFactory.BOType.OVERVIEW);
 
 
     @FXML

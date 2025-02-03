@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.AttendanceBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.StudentBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.StudentRegistrationBO;
@@ -45,7 +46,7 @@ import java.util.ResourceBundle;
 
 public class AttendanceFormController implements Initializable {
 
-    AttendanceBO attendanceBO = new AttendanceBOImpl();
+    AttendanceBO attendanceBO = (AttendanceBO) BOFactory.getInstance().getBO(BOFactory.BOType.ATTENDANCE);
 
 //    AttendanceDAO attendanceBO = new AttendanceDAOImpl();
 //    StudentDAO studentBO = new StudentDAOImpl();

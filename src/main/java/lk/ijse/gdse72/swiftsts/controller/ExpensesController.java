@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.ExpensesBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.impl.ExpensesBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.ExpenseDAO;
@@ -38,8 +39,7 @@ public class ExpensesController implements Initializable {
 //    ExpenseDAO expenseDAO = new ExpenseDAOImpl();
 //    UserDAO userDAO = new UserDAOImpl();
 
-    ExpensesBO expensesBO = new ExpensesBOImpl();
-//    ilaga tika krnna
+    ExpensesBO expensesBO = (ExpensesBO) BOFactory.getInstance().getBO(BOFactory.BOType.EXPENSES);
 
     @FXML
     private JFXButton btnDelete;

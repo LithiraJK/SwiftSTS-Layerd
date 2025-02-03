@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.NewStudentBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.impl.NewStudentBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
@@ -31,7 +32,7 @@ public class NewStudentFormController implements Initializable {
 //    StudentDAO studentDAO = new StudentDAOImpl();
 //    UserDAO userDAO =  new UserDAOImpl();
 
-    NewStudentBO newStudentBO = new NewStudentBOImpl();
+    NewStudentBO newStudentBO = (NewStudentBO) BOFactory.getInstance().getBO(BOFactory.BOType.NEW_STUDENT);
 
 
     @FXML

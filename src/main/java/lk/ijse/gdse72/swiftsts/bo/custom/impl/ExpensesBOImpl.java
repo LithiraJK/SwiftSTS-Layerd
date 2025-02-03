@@ -4,9 +4,8 @@ import lk.ijse.gdse72.swiftsts.bo.custom.ExpensesBO;
 import lk.ijse.gdse72.swiftsts.dao.DAOFactory;
 import lk.ijse.gdse72.swiftsts.dao.custom.ExpenseDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.ExpenseDAOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.UserDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.ExpenseDto;
+import lk.ijse.gdse72.swiftsts.entity.Expense;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,7 +17,21 @@ public class ExpensesBOImpl implements ExpensesBO {
 
     @Override
     public ArrayList<ExpenseDto> getAllExpenses() throws SQLException {
-        return expenseDAO.getAllData();
+        ArrayList<Expense> expenseArrayList = expenseDAO.getAllData();
+        ArrayList<ExpenseDto> expenseDtos = new ArrayList<>();
+        for (Expense expense : expenseArrayList) {
+            expenseDtos.add(new ExpenseDto(
+                    expense.getExpenseId(),
+                    expense.getDate(),
+                    expense.getAmount(),
+                    expense.getDescription(),
+                    expense.getUserId()
+            ));
+
+        }
+
+        return expenseDtos;
+
     }
 
     @Override
@@ -27,13 +40,13 @@ public class ExpensesBOImpl implements ExpensesBO {
     }
 
     @Override
-    public boolean saveExpense(ExpenseDto expenseDto) throws SQLException {
-        return expenseDAO.save(expenseDto);
+    public boolean saveExpense(ExpenseDto dto) throws SQLException {
+        return expenseDAO.save(new Expense(dto.getExpenseId(),dto.getDate(),dto.getAmount(),dto.getDescription(),dto.getUserId()));
     }
 
     @Override
-    public boolean updateExpense(ExpenseDto expenseDto) throws SQLException {
-        return expenseDAO.update(expenseDto);
+    public boolean updateExpense(ExpenseDto dto) throws SQLException {
+        return expenseDAO.update(new Expense(dto.getExpenseId(),dto.getDate(),dto.getAmount(),dto.getDescription(),dto.getUserId()));
     }
 
     @Override

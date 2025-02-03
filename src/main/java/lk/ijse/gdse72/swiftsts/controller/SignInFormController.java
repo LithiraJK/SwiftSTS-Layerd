@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.SignInBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.impl.SignInBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
@@ -28,7 +29,7 @@ public class SignInFormController {
 
 //    UserDAO userDAO = new UserDAOImpl();
 
-    SignInBO signInBO = new SignInBOImpl();
+    SignInBO signInBO = (SignInBO) BOFactory.getInstance().getBO(BOFactory.BOType.SIGN_IN);
 
     @FXML
     public Label lblInvalidUserName;

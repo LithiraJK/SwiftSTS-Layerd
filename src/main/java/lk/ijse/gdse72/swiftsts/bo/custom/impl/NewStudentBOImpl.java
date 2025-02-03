@@ -7,6 +7,7 @@ import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.UserDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.StudentDto;
+import lk.ijse.gdse72.swiftsts.entity.Student;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,7 +19,16 @@ public class NewStudentBOImpl implements NewStudentBO {
 
     @Override
     public boolean saveNewStudent(StudentDto studentDto) throws SQLException {
-        return studentDAO.save(studentDto);
+        return studentDAO.save(new Student(
+                studentDto.getStudentId(),
+                studentDto.getStudentName(),
+                studentDto.getParentName(),
+                studentDto.getAddress(),
+                studentDto.getEmail(),
+                studentDto.getStudentGrade(),
+                studentDto.getPhoneNo(),
+                studentDto.getUserId(),
+                studentDto.getCreditBalance()));
     }
 
     @Override

@@ -19,6 +19,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.StudentRegistrationBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.impl.StudentRegistrationBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.*;
@@ -50,7 +51,7 @@ public class StudentRegistrationController implements Initializable {
 //    RouteDAO routeDAO = new RouteDAOImpl();
 //    QueryDAO queryDAO = new QueryDAOImpl();
 
-    StudentRegistrationBO studentRegistrationBO = new StudentRegistrationBOImpl();
+    StudentRegistrationBO studentRegistrationBO = (StudentRegistrationBO) BOFactory.getInstance().getBO(BOFactory.BOType.STUDENT_REGISTRATION);
 
     @FXML
     public Label lblManageStudentOnClick;

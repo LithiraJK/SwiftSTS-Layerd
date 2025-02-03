@@ -6,6 +6,7 @@ import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.VehicleDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.VehicleDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.VehicleDto;
+import lk.ijse.gdse72.swiftsts.entity.Vehicle;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +18,22 @@ public class VehicleBOImpl implements VehicleBO {
 
     @Override
     public ArrayList<VehicleDto> getAllVehicles() throws SQLException {
-        return vehicleDAO.getAllData();
+        ArrayList<Vehicle> vehicles = vehicleDAO.getAllData();
+        ArrayList<VehicleDto> vehicleDtos =  new ArrayList<>();
+
+        for (Vehicle vehicle : vehicles){
+            vehicleDtos.add(new VehicleDto(
+                    vehicle.getVehicleId(),
+                    vehicle.getRegistrationNo(),
+                    vehicle.getVehicleType(),
+                    vehicle.getEngineCapacity(),
+                    vehicle.getFuelType(),
+                    vehicle.getModel(),
+                    vehicle.getSeatCount(),
+                    vehicle.getAvailableSeatCount()
+            ));
+        }
+        return vehicleDtos;
     }
 
     @Override
@@ -26,13 +42,29 @@ public class VehicleBOImpl implements VehicleBO {
     }
 
     @Override
-    public boolean updateVehicle(VehicleDto vehicleDto) throws SQLException {
-        return vehicleDAO.update(vehicleDto);
+    public boolean updateVehicle(VehicleDto dto) throws SQLException {
+        return vehicleDAO.update(new Vehicle(
+                dto.getVehicleId(),
+                dto.getRegistrationNo(),
+                dto.getVehicleType(),
+                dto.getEngineCapacity(),
+                dto.getFuelType(),
+                dto.getModel(),
+                dto.getSeatCount(),
+                dto.getAvailableSeatCount()));
     }
 
     @Override
-    public boolean saveVehicle(VehicleDto vehicleDto) throws SQLException {
-        return vehicleDAO.save(vehicleDto);
+    public boolean saveVehicle(VehicleDto dto) throws SQLException {
+        return vehicleDAO.save(new Vehicle(
+                dto.getVehicleId(),
+                dto.getRegistrationNo(),
+                dto.getVehicleType(),
+                dto.getEngineCapacity(),
+                dto.getFuelType(),
+                dto.getModel(),
+                dto.getSeatCount(),
+                dto.getAvailableSeatCount()));
     }
 
     @Override

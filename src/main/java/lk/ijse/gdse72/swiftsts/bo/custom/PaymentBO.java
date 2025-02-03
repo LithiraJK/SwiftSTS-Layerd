@@ -1,12 +1,13 @@
 package lk.ijse.gdse72.swiftsts.bo.custom;
 
+import lk.ijse.gdse72.swiftsts.bo.SuperBO;
 import lk.ijse.gdse72.swiftsts.dto.PaymentDto;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface PaymentBO {
+public interface PaymentBO extends SuperBO {
     public ArrayList<String> getAllStudentNames() throws SQLException;
     public String getStudentIdByName(String studentName) throws SQLException;
     public double getCreditBalanceById(String studentId) throws SQLException;

@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.SignUpSecondBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.impl.SignUpSecondBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
@@ -25,7 +26,7 @@ public class SignUpSecondFormController {
 //    UserModel userDAO = new UserModel();
 //    UserDAO userDAO = new UserDAOImpl();
 
-    SignUpSecondBO signUpSecondBO = new SignUpSecondBOImpl();
+    SignUpSecondBO signUpSecondBO = (SignUpSecondBO) BOFactory.getInstance().getBO(BOFactory.BOType.SIGNUP_SECOND);
 
     @FXML
     private Label txtSignIn;

@@ -3,6 +3,7 @@ package lk.ijse.gdse72.swiftsts.dao.custom.impl;
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.VehicleDAO;
 import lk.ijse.gdse72.swiftsts.dto.VehicleDto;
+import lk.ijse.gdse72.swiftsts.entity.Vehicle;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,12 +12,12 @@ import java.util.List;
 
 public class VehicleDAOImpl implements VehicleDAO {
     @Override
-    public ArrayList<VehicleDto> getAllData() throws SQLException {
+    public ArrayList<Vehicle> getAllData() throws SQLException {
         ResultSet rst = SQLUtil.execute("SELECT * FROM Vehicle");
-        ArrayList<VehicleDto> vehicleDtos = new ArrayList<>();
+        ArrayList<Vehicle> vehicleArrayList = new ArrayList<>();
 
         while (rst.next()) {
-            VehicleDto vehicleDto = new VehicleDto(
+            vehicleArrayList.add( new Vehicle(
                     rst.getString(1),
                     rst.getString(2),
                     rst.getString(3),
@@ -24,12 +25,10 @@ public class VehicleDAOImpl implements VehicleDAO {
                     rst.getString(5),
                     rst.getString(6),
                     rst.getInt(7),
-                    rst.getInt(8)
+                    rst.getInt(8))
             );
-            vehicleDtos.add(vehicleDto);
         }
-
-        return vehicleDtos;
+        return vehicleArrayList;
     }
 
     @Override
@@ -47,31 +46,31 @@ public class VehicleDAOImpl implements VehicleDAO {
     }
 
     @Override
-    public boolean save(VehicleDto vehicleDto) throws SQLException {
+    public boolean save(Vehicle vehicle) throws SQLException {
         return SQLUtil.execute("INSERT INTO Vehicle VALUES (?,?,?,?,?,?,?,?)",
-                vehicleDto.getVehicleId(),
-                vehicleDto.getRegistrationNo(),
-                vehicleDto.getVehicleType(),
-                vehicleDto.getEngineCapacity(),
-                vehicleDto.getFuelType(),
-                vehicleDto.getModel(),
-                vehicleDto.getSeatCount(),
-                vehicleDto.getAvailableSeatCount()
+                vehicle.getVehicleId(),
+                vehicle.getRegistrationNo(),
+                vehicle.getVehicleType(),
+                vehicle.getEngineCapacity(),
+                vehicle.getFuelType(),
+                vehicle.getModel(),
+                vehicle.getSeatCount(),
+                vehicle.getAvailableSeatCount()
         );
     }
 
 
     @Override
-    public boolean update(VehicleDto vehicleDto) throws SQLException {
+    public boolean update(Vehicle vehicle) throws SQLException {
         return SQLUtil.execute("UPDATE Vehicle SET registrationNo=?, vehicleType=?, engineCapacity=?, fuelType=?, model=?, seatCount=?, availableSeatCount=? WHERE vehicleId=?",
-                vehicleDto.getRegistrationNo(),
-                vehicleDto.getVehicleType(),
-                vehicleDto.getEngineCapacity(),
-                vehicleDto.getFuelType(),
-                vehicleDto.getModel(),
-                vehicleDto.getSeatCount(),
-                vehicleDto.getAvailableSeatCount(),
-                vehicleDto.getVehicleId()
+                vehicle.getRegistrationNo(),
+                vehicle.getVehicleType(),
+                vehicle.getEngineCapacity(),
+                vehicle.getFuelType(),
+                vehicle.getModel(),
+                vehicle.getSeatCount(),
+                vehicle.getAvailableSeatCount(),
+                vehicle.getVehicleId()
         );
     }
 

@@ -12,6 +12,7 @@ import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentRegistrationDAOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.VehicleDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.AttendanceDto;
+import lk.ijse.gdse72.swiftsts.entity.Attendance;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,17 +28,30 @@ public class AttendanceBOImpl implements AttendanceBO {
 
     @Override
     public ArrayList<AttendanceDto> getAllAttendance() throws SQLException {
-        return attendanceDAO.getAllData();
+        ArrayList<Attendance> attendances = attendanceDAO.getAllData();//get all data from DAO layer
+        ArrayList<AttendanceDto> attendanceDtos = new ArrayList<>();
+
+        for (Attendance attendance : attendances) {
+            attendanceDtos.add(new AttendanceDto(
+                    attendance.getAttendanceId(),
+                    attendance.getStudentId(),
+                    attendance.getVehicleId(),
+                    attendance.getYear(),
+                    attendance.getMonth(),
+                    attendance.getDayCount()
+            ));
+        }
+        return attendanceDtos;
     }
 
     @Override
     public boolean saveAttendance(AttendanceDto dto) throws SQLException {
-        return attendanceDAO.save(dto);
+        return attendanceDAO.save(new Attendance(dto.getAttendanceId(), dto.getStudentId(), dto.getVehicleId(),dto.getYear(),dto.getMonth(),dto.getDayCount()));
     }
 
     @Override
     public boolean updateAttendance(AttendanceDto dto) throws SQLException {
-        return attendanceDAO.update(dto);
+        return attendanceDAO.update(new Attendance(dto.getAttendanceId(), dto.getStudentId(), dto.getVehicleId(),dto.getYear(),dto.getMonth(),dto.getDayCount()));
     }
 
     @Override
