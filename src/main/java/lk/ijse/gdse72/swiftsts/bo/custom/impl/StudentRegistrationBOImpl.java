@@ -1,14 +1,19 @@
 package lk.ijse.gdse72.swiftsts.bo.custom.impl;
 
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import lk.ijse.gdse72.swiftsts.bo.custom.StudentRegistrationBO;
 import lk.ijse.gdse72.swiftsts.dao.DAOFactory;
+import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.*;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.*;
+import lk.ijse.gdse72.swiftsts.db.DBConnection;
 import lk.ijse.gdse72.swiftsts.dto.StudentRegistrationDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.StudentRegistrationDetailsTM;
 import lk.ijse.gdse72.swiftsts.entity.StudentRegistration;
 
+import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,26 +27,8 @@ public class StudentRegistrationBOImpl implements StudentRegistrationBO {
     QueryDAO queryDAO = (QueryDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.QUERY);
 
     @Override
-    public boolean insertStudentRegistration(StudentRegistrationDto dto) throws SQLException {
-        return studentRegistrationDAO.insertStudentRegistration(new StudentRegistration(
-                dto.getRegistrationId(),
-                dto.getStudentId(),
-                dto.getDistance(),
-                dto.getDayPrice(),
-                dto.getRouteId(),
-                dto.getVehicleId(),
-                dto.getRegistrationDate()
-        ));
-    }
-
-    @Override
     public String getNextRegistrationId() throws SQLException {
         return studentRegistrationDAO.getNextRegistrationId();
-    }
-
-    @Override
-    public boolean updateVehicleSeatCount(String vehicleId, int decrementBy) throws SQLException {
-        return vehicleDAO.updateVehicleSeatCount(vehicleId,decrementBy);
     }
 
     @Override
@@ -92,5 +79,43 @@ public class StudentRegistrationBOImpl implements StudentRegistrationBO {
     @Override
     public ObservableList<StudentRegistrationDetailsTM> getAllStudentRegistrationDetails() {
         return queryDAO.getAllStudentRegistrationDetails();
+    }
+
+    @Override
+    public void addRegistration(StudentRegistrationDto registrationDto, String vehicleId){
+        Connection connection = null;
+        try {
+            connection = DBConnection.getInstance().getConnection();
+            connection.setAutoCommit(false);
+
+            boolean isStudentInserted = SQLUtil.execute("INSERT INTO StudentRegistration (StudentRegistrationId, StudentId, Distance, DayPrice, Date, RouteId, VehicleId) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    registrationDto.getRegistrationId(),
+                    registrationDto.getStudentId(),
+                    registrationDto.getDistance(),
+                    registrationDto.getDayPrice(),
+                    registrationDto.getRegistrationDate(),
+                    registrationDto.getRouteId(),
+                    registrationDto.getVehicleId()
+            );
+            if (!isStudentInserted) throw new SQLException("Failed to insert into StudentRegistration");
+
+            boolean isVehicleUpdated = SQLUtil.execute("UPDATE Vehicle SET AvailableSeatCount = AvailableSeatCount - ? WHERE VehicleId = ?", 1, vehicleId);
+            if (!isVehicleUpdated) throw new SQLException("Failed to update Vehicle seat count");
+
+            connection.commit();
+            connection.setAutoCommit(true);
+
+            new Alert(Alert.AlertType.INFORMATION, "Student registered successfully!").show();
+        } catch (SQLException e) {
+            try {
+
+                connection.rollback();
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            new Alert(Alert.AlertType.ERROR, "Failed to register student: " + e.getMessage()).show();
+        }
+
     }
 }

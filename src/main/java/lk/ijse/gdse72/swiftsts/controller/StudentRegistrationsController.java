@@ -49,7 +49,7 @@ public class StudentRegistrationsController implements Initializable {
     private TableColumn<StudentRegistrationDto, Double> colDistance;
 
     @FXML
-    private TableColumn<StudentRegistrationDto, String> colRouteName; // Changed from colRouteId to colRouteName
+    private TableColumn<StudentRegistrationDto, String> colRouteName;
 
     @FXML
     private TableColumn<StudentRegistrationDto, String> colStudentId;

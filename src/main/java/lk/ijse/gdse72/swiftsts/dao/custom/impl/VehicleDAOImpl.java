@@ -80,11 +80,6 @@ public class VehicleDAOImpl implements VehicleDAO {
     }
 
     @Override
-    public boolean updateVehicleSeatCount(String vehicleId, int decrementBy) throws SQLException {
-        return SQLUtil.execute("UPDATE Vehicle SET AvailableSeatCount = AvailableSeatCount - ? WHERE VehicleId = ?", decrementBy, vehicleId);
-    }
-
-    @Override
     public List<String> getAllVehicleIds() throws SQLException {
         List<String> vehicleIds = new ArrayList<>();
         ResultSet resultSet = SQLUtil.execute("SELECT VehicleId FROM Vehicle");

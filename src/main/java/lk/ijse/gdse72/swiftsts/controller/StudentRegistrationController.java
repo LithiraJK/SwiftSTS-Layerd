@@ -21,9 +21,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.StudentRegistrationBO;
-import lk.ijse.gdse72.swiftsts.bo.custom.impl.StudentRegistrationBOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.*;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.*;
 import lk.ijse.gdse72.swiftsts.db.DBConnection;
 import lk.ijse.gdse72.swiftsts.dto.StudentRegistrationDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.StudentRegistrationDetailsTM;
@@ -267,34 +264,39 @@ public class StudentRegistrationController implements Initializable {
         Date registrationDate = Date.valueOf(lblDate.getText());
         double distance = Double.parseDouble(txtDistance.getText());
 
-        Connection connection = null;
-        try {
-            connection = DBConnection.getInstance().getConnection();
-            connection.setAutoCommit(false);
-//            CrudUtil.startTransaction();
-            boolean isStudentInserted = studentRegistrationBO.insertStudentRegistration(new StudentRegistrationDto(studentRegId, studentId, distance, dayPrice,routeId,vehicleId,registrationDate));
-            if (!isStudentInserted) throw new SQLException("Failed to insert into StudentRegistration");
+        studentRegistrationBO.addRegistration(new StudentRegistrationDto(studentRegId,studentId,distance,dayPrice,routeId,vehicleId,registrationDate),vehicleId);
 
-            boolean isVehicleUpdated = studentRegistrationBO.updateVehicleSeatCount(vehicleId, 1);
-            if (!isVehicleUpdated) throw new SQLException("Failed to update Vehicle seat count");
-
-//            CrudUtil.commitTransaction();
-            connection.commit();
-            connection.setAutoCommit(true);
-
-            new Alert(Alert.AlertType.INFORMATION, "Student registered successfully!").show();
-        } catch (SQLException e) {
-            try {
-//                CrudUtil.rollbackTransaction();
-                connection.rollback();
-                connection.setAutoCommit(true);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-            new Alert(Alert.AlertType.ERROR, "Failed to register student: " + e.getMessage()).show();
-        }
     }
 
+//    public void addRegistration(String studentRegId, String studentId, double distance, double dayPrice, String routeId, String vehicleId, Date registrationDate ){
+//        Connection connection = null;
+//        try {
+//            connection = DBConnection.getInstance().getConnection();
+//            connection.setAutoCommit(false);
+////            CrudUtil.startTransaction();
+//            boolean isStudentInserted = studentRegistrationBO.insertStudentRegistration(new StudentRegistrationDto(studentRegId, studentId, distance, dayPrice,routeId,vehicleId,registrationDate));
+//            if (!isStudentInserted) throw new SQLException("Failed to insert into StudentRegistration");
+//
+//            boolean isVehicleUpdated = studentRegistrationBO.updateVehicleSeatCount(vehicleId, 1);
+//            if (!isVehicleUpdated) throw new SQLException("Failed to update Vehicle seat count");
+//
+////            CrudUtil.commitTransaction();
+//            connection.commit();
+//            connection.setAutoCommit(true);
+//
+//            new Alert(Alert.AlertType.INFORMATION, "Student registered successfully!").show();
+//        } catch (SQLException e) {
+//            try {
+////                CrudUtil.rollbackTransaction();
+//                connection.rollback();
+//                connection.setAutoCommit(true);
+//            } catch (SQLException ex) {
+//                ex.printStackTrace();
+//            }
+//            new Alert(Alert.AlertType.ERROR, "Failed to register student: " + e.getMessage()).show();
+//        }
+//
+//    }
 
     @FXML
     void onClickTable(MouseEvent event) {

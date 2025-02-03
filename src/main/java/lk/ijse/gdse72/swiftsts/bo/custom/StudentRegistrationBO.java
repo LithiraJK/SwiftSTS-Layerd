@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface StudentRegistrationBO extends SuperBO {
-    public boolean insertStudentRegistration(StudentRegistrationDto studentRegistrationDto) throws SQLException;
     public String getNextRegistrationId() throws SQLException;
-    public boolean updateVehicleSeatCount(String vehicleId, int decrementBy) throws SQLException;
     public int getAvailableSeatCountByVehicleId(String vehicleId) throws SQLException;
     public List<String> getAllVehicleIds() throws SQLException;
     public String getStudentIdByName(String studentName) throws SQLException;
@@ -23,6 +21,7 @@ public interface StudentRegistrationBO extends SuperBO {
     public List<String> getAllRouteNames() throws SQLException;
     public List<String> getAllDestinations() throws SQLException;
     public ObservableList<StudentRegistrationDetailsTM> getAllStudentRegistrationDetails();
+    public void addRegistration(StudentRegistrationDto registrationDto, String vehicleId);
 
 
 

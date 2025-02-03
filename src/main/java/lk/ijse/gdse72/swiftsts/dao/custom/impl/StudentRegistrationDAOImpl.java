@@ -18,12 +18,6 @@ import java.util.ArrayList;
 public class StudentRegistrationDAOImpl implements StudentRegistrationDAO {
 
     @Override
-    public boolean insertStudentRegistration(StudentRegistration studentRegistration) throws SQLException {
-        return SQLUtil.execute("INSERT INTO StudentRegistration (StudentRegistrationId, StudentId, Distance, DayPrice, Date, RouteId, VehicleId) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                studentRegistration.getRegistrationId(), studentRegistration.getStudentId(),studentRegistration.getDistance(),studentRegistration.getDayPrice(),studentRegistration.getRegistrationDate(),studentRegistration.getRouteId(),studentRegistration.getVehicleId());
-    }
-
-    @Override
     public String getNextRegistrationId() throws SQLException {
         ResultSet resultSet = SQLUtil.execute("SELECT StudentRegistrationId FROM StudentRegistration ORDER BY StudentRegistrationId DESC LIMIT 1");
 

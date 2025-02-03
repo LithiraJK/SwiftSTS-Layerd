@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface StudentRegistrationDAO extends SuperDAO {
-    public boolean insertStudentRegistration(StudentRegistration studentRegistration) throws SQLException;
     public String getNextRegistrationId() throws SQLException;
     public ArrayList<String> getStudentIdsByVehicleId(String vehicleId) throws SQLException;
 

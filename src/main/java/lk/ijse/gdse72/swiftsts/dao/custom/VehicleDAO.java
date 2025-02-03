@@ -14,7 +14,6 @@ public interface VehicleDAO extends CrudDAO<Vehicle> {
     public boolean save(Vehicle vehicle) throws SQLException;
     public boolean update(Vehicle vehicle) throws SQLException;
     public boolean delete(String vehicleId) throws SQLException;
-    public boolean updateVehicleSeatCount(String vehicleId, int decrementBy) throws SQLException;
     public List<String> getAllVehicleIds() throws SQLException;
     public int getAvailableSeatCountByVehicleId(String vehicleId) throws SQLException;
     public String getRegistrationNoById(String vehicleId) throws SQLException;

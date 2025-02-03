@@ -252,25 +252,33 @@ public class PaymentFormController implements Initializable {
 
     @FXML
     void btnMakePaymentOnAction(ActionEvent event) throws SQLException {
+        String studentId = lblStudentId.getText();
+        String selectedMonthYear = cmbAttendanceId.getValue();
+        String attendanceId = attendanceMap.get(selectedMonthYear);
+        double payAmount = Double.parseDouble(txtPayAmount.getText());
+        double creditBalance = Double.parseDouble(lblCreditBalance.getText());
+
+        int dayCount = paymentBO.getDayCountByAttendanceId(attendanceId);
+        double monthlyFee = paymentBO.calculateMonthlyFee(studentId, dayCount);
+        double totalDue = monthlyFee + creditBalance;
+        double remainingBalance = totalDue - payAmount;
+
+        String paymentId = lblPaymentId.getText();
+        double monthFee = Double.parseDouble(lblMonthlyFee.getText());
+
+        makePayment(studentId, attendanceId, payAmount, creditBalance, remainingBalance, paymentId, monthFee);
+        refreshPage();
+    }
+
+    private void makePayment(String studentId, String attendanceId, double payAmount, double creditBalance, double remainingBalance, String paymentId, double monthFee) throws SQLException {
         Connection connection = null;
         try {
             connection = DBConnection.getInstance().getConnection();
-
-            String studentId = lblStudentId.getText();
-            String selectedMonthYear = cmbAttendanceId.getValue();
-            String attendanceId = attendanceMap.get(selectedMonthYear);
-            double payAmount = Double.parseDouble(txtPayAmount.getText());
-            double creditBalance = Double.parseDouble(lblCreditBalance.getText());
 
             if (studentId == null || attendanceId == null || payAmount <= 0) {
                 new Alert(Alert.AlertType.ERROR, "Please fill in all fields correctly.").show();
                 return;
             }
-
-            int dayCount = paymentBO.getDayCountByAttendanceId(attendanceId);
-            double monthlyFee = paymentBO.calculateMonthlyFee(lblStudentId.getText(), dayCount);
-            double totalDue = monthlyFee + creditBalance;
-            double remainingBalance = totalDue - payAmount;
 
             double balance;
             if (remainingBalance > 0) {
@@ -288,9 +296,9 @@ public class PaymentFormController implements Initializable {
             }
 
             PaymentDto paymentDto = new PaymentDto(
-                    lblPaymentId.getText(),
+                    paymentId,
                     studentId,
-                    Double.parseDouble(lblMonthlyFee.getText()),
+                    monthFee,
                     payAmount,
                     balance,
                     creditBalance,
@@ -298,7 +306,6 @@ public class PaymentFormController implements Initializable {
                     LocalDate.now().toString()
             );
 
-//            CrudUtil.startTransaction();
             connection.setAutoCommit(false);
 
             boolean isPaymentInserted = paymentBO.savePayment(paymentDto);
@@ -307,23 +314,23 @@ public class PaymentFormController implements Initializable {
             boolean isCreditBalanceUpdated = paymentBO.updateCreditBalance(studentId, creditBalance);
             if (!isCreditBalanceUpdated) throw new SQLException("Failed to update credit balance");
 
-//            CrudUtil.commitTransaction();
-            connection.setAutoCommit(false);
+            connection.commit();
+            connection.setAutoCommit(true);
 
             new Alert(Alert.AlertType.INFORMATION, "Payment made successfully!").show();
             loadPaymentData();
         } catch (SQLException | NumberFormatException e) {
             try {
-//                CrudUtil.rollbackTransaction();
-                connection.commit();
-                connection.setAutoCommit(true);
+                if (connection != null) {
+                    connection.rollback();
+                    connection.setAutoCommit(true);
+                }
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "An error occurred while making the payment: " + e.getMessage()).show();
         }
-        refreshPage();
     }
 
     private void refreshPage() throws SQLException {
