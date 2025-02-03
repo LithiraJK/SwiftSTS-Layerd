@@ -1,14 +1,11 @@
 package lk.ijse.gdse72.swiftsts.bo.custom.impl;
 
 import lk.ijse.gdse72.swiftsts.bo.custom.PaymentBO;
+import lk.ijse.gdse72.swiftsts.dao.DAOFactory;
 import lk.ijse.gdse72.swiftsts.dao.custom.AttendanceDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.PaymentDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.QueryDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.AttendanceDAOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.PaymentDAOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.QueryDAOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.PaymentDto;
 
 import java.sql.SQLException;
@@ -17,10 +14,10 @@ import java.util.List;
 
 public class PaymentBOImpl implements PaymentBO {
 
-    StudentDAO studentDAO = new StudentDAOImpl();
-    PaymentDAO paymentDAO = new PaymentDAOImpl();
-    AttendanceDAO attendanceDAO = new AttendanceDAOImpl();
-    QueryDAO queryDAO = new QueryDAOImpl();
+    StudentDAO studentDAO = (StudentDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.STUDENT);
+    PaymentDAO paymentDAO = (PaymentDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.PAYMENT);
+    AttendanceDAO attendanceDAO = (AttendanceDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ATTENDANCE);
+    QueryDAO queryDAO =(QueryDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.QUERY);
 
     @Override
     public ArrayList<String> getAllStudentNames() throws SQLException {

@@ -1,6 +1,7 @@
 package lk.ijse.gdse72.swiftsts.bo.custom.impl;
 
 import lk.ijse.gdse72.swiftsts.bo.custom.UpdateAttendanceBO;
+import lk.ijse.gdse72.swiftsts.dao.DAOFactory;
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.AttendanceDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.DriverDAO;
@@ -15,9 +16,9 @@ import java.util.ArrayList;
 
 public class UpdateAttendanceBOImpl implements UpdateAttendanceBO {
 
-    AttendanceDAO attendanceDAO = new AttendanceDAOImpl();
-    DriverDAO driverDAO =new DriverDAOImpl();
-    StudentDAO studentDAO = new StudentDAOImpl();
+    AttendanceDAO attendanceDAO = (AttendanceDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ATTENDANCE);
+    DriverDAO driverDAO = (DriverDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.DRIVER);
+    StudentDAO studentDAO = (StudentDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.STUDENT);
 
     @Override
     public boolean updateAttendance(AttendanceDto dto) throws SQLException {

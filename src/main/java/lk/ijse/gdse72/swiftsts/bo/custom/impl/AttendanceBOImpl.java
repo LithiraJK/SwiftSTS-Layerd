@@ -1,6 +1,7 @@
 package lk.ijse.gdse72.swiftsts.bo.custom.impl;
 
 import lk.ijse.gdse72.swiftsts.bo.custom.AttendanceBO;
+import lk.ijse.gdse72.swiftsts.dao.DAOFactory;
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.AttendanceDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
@@ -19,10 +20,10 @@ import java.util.List;
 
 public class AttendanceBOImpl implements AttendanceBO {
 
-    AttendanceDAO attendanceDAO = new AttendanceDAOImpl();
-    StudentDAO studentDAO = new StudentDAOImpl();
-    VehicleDAO vehicleDAO = new VehicleDAOImpl();
-    StudentRegistrationDAO studentRegistrationDAO = new StudentRegistrationDAOImpl();
+    AttendanceDAO attendanceDAO = (AttendanceDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ATTENDANCE);
+    StudentDAO studentDAO = (StudentDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.STUDENT);
+    VehicleDAO vehicleDAO = (VehicleDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.VEHICLE);
+    StudentRegistrationDAO studentRegistrationDAO = (StudentRegistrationDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.STUDENTREGISTRATION);
 
     @Override
     public ArrayList<AttendanceDto> getAllAttendance() throws SQLException {

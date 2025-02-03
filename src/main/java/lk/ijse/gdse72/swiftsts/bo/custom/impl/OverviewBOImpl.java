@@ -1,20 +1,17 @@
 package lk.ijse.gdse72.swiftsts.bo.custom.impl;
 
 import lk.ijse.gdse72.swiftsts.bo.custom.OverviewBO;
-import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
+import lk.ijse.gdse72.swiftsts.dao.DAOFactory;
 import lk.ijse.gdse72.swiftsts.dao.custom.*;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.*;
-
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class OverviewBOImpl implements OverviewBO {
 
-    ExpenseDAO expenseDAO = new ExpenseDAOImpl();
-    PaymentDAO paymentDAO = new PaymentDAOImpl();
-    StudentDAO studentDAO = new StudentDAOImpl();
-    DriverDAO driverDAO = new DriverDAOImpl();
-    VehicleDAO vehicleDAO =  new VehicleDAOImpl();
+    ExpenseDAO expenseDAO = (ExpenseDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.EXPENSE);
+    PaymentDAO paymentDAO = (PaymentDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.PAYMENT);
+    StudentDAO studentDAO = (StudentDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.STUDENT);
+    DriverDAO driverDAO = (DriverDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.DRIVER);
+    VehicleDAO vehicleDAO =  (VehicleDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.VEHICLE);
 
     @Override
     public double getMonthlyExpense(String month) throws SQLException {

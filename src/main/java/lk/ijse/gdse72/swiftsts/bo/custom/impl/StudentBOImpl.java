@@ -1,6 +1,7 @@
 package lk.ijse.gdse72.swiftsts.bo.custom.impl;
 
 import lk.ijse.gdse72.swiftsts.bo.custom.StudentBO;
+import lk.ijse.gdse72.swiftsts.dao.DAOFactory;
 import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
@@ -11,8 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class StudentBOImpl implements StudentBO {
-    StudentDAO studentDAO = new StudentDAOImpl();
-    UserDAO userDAO = new UserDAOImpl();
+    StudentDAO studentDAO = (StudentDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.STUDENT);
+    UserDAO userDAO = (UserDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.USER);
 
     @Override
     public ArrayList<String> getAllUserIds() throws SQLException {

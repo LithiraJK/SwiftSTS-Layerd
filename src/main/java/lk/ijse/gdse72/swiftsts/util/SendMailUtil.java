@@ -6,9 +6,9 @@ import java.util.Properties;
 
 public class SendMailUtil extends Thread {
 
-    private String recipient;
-    private String subject;
-    private String messageBody;
+    String recipient;
+    String subject;
+    String messageBody;
 
     public SendMailUtil(String recipient, String subject, String messageBody) {
         this.recipient = recipient;

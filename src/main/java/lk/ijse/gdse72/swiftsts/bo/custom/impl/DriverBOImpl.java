@@ -1,6 +1,7 @@
 package lk.ijse.gdse72.swiftsts.bo.custom.impl;
 
 import lk.ijse.gdse72.swiftsts.bo.custom.DriverBO;
+import lk.ijse.gdse72.swiftsts.dao.DAOFactory;
 import lk.ijse.gdse72.swiftsts.dao.custom.DriverDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.DriverDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.DriverDto;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 
 public class DriverBOImpl implements DriverBO {
 
-    DriverDAO driverDAO = new DriverDAOImpl();
+    DriverDAO driverDAO = (DriverDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.DRIVER);
 
     @Override
     public ArrayList<DriverDto> getAllDriver() throws SQLException {

@@ -1,6 +1,7 @@
 package lk.ijse.gdse72.swiftsts.bo.custom.impl;
 
 import lk.ijse.gdse72.swiftsts.bo.custom.RouteBO;
+import lk.ijse.gdse72.swiftsts.dao.DAOFactory;
 import lk.ijse.gdse72.swiftsts.dao.custom.RouteDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.RouteDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.RouteDto;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 
 public class RouteBOImpl implements RouteBO {
 
-    RouteDAO routeDAO =  new RouteDAOImpl();
+    RouteDAO routeDAO = (RouteDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ROUTE);
 
     @Override
     public ArrayList<RouteDto> getAllRoutes() throws SQLException {

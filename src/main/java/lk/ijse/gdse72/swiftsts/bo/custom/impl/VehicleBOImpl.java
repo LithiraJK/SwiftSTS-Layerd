@@ -1,6 +1,7 @@
 package lk.ijse.gdse72.swiftsts.bo.custom.impl;
 
 import lk.ijse.gdse72.swiftsts.bo.custom.VehicleBO;
+import lk.ijse.gdse72.swiftsts.dao.DAOFactory;
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.VehicleDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.VehicleDAOImpl;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 
 public class VehicleBOImpl implements VehicleBO {
 
-    VehicleDAO vehicleDAO = new VehicleDAOImpl();
+    VehicleDAO vehicleDAO = (VehicleDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.VEHICLE);
 
     @Override
     public ArrayList<VehicleDto> getAllVehicles() throws SQLException {

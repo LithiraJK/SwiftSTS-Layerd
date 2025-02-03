@@ -1,6 +1,7 @@
 package lk.ijse.gdse72.swiftsts.bo.custom.impl;
 
 import lk.ijse.gdse72.swiftsts.bo.custom.ExpensesBO;
+import lk.ijse.gdse72.swiftsts.dao.DAOFactory;
 import lk.ijse.gdse72.swiftsts.dao.custom.ExpenseDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.impl.ExpenseDAOImpl;
@@ -12,8 +13,8 @@ import java.util.ArrayList;
 
 public class ExpensesBOImpl implements ExpensesBO {
 
-    ExpenseDAO expenseDAO = new ExpenseDAOImpl();
-    UserDAO userDAO = new UserDAOImpl();
+    ExpenseDAO expenseDAO = (ExpenseDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.EXPENSE);
+    UserDAO userDAO = (UserDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.USER);
 
     @Override
     public ArrayList<ExpenseDto> getAllExpenses() throws SQLException {
