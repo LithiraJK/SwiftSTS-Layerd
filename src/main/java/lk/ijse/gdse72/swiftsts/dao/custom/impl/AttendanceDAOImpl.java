@@ -29,15 +29,11 @@ public class AttendanceDAOImpl implements AttendanceDAO {
         return attendenceList;
     }
     @Override
-    public int getDayCountByAttendanceId(String attendanceId) {
-        try {
+    public int getDayCountByAttendanceId(String attendanceId) throws SQLException {
             ResultSet rst = SQLUtil.execute("SELECT DayCount FROM Attendance WHERE AttendanceId = ?", attendanceId);
             if (rst.next()) {
                 return rst.getInt(1);
             }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
         return 0;
     }
     @Override

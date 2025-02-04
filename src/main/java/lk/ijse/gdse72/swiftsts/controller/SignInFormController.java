@@ -69,9 +69,14 @@ public class SignInFormController {
         String password = txtpassword.getText();
 
 
-
-        boolean isUsernameValid = signInBO.isUsernameValid(username);
-        boolean validateCredentials = signInBO.validateCredentials(username, password);
+        boolean isUsernameValid = false;
+        boolean validateCredentials = false;
+        try {
+            isUsernameValid = signInBO.isUsernameValid(username);
+            validateCredentials = signInBO.validateCredentials(username, password);
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
 
 
         if (isUsernameValid) {

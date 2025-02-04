@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -92,13 +93,13 @@ public class StudentRegistrationsController implements Initializable {
         try {
             loadStudentRegistrations();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            new Alert(Alert.AlertType.ERROR, "Failed to load student registrations" + e.getMessage()).show();
         }
     }
 
     private void loadStudentRegistrations() throws SQLException {
-        ArrayList<StudentRegistrationDto> studentRegistrations = studentRegistrationsBO.getAllStudentRegistrations();
-        ObservableList<StudentRegistrationDto> studentRegistrationList = FXCollections.observableArrayList(studentRegistrations);
-        tblStudentRegistration.setItems(studentRegistrationList);
+            ArrayList<StudentRegistrationDto> studentRegistrations = studentRegistrationsBO.getAllStudentRegistrations();
+            ObservableList<StudentRegistrationDto> studentRegistrationList = FXCollections.observableArrayList(studentRegistrations);
+            tblStudentRegistration.setItems(studentRegistrationList);
     }
 }

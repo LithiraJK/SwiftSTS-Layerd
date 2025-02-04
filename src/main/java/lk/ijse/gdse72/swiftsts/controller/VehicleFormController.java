@@ -294,21 +294,12 @@ public class VehicleFormController implements Initializable {
         colModel.setCellValueFactory(new PropertyValueFactory<>("model"));
         colSeatCount.setCellValueFactory(new PropertyValueFactory<>("seatCount"));
         colAvailableSeatCount.setCellValueFactory(new PropertyValueFactory<>("availableSeatCount"));
-
-        try {
-            refreshPage();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
+        refreshPage();
         addValidationListeners();
     }
 
-    private void refreshPage() throws SQLException {
+    private void refreshPage(){
         refreshTable();
-
-        String nextVehicleId = vehicleBO.getNewId();
-        lblVehicleID.setText(nextVehicleId);
 
         txtRegistrationNo.setText("");
         txtVehicleType.setText("");
@@ -331,24 +322,30 @@ public class VehicleFormController implements Initializable {
         btnUpdate.setDisable(true);
     }
 
-    private void refreshTable() throws SQLException {
-        ArrayList<VehicleDto> vehicleDtos = vehicleBO.getAllVehicles();
-        ObservableList<VehicleTM> vehicleTMS = FXCollections.observableArrayList();
+    private void refreshTable(){
+        try {
+            String nextVehicleId = vehicleBO.getNewId();
+            ArrayList<VehicleDto> vehicleDtos = vehicleBO.getAllVehicles();
+            ObservableList<VehicleTM> vehicleTMS = FXCollections.observableArrayList();
 
-        for (VehicleDto vehicleDto : vehicleDtos) {
-            VehicleTM vehicleTM = new VehicleTM(
-                    vehicleDto.getVehicleId(),
-                    vehicleDto.getRegistrationNo(),
-                    vehicleDto.getVehicleType(),
-                    vehicleDto.getEngineCapacity(),
-                    vehicleDto.getFuelType(),
-                    vehicleDto.getModel(),
-                    vehicleDto.getSeatCount(),
-                    vehicleDto.getAvailableSeatCount()
-            );
-            vehicleTMS.add(vehicleTM);
+            for (VehicleDto vehicleDto : vehicleDtos) {
+                VehicleTM vehicleTM = new VehicleTM(
+                        vehicleDto.getVehicleId(),
+                        vehicleDto.getRegistrationNo(),
+                        vehicleDto.getVehicleType(),
+                        vehicleDto.getEngineCapacity(),
+                        vehicleDto.getFuelType(),
+                        vehicleDto.getModel(),
+                        vehicleDto.getSeatCount(),
+                        vehicleDto.getAvailableSeatCount()
+                );
+                vehicleTMS.add(vehicleTM);
+            }
+            lblVehicleID.setText(nextVehicleId);
+            tblVehicle.setItems(vehicleTMS);
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR ,"Fail to load Vehicles" + e.getMessage()).show();
         }
-        tblVehicle.setItems(vehicleTMS);
     }
 
     private void addValidationListeners() {

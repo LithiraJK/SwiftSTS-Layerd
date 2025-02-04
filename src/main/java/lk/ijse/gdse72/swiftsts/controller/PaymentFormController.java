@@ -33,6 +33,7 @@ import net.sf.jasperreports.view.JasperViewer;
 
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
@@ -189,7 +190,12 @@ public class PaymentFormController implements Initializable {
 
 
     private void loadPaymentData() throws SQLException {
-        List<PaymentDto> paymentData = paymentBO.getPaymentData();
+        List<PaymentDto> paymentData = null;
+        try {
+            paymentData = paymentBO.getPaymentData();
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to load payment Data " + e.getMessage()).show();
+        }
         ObservableList<PaymentTM> paymentTMs = FXCollections.observableArrayList();
 
         for (PaymentDto dto : paymentData) {
@@ -201,7 +207,7 @@ public class PaymentFormController implements Initializable {
                     dto.getBalance(),
                     dto.getCreditBalance(),
                     dto.getStatus(),
-                    java.sql.Date.valueOf(dto.getDate())
+                    Date.valueOf(dto.getDate())
             ));
         }
 
@@ -250,88 +256,29 @@ public class PaymentFormController implements Initializable {
     }
 
 
+
     @FXML
     void btnMakePaymentOnAction(ActionEvent event) throws SQLException {
+
         String studentId = lblStudentId.getText();
         String selectedMonthYear = cmbAttendanceId.getValue();
         String attendanceId = attendanceMap.get(selectedMonthYear);
         double payAmount = Double.parseDouble(txtPayAmount.getText());
         double creditBalance = Double.parseDouble(lblCreditBalance.getText());
+        String paymentId = lblPaymentId.getText();
+        double monthFee = Double.parseDouble(lblMonthlyFee.getText());
+        double balance = 0.0;
 
         int dayCount = paymentBO.getDayCountByAttendanceId(attendanceId);
         double monthlyFee = paymentBO.calculateMonthlyFee(studentId, dayCount);
         double totalDue = monthlyFee + creditBalance;
         double remainingBalance = totalDue - payAmount;
+        String status = creditBalance <= 0 ? "Paid" : "Pending";
 
-        String paymentId = lblPaymentId.getText();
-        double monthFee = Double.parseDouble(lblMonthlyFee.getText());
-
-        makePayment(studentId, attendanceId, payAmount, creditBalance, remainingBalance, paymentId, monthFee);
+        paymentBO.addPayment( new PaymentDto( paymentId, studentId, monthFee, payAmount, balance, creditBalance, status, LocalDate.now().toString()),studentId,attendanceId,payAmount,creditBalance,remainingBalance,lblBalance,lblCreditBalance);
         refreshPage();
     }
 
-    private void makePayment(String studentId, String attendanceId, double payAmount, double creditBalance, double remainingBalance, String paymentId, double monthFee) throws SQLException {
-        Connection connection = null;
-        try {
-            connection = DBConnection.getInstance().getConnection();
-
-            if (studentId == null || attendanceId == null || payAmount <= 0) {
-                new Alert(Alert.AlertType.ERROR, "Please fill in all fields correctly.").show();
-                return;
-            }
-
-            double balance;
-            if (remainingBalance > 0) {
-                // Payment does not cover the total due, update credit balance
-                balance = 0.00;
-                lblBalance.setText(String.format("%.2f", balance));
-                lblCreditBalance.setText(String.format("%.2f", remainingBalance));
-                creditBalance = remainingBalance;
-            } else {
-                // Payment covers the total due, update balance
-                balance = Math.abs(remainingBalance);
-                lblBalance.setText(String.format("%.2f", balance));
-                lblCreditBalance.setText("0.00");
-                creditBalance = 0;
-            }
-
-            PaymentDto paymentDto = new PaymentDto(
-                    paymentId,
-                    studentId,
-                    monthFee,
-                    payAmount,
-                    balance,
-                    creditBalance,
-                    creditBalance <= 0 ? "Paid" : "Pending",
-                    LocalDate.now().toString()
-            );
-
-            connection.setAutoCommit(false);
-
-            boolean isPaymentInserted = paymentBO.savePayment(paymentDto);
-            if (!isPaymentInserted) throw new SQLException("Failed to insert into Payment");
-
-            boolean isCreditBalanceUpdated = paymentBO.updateCreditBalance(studentId, creditBalance);
-            if (!isCreditBalanceUpdated) throw new SQLException("Failed to update credit balance");
-
-            connection.commit();
-            connection.setAutoCommit(true);
-
-            new Alert(Alert.AlertType.INFORMATION, "Payment made successfully!").show();
-            loadPaymentData();
-        } catch (SQLException | NumberFormatException e) {
-            try {
-                if (connection != null) {
-                    connection.rollback();
-                    connection.setAutoCommit(true);
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "An error occurred while making the payment: " + e.getMessage()).show();
-        }
-    }
 
     private void refreshPage() throws SQLException {
         cmbStudentNames.getSelectionModel().clearSelection();

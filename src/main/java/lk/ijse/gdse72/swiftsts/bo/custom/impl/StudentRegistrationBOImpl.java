@@ -77,7 +77,7 @@ public class StudentRegistrationBOImpl implements StudentRegistrationBO {
     }
 
     @Override
-    public ObservableList<StudentRegistrationDetailsTM> getAllStudentRegistrationDetails() {
+    public ObservableList<StudentRegistrationDetailsTM> getAllStudentRegistrationDetails()  {
         return queryDAO.getAllStudentRegistrationDetails();
     }
 

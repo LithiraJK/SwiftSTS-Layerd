@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QueryDAOImpl implements QueryDAO {
+    //throw exception
     @Override
     public ObservableList<StudentRegistrationDetailsTM> getAllStudentRegistrationDetails() {
         ObservableList<StudentRegistrationDetailsTM> list = FXCollections.observableArrayList();
@@ -107,31 +108,27 @@ public class QueryDAOImpl implements QueryDAO {
     }
 
     @Override
-    public List<Payment> getPaymentData() {
+    public List<Payment> getPaymentData() throws SQLException {
         List<Payment> paymentList = new ArrayList<>();
         String query = """
-                SELECT p.PaymentId, s.StudentId, p.MonthlyFee, p.Amount,
-                       p.Balance, s.CreditBalance, p.Status, p.Date
-                FROM Payment p
-                INNER JOIN Student s ON p.StudentId = s.StudentId
-                """;
+            SELECT p.PaymentId, s.StudentId, p.MonthlyFee, p.Amount,
+                   p.Balance, s.CreditBalance, p.Status, p.Date
+            FROM Payment p
+            INNER JOIN Student s ON p.StudentId = s.StudentId
+            """;
 
-        try {
-            ResultSet rs = SQLUtil.execute(query);
-            while (rs.next()) {
-                paymentList.add(new Payment(
-                        rs.getString(1),
-                        rs.getString(2),
-                        rs.getDouble(3),
-                        rs.getDouble(4),
-                        rs.getDouble(5),
-                        rs.getDouble(6),
-                        rs.getString(7),
-                        rs.getString(8)
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        ResultSet rs = SQLUtil.execute(query);
+        while (rs.next()) {
+            paymentList.add(new Payment(
+                    rs.getString(1),
+                    rs.getString(2),
+                    rs.getDouble(3),
+                    rs.getDouble(4),
+                    rs.getDouble(5),
+                    rs.getDouble(6),
+                    rs.getString(7),
+                    rs.getString(8)
+            ));
         }
 
         return paymentList;

@@ -2,13 +2,9 @@ package lk.ijse.gdse72.swiftsts.bo.custom.impl;
 
 import lk.ijse.gdse72.swiftsts.bo.custom.UpdateAttendanceBO;
 import lk.ijse.gdse72.swiftsts.dao.DAOFactory;
-import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.AttendanceDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.DriverDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.AttendanceDAOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.DriverDAOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.AttendanceDto;
 import lk.ijse.gdse72.swiftsts.entity.Attendance;
 

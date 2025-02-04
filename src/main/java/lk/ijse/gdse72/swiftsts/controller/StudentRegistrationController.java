@@ -265,7 +265,7 @@ public class StudentRegistrationController implements Initializable {
         double distance = Double.parseDouble(txtDistance.getText());
 
         studentRegistrationBO.addRegistration(new StudentRegistrationDto(studentRegId,studentId,distance,dayPrice,routeId,vehicleId,registrationDate),vehicleId);
-
+        refreshPage();
     }
 
 //    public void addRegistration(String studentRegId, String studentId, double distance, double dayPrice, String routeId, String vehicleId, Date registrationDate ){

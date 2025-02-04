@@ -11,7 +11,7 @@ public interface UserDAO extends SuperDAO {
     public boolean saveUser(User user) throws SQLException;
     public ArrayList<String> getAllUserIds() throws SQLException;
     public String generateNextUserId() throws SQLException;
-    public boolean isUsernameValid(String username);
-    public boolean validateCredentials(String username, String password);
+    public boolean isUsernameValid(String username) throws SQLException;
+    public boolean validateCredentials(String username, String password) throws SQLException;
 
 }

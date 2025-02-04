@@ -48,26 +48,16 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
 
-    public boolean isUsernameValid(String username) {
-        try {
+    public boolean isUsernameValid(String username) throws SQLException {
             ResultSet resultSet = SQLUtil.execute("SELECT * FROM User WHERE username=?", username);
             return resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
 
     @Override
 
-    public boolean validateCredentials(String username, String password) {
-        try {
+    public boolean validateCredentials(String username, String password) throws SQLException {
             ResultSet resultSet = SQLUtil.execute("SELECT * FROM User WHERE username=? AND password=?", username, password);
             return resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 }

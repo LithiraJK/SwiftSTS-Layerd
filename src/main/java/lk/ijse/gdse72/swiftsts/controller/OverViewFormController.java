@@ -90,12 +90,10 @@ public class OverViewFormController implements Initializable {
             double expense = overviewBO.getMonthlyExpense(formattedMonth);
             if (expense > 0) {
                 lblExpense.setText("-" + String.format("%.2f", expense));
-            } else {
-                lblExpense.setText("No expense recorded for " + formattedMonth);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            lblExpense.setText("Error fetching expense data");
+            new Alert(Alert.AlertType.ERROR, "Error fetching expense data" + e.getMessage()).show();
         }
     }
 
@@ -107,12 +105,10 @@ public class OverViewFormController implements Initializable {
             double income = overviewBO.getMonthlyIncome(formattedMonth);
             if (income > 0) {
                 lblIncome.setText("+" + String.format("%.2f", income));
-            } else {
-                lblIncome.setText("No income recorded for " + formattedMonth);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            lblIncome.setText("Error fetching income data");
+            new Alert(Alert.AlertType.ERROR, "Error fetching income data" + e.getMessage()).show();
         }
     }
 
@@ -128,15 +124,13 @@ public class OverViewFormController implements Initializable {
                 double expense = overviewBO.getMonthlyExpense(formattedMonth);
                 if (expense > 0) {
                     lblExpense.setText("-" + String.format("%.2f", expense));
-                } else {
-                    lblExpense.setText("No expense recorded for " + formattedMonth);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-                lblExpense.setText("Error fetching expense data");
+                new Alert(Alert.AlertType.ERROR, "Failed to fetch expense data: " + e.getMessage()).show();
             }
         } else {
-            lblExpense.setText("Please select a month");
+            new Alert(Alert.AlertType.WARNING, "Please select a month").show();
         }
     }
 
