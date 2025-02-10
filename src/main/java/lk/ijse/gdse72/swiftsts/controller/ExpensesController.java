@@ -97,7 +97,7 @@ public class ExpensesController implements Initializable {
         try {
             refreshPage();
             loadUserIds();
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
@@ -121,12 +121,14 @@ public class ExpensesController implements Initializable {
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
         }
     }
 
     @FXML
-    void btnResetOnAction(ActionEvent event) throws SQLException {
+    void btnResetOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         refreshPage();
     }
 
@@ -167,14 +169,14 @@ public class ExpensesController implements Initializable {
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Failed to save expense!").show();
                 }
-            } catch (SQLException e) {
+            } catch (SQLException | ClassNotFoundException e) {
                 new Alert(Alert.AlertType.ERROR, "An error occurred while saving the expense: " + e.getMessage()).show();
             }
         }
     }
 
     @FXML
-    void btnUpdateOnAction(ActionEvent event) throws SQLException {
+    void btnUpdateOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String expenseId = lblExpenseId.getText();
         Date date = Date.valueOf(LocalDate.now());
         double amount = Double.parseDouble(txtAmount.getText());
@@ -231,7 +233,7 @@ public class ExpensesController implements Initializable {
         cmbUserID.setItems(FXCollections.observableArrayList(userIds));
     }
 
-    private void refreshPage() throws SQLException {
+    private void refreshPage() throws SQLException, ClassNotFoundException {
         refreshTable();
 
         String nextExpenseId = expensesBO.getNewId();
@@ -246,7 +248,7 @@ public class ExpensesController implements Initializable {
         btnUpdate.setDisable(true);
     }
 
-    private void refreshTable() throws SQLException {
+    private void refreshTable() throws SQLException, ClassNotFoundException {
         ArrayList<ExpenseDto> expenseDtos = expensesBO.getAllExpenses();
         ObservableList<ExpenseTM> expenseTMS = FXCollections.observableArrayList();
 

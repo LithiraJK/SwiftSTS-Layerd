@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface ExpensesBO extends SuperBO {
-    public ArrayList<ExpenseDto> getAllExpenses() throws SQLException;
-    public String getNewId() throws SQLException;
-    public boolean saveExpense(ExpenseDto expenseDto) throws SQLException;
-    public boolean updateExpense(ExpenseDto expenseDto) throws SQLException;
-    public boolean deleteExpense(String expenseId) throws SQLException;
-    public ArrayList<String> getAllUserIds() throws SQLException;
+    ArrayList<ExpenseDto> getAllExpenses() throws SQLException, ClassNotFoundException;
+    String getNewId() throws SQLException, ClassNotFoundException;
+    boolean saveExpense(ExpenseDto expenseDto) throws SQLException, ClassNotFoundException;
+    boolean updateExpense(ExpenseDto expenseDto) throws SQLException, ClassNotFoundException;
+    boolean deleteExpense(String expenseId) throws SQLException, ClassNotFoundException;
+    ArrayList<String> getAllUserIds() throws SQLException;
 
 }

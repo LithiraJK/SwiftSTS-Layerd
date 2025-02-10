@@ -16,7 +16,7 @@ public class ExpensesBOImpl implements ExpensesBO {
     UserDAO userDAO = (UserDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.USER);
 
     @Override
-    public ArrayList<ExpenseDto> getAllExpenses() throws SQLException {
+    public ArrayList<ExpenseDto> getAllExpenses() throws SQLException, ClassNotFoundException {
         ArrayList<Expense> expenseArrayList = expenseDAO.getAllData();
         ArrayList<ExpenseDto> expenseDtos = new ArrayList<>();
         for (Expense expense : expenseArrayList) {
@@ -35,22 +35,22 @@ public class ExpensesBOImpl implements ExpensesBO {
     }
 
     @Override
-    public String getNewId() throws SQLException {
+    public String getNewId() throws SQLException, ClassNotFoundException {
         return expenseDAO.getNewId();
     }
 
     @Override
-    public boolean saveExpense(ExpenseDto dto) throws SQLException {
+    public boolean saveExpense(ExpenseDto dto) throws SQLException, ClassNotFoundException {
         return expenseDAO.save(new Expense(dto.getExpenseId(),dto.getDate(),dto.getAmount(),dto.getDescription(),dto.getUserId()));
     }
 
     @Override
-    public boolean updateExpense(ExpenseDto dto) throws SQLException {
+    public boolean updateExpense(ExpenseDto dto) throws SQLException, ClassNotFoundException {
         return expenseDAO.update(new Expense(dto.getExpenseId(),dto.getDate(),dto.getAmount(),dto.getDescription(),dto.getUserId()));
     }
 
     @Override
-    public boolean deleteExpense(String expenseId) throws SQLException {
+    public boolean deleteExpense(String expenseId) throws SQLException, ClassNotFoundException {
         return expenseDAO.delete(expenseId);
     }
 

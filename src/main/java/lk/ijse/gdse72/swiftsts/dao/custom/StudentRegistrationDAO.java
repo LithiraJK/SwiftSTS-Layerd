@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface StudentRegistrationDAO extends SuperDAO {
-    public String getNextRegistrationId() throws SQLException;
-    public ArrayList<String> getStudentIdsByVehicleId(String vehicleId) throws SQLException;
+    String getNextRegistrationId() throws SQLException;
+    ArrayList<String> getStudentIdsByVehicleId(String vehicleId) throws SQLException;
 
 }

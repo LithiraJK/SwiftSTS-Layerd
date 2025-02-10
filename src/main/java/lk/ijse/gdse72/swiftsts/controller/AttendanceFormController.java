@@ -69,9 +69,6 @@ public class AttendanceFormController implements Initializable {
     public TableColumn<AttendanceTM, String> colAttendanceId;
 
     @FXML
-    public JFXButton btnCalculateFees;
-
-    @FXML
     private ImageView btnGoBack;
 
     @FXML
@@ -179,7 +176,7 @@ public class AttendanceFormController implements Initializable {
         cbMonth.setItems(months);
     }
 
-    private void refreshTable() throws SQLException {
+    private void refreshTable() throws SQLException, ClassNotFoundException {
         ArrayList<AttendanceDto> attendenceList = attendanceBO.getAllAttendance();
         ObservableList<AttendanceTM> attendanceTMList = FXCollections.observableArrayList();
         for (AttendanceDto dto : attendenceList) {
@@ -246,7 +243,7 @@ public class AttendanceFormController implements Initializable {
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Failed to delete attendance record!").show();
                 }
-            } catch (SQLException e) {
+            } catch (SQLException | ClassNotFoundException e) {
                 e.printStackTrace();
                 new Alert(Alert.AlertType.ERROR, "An error occurred while deleting the attendance record: " + e.getMessage()).show();
             }
@@ -271,7 +268,7 @@ public class AttendanceFormController implements Initializable {
             refreshTable();
             String nextAttendanceId = attendanceBO.getNewId();
             lblAttendenceId.setText(nextAttendanceId);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
@@ -298,13 +295,12 @@ public class AttendanceFormController implements Initializable {
         });
 
         // Add listener to enable the Calculate Fees button when a record is selected
-        tblAttendance.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            btnCalculateFees.setDisable(newValue == null);
+        tblAttendance.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {btnReset.setDisable(newValue == null);
         });
     }
 
     @FXML
-    void btnResetOnAction(ActionEvent event) throws SQLException {
+    void btnResetOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         cbStudentId.setDisable(false);
         cbVehicleId.setDisable(false);
         cbYear.setDisable(false);
@@ -313,11 +309,10 @@ public class AttendanceFormController implements Initializable {
 
         btnMakeAttendance.setDisable(false);
         btnReset.setDisable(false);
-        btnCalculateFees.setDisable(false);
 
         refreshPage();
     }
-    private void refreshPage() throws SQLException {
+    private void refreshPage() throws SQLException, ClassNotFoundException {
         refreshTable();
         String nextAttendanceId = attendanceBO.getNewId();
         lblAttendenceId.setText(nextAttendanceId);
@@ -357,7 +352,7 @@ public class AttendanceFormController implements Initializable {
             } else {
                 new Alert(Alert.AlertType.ERROR, "Failed to save attendance!").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "An error occurred while saving the attendance: " + e.getMessage()).show();
         }

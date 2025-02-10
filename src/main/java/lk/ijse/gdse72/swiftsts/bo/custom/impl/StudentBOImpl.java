@@ -22,7 +22,7 @@ public class StudentBOImpl implements StudentBO {
     }
 
     @Override
-    public ArrayList<StudentDto> getAllStudents() throws SQLException {
+    public ArrayList<StudentDto> getAllStudents() throws SQLException, ClassNotFoundException {
         ArrayList<Student> students = studentDAO.getAllData(); // Get Entity DATA
         ArrayList<StudentDto> studentDtos = new ArrayList<>();
 
@@ -43,12 +43,12 @@ public class StudentBOImpl implements StudentBO {
     }
 
     @Override
-    public String getNewId() throws SQLException {
+    public String getNewId() throws SQLException, ClassNotFoundException {
         return studentDAO.getNewId();//
     }
 
     @Override
-    public boolean saveStudent(StudentDto dto) throws SQLException {
+    public boolean saveStudent(StudentDto dto) throws SQLException, ClassNotFoundException {
         return studentDAO.save(new Student(
                 dto.getStudentId(),
                 dto.getStudentName(),
@@ -62,7 +62,7 @@ public class StudentBOImpl implements StudentBO {
     }
 
     @Override
-    public boolean updateStudent(StudentDto dto) throws SQLException {
+    public boolean updateStudent(StudentDto dto) throws SQLException, ClassNotFoundException {
         return studentDAO.update(new Student(
                 dto.getStudentId(),
                 dto.getStudentName(),
@@ -76,7 +76,7 @@ public class StudentBOImpl implements StudentBO {
     }
 
     @Override
-    public boolean deleteStudent(String studentId) throws SQLException {
+    public boolean deleteStudent(String studentId) throws SQLException, ClassNotFoundException {
         return studentDAO.delete(studentId);
     }
 }

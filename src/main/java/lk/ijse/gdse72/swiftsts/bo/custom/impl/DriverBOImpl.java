@@ -15,7 +15,7 @@ public class DriverBOImpl implements DriverBO {
     DriverDAO driverDAO = (DriverDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.DRIVER);
 
     @Override
-    public ArrayList<DriverDto> getAllDriver() throws SQLException {
+    public ArrayList<DriverDto> getAllDriver() throws SQLException, ClassNotFoundException {
         ArrayList<Driver> drivers = driverDAO.getAllData();//Entity to DTO
         ArrayList<DriverDto> driverDtos = new ArrayList<>();
 
@@ -34,22 +34,22 @@ public class DriverBOImpl implements DriverBO {
     }
 
     @Override
-    public boolean saveDriver(DriverDto dto) throws SQLException { //DTO to Entity
+    public boolean saveDriver(DriverDto dto) throws SQLException, ClassNotFoundException { //DTO to Entity
         return driverDAO.save(new Driver(dto.getDriverId(),dto.getName(),dto.getLicenseNo(),dto.getNic(),dto.getContactNo(),dto.getAddress(),dto.getEmail()));
     }
 
     @Override
-    public boolean updateDriver(DriverDto dto) throws SQLException { //DTO to Entity
+    public boolean updateDriver(DriverDto dto) throws SQLException, ClassNotFoundException { //DTO to Entity
         return driverDAO.update(new Driver(dto.getDriverId(),dto.getName(),dto.getLicenseNo(),dto.getNic(),dto.getContactNo(),dto.getAddress(),dto.getEmail()));
     }
 
     @Override
-    public boolean deleteDriver(String driverId) throws SQLException {
+    public boolean deleteDriver(String driverId) throws SQLException, ClassNotFoundException {
         return driverDAO.delete(driverId);
     }
 
     @Override
-    public String getNewId() throws SQLException {
+    public String getNewId() throws SQLException, ClassNotFoundException {
         return driverDAO.getNewId();
     }
 }

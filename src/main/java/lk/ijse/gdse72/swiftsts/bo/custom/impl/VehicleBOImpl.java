@@ -17,7 +17,7 @@ public class VehicleBOImpl implements VehicleBO {
     VehicleDAO vehicleDAO = (VehicleDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.VEHICLE);
 
     @Override
-    public ArrayList<VehicleDto> getAllVehicles() throws SQLException {
+    public ArrayList<VehicleDto> getAllVehicles() throws SQLException, ClassNotFoundException {
         ArrayList<Vehicle> vehicles = vehicleDAO.getAllData();
         ArrayList<VehicleDto> vehicleDtos =  new ArrayList<>();
 
@@ -37,12 +37,12 @@ public class VehicleBOImpl implements VehicleBO {
     }
 
     @Override
-    public String getNewId() throws SQLException {
+    public String getNewId() throws SQLException, ClassNotFoundException {
         return vehicleDAO.getNewId();
     }
 
     @Override
-    public boolean updateVehicle(VehicleDto dto) throws SQLException {
+    public boolean updateVehicle(VehicleDto dto) throws SQLException, ClassNotFoundException {
         return vehicleDAO.update(new Vehicle(
                 dto.getVehicleId(),
                 dto.getRegistrationNo(),
@@ -55,7 +55,7 @@ public class VehicleBOImpl implements VehicleBO {
     }
 
     @Override
-    public boolean saveVehicle(VehicleDto dto) throws SQLException {
+    public boolean saveVehicle(VehicleDto dto) throws SQLException, ClassNotFoundException {
         return vehicleDAO.save(new Vehicle(
                 dto.getVehicleId(),
                 dto.getRegistrationNo(),
@@ -68,7 +68,7 @@ public class VehicleBOImpl implements VehicleBO {
     }
 
     @Override
-    public boolean deleteVehicle(String vehicleId) throws SQLException {
+    public boolean deleteVehicle(String vehicleId) throws SQLException, ClassNotFoundException {
         return vehicleDAO.delete(vehicleId);
     }
 }

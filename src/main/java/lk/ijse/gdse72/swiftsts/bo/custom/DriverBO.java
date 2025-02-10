@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface DriverBO extends SuperBO {
-    public ArrayList<DriverDto> getAllDriver() throws SQLException;
-    public boolean saveDriver(DriverDto dto) throws SQLException;
-    public boolean updateDriver(DriverDto dto) throws SQLException;
-    public boolean deleteDriver(String driverId) throws SQLException;
-    public String getNewId() throws SQLException;
+    ArrayList<DriverDto> getAllDriver() throws SQLException, ClassNotFoundException;
+    boolean saveDriver(DriverDto dto) throws SQLException, ClassNotFoundException;
+    boolean updateDriver(DriverDto dto) throws SQLException, ClassNotFoundException;
+    boolean deleteDriver(String driverId) throws SQLException, ClassNotFoundException;
+    String getNewId() throws SQLException, ClassNotFoundException;
 }

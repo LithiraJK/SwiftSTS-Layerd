@@ -113,7 +113,7 @@ public class StudentFormController implements Initializable {
     private JFXComboBox<String> cbUserID;
 
     @FXML
-    void btnResetOnAction(ActionEvent event) throws SQLException {
+    void btnResetOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         refreshPage();
     }
 
@@ -182,12 +182,14 @@ public class StudentFormController implements Initializable {
                 }
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "An error occurred while saving the student: " + e.getMessage()).show();
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
         }
     }
 
     @FXML
-    void btnUpdateOnAction(ActionEvent actionEvent) throws SQLException {
+    void btnUpdateOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         String studentId = lblStudentId.getText();
         String studentName = txtStudentName.getText();
         String parentName = txtParentName.getText();
@@ -265,7 +267,7 @@ public class StudentFormController implements Initializable {
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Failed to delete student!").show();
                 }
-            } catch (SQLException e) {
+            } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -309,6 +311,8 @@ public class StudentFormController implements Initializable {
             loadUserIds();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
 
         addValidationListeners();
@@ -319,7 +323,7 @@ public class StudentFormController implements Initializable {
         cbUserID.setItems(FXCollections.observableArrayList(userIds));
     }
 
-    private void refreshPage() throws SQLException {
+    private void refreshPage() throws SQLException, ClassNotFoundException {
         refreshTable();
 
         String nextStudentId = studentBO.getNewId();
@@ -340,7 +344,7 @@ public class StudentFormController implements Initializable {
         btnUpdate.setDisable(true);
     }
 
-    private void refreshTable() throws SQLException {
+    private void refreshTable() throws SQLException, ClassNotFoundException {
         ArrayList<StudentDto> studentDtos = studentBO.getAllStudents();
         ObservableList<StudentTM> studentTMS = FXCollections.observableArrayList();
 

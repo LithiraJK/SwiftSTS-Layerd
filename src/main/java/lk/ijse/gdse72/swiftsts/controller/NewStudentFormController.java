@@ -133,6 +133,8 @@ public class NewStudentFormController implements Initializable {
                 }
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "An error occurred while saving the student: " + e.getMessage()).show();
+            } catch (ClassNotFoundException e) {
+                new Alert(Alert.AlertType.ERROR, "An error occurred while saving the student: " + e.getMessage()).show();
             }
         }
     }
@@ -147,7 +149,7 @@ public class NewStudentFormController implements Initializable {
         try {
             String nextStudentId = newStudentBO.getNewId();
             lblStudentId.setText(nextStudentId);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "An error occurred while generating the student ID: " + e.getMessage()).show();
         }
 

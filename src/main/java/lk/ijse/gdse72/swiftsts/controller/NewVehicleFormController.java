@@ -141,6 +141,8 @@ public class NewVehicleFormController implements Initializable {
                 }
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "An error occurred while saving the vehicle: " + e.getMessage()).show();
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
         }
     }
@@ -157,6 +159,8 @@ public class NewVehicleFormController implements Initializable {
             lblVehicleID.setText(nextVehicleId);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "An error occurred while generating the vehicle ID: " + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
 
         addValidationListeners();

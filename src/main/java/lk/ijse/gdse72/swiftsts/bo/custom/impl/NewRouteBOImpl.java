@@ -14,12 +14,12 @@ public class NewRouteBOImpl implements NewRouteBO {
     RouteDAO routeDAO = (RouteDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ROUTE);
 
     @Override
-    public boolean saveNewRoute(RouteDto routeDto) throws SQLException {
+    public boolean saveNewRoute(RouteDto routeDto) throws SQLException, ClassNotFoundException {
         return routeDAO.save(new Route(routeDto.getRouteId(),routeDto.getRouteName(),routeDto.getStartPoint(),routeDto.getDestination(),routeDto.getRouteFee()));
     }
 
     @Override
-    public String getNewId() throws SQLException {
+    public String getNewId() throws SQLException, ClassNotFoundException {
         return routeDAO.getNewId();
     }
 }

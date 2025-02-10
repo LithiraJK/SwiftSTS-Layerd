@@ -10,18 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface StudentRegistrationBO extends SuperBO {
-    public String getNextRegistrationId() throws SQLException;
-    public int getAvailableSeatCountByVehicleId(String vehicleId) throws SQLException;
-    public List<String> getAllVehicleIds() throws SQLException;
-    public String getStudentIdByName(String studentName) throws SQLException;
-    public String getPickupLocationById(String studentId) throws SQLException;
-    public ArrayList<String> getAllStudentNames() throws SQLException;
-    public String getRouteIdByRouteName(String routeName) throws SQLException;
-    public double getRouteFeeByRouteId(String routeId) throws SQLException;
-    public List<String> getAllRouteNames() throws SQLException;
-    public List<String> getAllDestinations() throws SQLException;
-    public ObservableList<StudentRegistrationDetailsTM> getAllStudentRegistrationDetails();
-    public void addRegistration(StudentRegistrationDto registrationDto, String vehicleId);
+    String getNextRegistrationId() throws SQLException;
+    int getAvailableSeatCountByVehicleId(String vehicleId) throws SQLException;
+    List<String> getAllVehicleIds() throws SQLException;
+    String getStudentIdByName(String studentName) throws SQLException;
+    String getPickupLocationById(String studentId) throws SQLException;
+    ArrayList<String> getAllStudentNames() throws SQLException;
+    String getRouteIdByRouteName(String routeName) throws SQLException;
+    double getRouteFeeByRouteId(String routeId) throws SQLException;
+    List<String> getAllRouteNames() throws SQLException;
+    List<String> getAllDestinations() throws SQLException;
+    ObservableList<StudentRegistrationDetailsTM> getAllStudentRegistrationDetails();
+    void addRegistration(StudentRegistrationDto registrationDto, String vehicleId);
 
 
 

@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface RouteBO extends SuperBO {
-    public ArrayList<RouteDto> getAllRoutes() throws SQLException;
-    public String getNewId() throws SQLException;
-    public boolean saveRoute(RouteDto routeDto) throws SQLException;
-    public boolean updateRoute(RouteDto routeDto) throws SQLException;
-    public boolean deleteRoute(String routeId) throws SQLException;
+    ArrayList<RouteDto> getAllRoutes() throws SQLException, ClassNotFoundException;
+    String getNewId() throws SQLException, ClassNotFoundException;
+    boolean saveRoute(RouteDto routeDto) throws SQLException, ClassNotFoundException;
+    boolean updateRoute(RouteDto routeDto) throws SQLException, ClassNotFoundException;
+    boolean deleteRoute(String routeId) throws SQLException, ClassNotFoundException;
 }

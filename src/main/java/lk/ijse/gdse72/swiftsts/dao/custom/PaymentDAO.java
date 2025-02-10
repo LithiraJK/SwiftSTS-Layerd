@@ -8,9 +8,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface PaymentDAO extends SuperDAO {
-    public boolean savePayment(Payment paymentDto) throws SQLException;
-    public double getMonthlyIncome(String month) throws SQLException;
-    public double calculateMonthlyFee(String studentId, int dayCount) throws SQLException;
-    public String getNextPaymentId() throws SQLException;
+    boolean savePayment(Payment paymentDto) throws SQLException;
+    double getMonthlyIncome(String month) throws SQLException;
+    double calculateMonthlyFee(String studentId, int dayCount) throws SQLException;
+    String getNextPaymentId() throws SQLException;
 
 }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface QueryDAO extends SuperDAO {
-    public ObservableList<StudentRegistrationDetailsTM> getAllStudentRegistrationDetails();
-    public ArrayList<StudentRegistration> getAllStudentRegistrations() throws SQLException;
-    public List<Payment> getPaymentData() throws SQLException;
+    ObservableList<StudentRegistrationDetailsTM> getAllStudentRegistrationDetails();
+    ArrayList<StudentRegistration> getAllStudentRegistrations() throws SQLException;
+    List<Payment> getPaymentData() throws SQLException;
 }

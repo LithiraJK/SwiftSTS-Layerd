@@ -94,7 +94,7 @@ public class DriverFormController implements Initializable {
 
 
     @FXML
-    void btnDeleteOnAction(ActionEvent event) throws SQLException {
+    void btnDeleteOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String driverId = lblDriverId.getText();
         boolean isDeleted = driverBO.deleteDriver(driverId);
         if (isDeleted) {
@@ -106,12 +106,12 @@ public class DriverFormController implements Initializable {
     }
 
     @FXML
-    void btnResetOnAction(ActionEvent event) throws SQLException {
+    void btnResetOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         refreshPage();
     }
 
     @FXML
-    void btnSaveOnAction(ActionEvent event) throws SQLException {
+    void btnSaveOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String driverId = lblDriverId.getText();
         String name = txtDriverName.getText();
         String licenseNo = txtLicenseNo.getText();
@@ -169,7 +169,7 @@ public class DriverFormController implements Initializable {
     }
 
     @FXML
-    void btnUpdateOnAction(ActionEvent event) throws SQLException {
+    void btnUpdateOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String driverId = lblDriverId.getText();
         String name = txtDriverName.getText();
         String licenseNo = txtLicenseNo.getText();
@@ -238,7 +238,7 @@ public class DriverFormController implements Initializable {
 
         try {
             refreshPage();
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
@@ -263,7 +263,7 @@ public class DriverFormController implements Initializable {
         }
     }
 
-    private void refreshPage() throws SQLException {
+    private void refreshPage() throws SQLException, ClassNotFoundException {
         refreshTable();
 
         String nextDriverId = driverBO.getNewId();
@@ -281,7 +281,7 @@ public class DriverFormController implements Initializable {
         btnUpdate.setDisable(true);
     }
 
-    private void refreshTable() throws SQLException {
+    private void refreshTable() throws SQLException, ClassNotFoundException {
         ArrayList<DriverDto> driverDtos = driverBO.getAllDriver();
         ObservableList<DriverDto> driverTMS = FXCollections.observableArrayList(driverDtos);
         tblDriver.setItems(driverTMS);

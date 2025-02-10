@@ -18,7 +18,7 @@ public class UpdateAttendanceBOImpl implements UpdateAttendanceBO {
     StudentDAO studentDAO = (StudentDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.STUDENT);
 
     @Override
-    public boolean updateAttendance(AttendanceDto dto) throws SQLException {
+    public boolean updateAttendance(AttendanceDto dto) throws SQLException, ClassNotFoundException {
         return attendanceDAO.update(new Attendance(dto.getAttendanceId(), dto.getStudentId(), dto.getVehicleId(),dto.getYear(),dto.getMonth(),dto.getDayCount()));
     }
 

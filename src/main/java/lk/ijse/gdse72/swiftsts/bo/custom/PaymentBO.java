@@ -9,16 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface PaymentBO extends SuperBO {
-    public ArrayList<String> getAllStudentNames() throws SQLException;
-    public String getStudentIdByName(String studentName) throws SQLException;
-    public double getCreditBalanceById(String studentId) throws SQLException;
-    public String getEmailByStudentId(String studentId) throws SQLException;
-    public double calculateMonthlyFee(String studentId, int dayCount) throws SQLException;
-    public String getNextPaymentId() throws SQLException;
-    public ArrayList<String> getAttendanceMonthsByStudentId(String studentId) throws SQLException ;
-    public String getAttendanceIdByStudentIdYearMonth(String studentId, String year, String month) throws SQLException ;
-    public int getDayCountByAttendanceId(String attendanceId) throws SQLException;
-    public List<PaymentDto> getPaymentData() throws SQLException;
-    public void addPayment(PaymentDto payment, String studentId, String attendanceId, double payAmount, double creditBalance, double remainingBalance, Label lblBalance, Label lblCreditBalance) throws SQLException;
+    ArrayList<String> getAllStudentNames() throws SQLException;
+    String getStudentIdByName(String studentName) throws SQLException;
+    double getCreditBalanceById(String studentId) throws SQLException;
+    String getEmailByStudentId(String studentId) throws SQLException;
+    double calculateMonthlyFee(String studentId, int dayCount) throws SQLException;
+    String getNextPaymentId() throws SQLException;
+    ArrayList<String> getAttendanceMonthsByStudentId(String studentId) throws SQLException ;
+    String getAttendanceIdByStudentIdYearMonth(String studentId, String year, String month) throws SQLException ;
+    int getDayCountByAttendanceId(String attendanceId) throws SQLException;
+    List<PaymentDto> getPaymentData() throws SQLException;
+    void addPayment(PaymentDto payment, String studentId, String attendanceId, double payAmount, double creditBalance, double remainingBalance, Label lblBalance, Label lblCreditBalance) throws SQLException;
 
 }

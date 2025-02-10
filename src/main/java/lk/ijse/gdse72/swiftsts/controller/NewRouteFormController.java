@@ -115,7 +115,7 @@ public class NewRouteFormController implements Initializable {
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Failed to save route!").show();
                 }
-            } catch (SQLException e) {
+            } catch (SQLException | ClassNotFoundException e) {
                 new Alert(Alert.AlertType.ERROR, "An error occurred while saving the route: " + e.getMessage()).show();
             }
         }
@@ -126,7 +126,7 @@ public class NewRouteFormController implements Initializable {
         try {
             String nextRouteId = newRouteBO.getNewId();
             lblRouteId.setText(nextRouteId);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "An error occurred while generating the route ID: " + e.getMessage()).show();
         }
 

@@ -9,13 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface VehicleDAO extends CrudDAO<Vehicle> {
-    public ArrayList<Vehicle> getAllData() throws SQLException;
-    public String getNewId() throws SQLException;
-    public boolean save(Vehicle vehicle) throws SQLException;
-    public boolean update(Vehicle vehicle) throws SQLException;
-    public boolean delete(String vehicleId) throws SQLException;
-    public List<String> getAllVehicleIds() throws SQLException;
-    public int getAvailableSeatCountByVehicleId(String vehicleId) throws SQLException;
-    public String getRegistrationNoById(String vehicleId) throws SQLException;
-    public int getVehicleCount() throws SQLException;
+    List<String> getAllVehicleIds() throws SQLException;
+    int getAvailableSeatCountByVehicleId(String vehicleId) throws SQLException;
+    String getRegistrationNoById(String vehicleId) throws SQLException;
+    int getVehicleCount() throws SQLException;
 }

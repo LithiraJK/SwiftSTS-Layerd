@@ -114,6 +114,8 @@ public class VehicleFormController implements Initializable {
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
         }
     }
@@ -191,14 +193,14 @@ public class VehicleFormController implements Initializable {
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Failed to save vehicle!").show();
                 }
-            } catch (SQLException e) {
+            } catch (SQLException | ClassNotFoundException e) {
                 new Alert(Alert.AlertType.ERROR, "An error occurred while saving the vehicle: " + e.getMessage()).show();
             }
         }
     }
 
     @FXML
-    void btnUpdateOnAction(ActionEvent event) throws SQLException {
+    void btnUpdateOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String vehicleId = lblVehicleID.getText();
         String registrationNo = txtRegistrationNo.getText();
         String vehicleType = txtVehicleType.getText();
@@ -345,6 +347,8 @@ public class VehicleFormController implements Initializable {
             tblVehicle.setItems(vehicleTMS);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR ,"Fail to load Vehicles" + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 

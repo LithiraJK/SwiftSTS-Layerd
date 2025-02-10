@@ -98,14 +98,14 @@ public class RouteFormController implements Initializable {
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Failed to delete route!").show();
                 }
-            } catch (SQLException e) {
+            } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
     @FXML
-    void btnResetOnAction(ActionEvent event) throws SQLException {
+    void btnResetOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         refreshPage();
     }
 
@@ -158,14 +158,14 @@ public class RouteFormController implements Initializable {
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Failed to save route!").show();
                 }
-            } catch (SQLException e) {
+            } catch (SQLException | ClassNotFoundException e) {
                 new Alert(Alert.AlertType.ERROR, "An error occurred while saving the route: " + e.getMessage()).show();
             }
         }
     }
 
     @FXML
-    void btnUpdateOnAction(ActionEvent event) throws SQLException {
+    void btnUpdateOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String routeId = lblRouteId.getText();
         String routeName = txtRouteName.getText();
         String startPoint = txtStartPoint.getText();
@@ -242,12 +242,14 @@ public class RouteFormController implements Initializable {
             refreshPage();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
 
         addValidationListeners();
     }
 
-    private void refreshPage() throws SQLException {
+    private void refreshPage() throws SQLException, ClassNotFoundException {
         refreshTable();
 
         String nextRouteId = routeBO.getNewId();
@@ -268,7 +270,7 @@ public class RouteFormController implements Initializable {
         btnUpdate.setDisable(true);
     }
 
-    private void refreshTable() throws SQLException {
+    private void refreshTable() throws SQLException, ClassNotFoundException {
         ArrayList<RouteDto> routeDtos = routeBO.getAllRoutes();
         ObservableList<RouteTM> routeTMS = FXCollections.observableArrayList();
 

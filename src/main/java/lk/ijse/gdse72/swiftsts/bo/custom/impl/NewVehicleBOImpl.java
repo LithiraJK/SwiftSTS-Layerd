@@ -14,7 +14,7 @@ public class NewVehicleBOImpl implements NewVehicleBO {
     VehicleDAO vehicleDAO =(VehicleDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.VEHICLE);
 
     @Override
-    public boolean saveNewVehicle(VehicleDto dto) throws SQLException {
+    public boolean saveNewVehicle(VehicleDto dto) throws SQLException, ClassNotFoundException {
         return vehicleDAO.save(new Vehicle(
                 dto.getVehicleId(),
                 dto.getRegistrationNo(),
@@ -27,7 +27,7 @@ public class NewVehicleBOImpl implements NewVehicleBO {
     }
 
     @Override
-    public String getNewId() throws SQLException {
+    public String getNewId() throws SQLException, ClassNotFoundException {
         return vehicleDAO.getNewId();
     }
 }

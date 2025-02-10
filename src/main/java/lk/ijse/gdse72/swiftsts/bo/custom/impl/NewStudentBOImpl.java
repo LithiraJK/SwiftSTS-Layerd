@@ -18,7 +18,7 @@ public class NewStudentBOImpl implements NewStudentBO {
     UserDAO userDAO =  (UserDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.USER);
 
     @Override
-    public boolean saveNewStudent(StudentDto studentDto) throws SQLException {
+    public boolean saveNewStudent(StudentDto studentDto) throws SQLException, ClassNotFoundException {
         return studentDAO.save(new Student(
                 studentDto.getStudentId(),
                 studentDto.getStudentName(),
@@ -32,7 +32,7 @@ public class NewStudentBOImpl implements NewStudentBO {
     }
 
     @Override
-    public String getNewId() throws SQLException {
+    public String getNewId() throws SQLException, ClassNotFoundException {
         return studentDAO.getNewId();
     }
 

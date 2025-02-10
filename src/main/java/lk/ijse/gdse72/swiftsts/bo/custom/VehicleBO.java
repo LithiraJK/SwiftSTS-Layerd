@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface VehicleBO extends SuperBO {
-    public ArrayList<VehicleDto> getAllVehicles() throws SQLException;
-    public String getNewId() throws SQLException;
-    public boolean updateVehicle(VehicleDto vehicleDto) throws SQLException;
-    public boolean saveVehicle(VehicleDto vehicleDto) throws SQLException;
-    public boolean deleteVehicle(String vehicleId) throws SQLException;
+    ArrayList<VehicleDto> getAllVehicles() throws SQLException, ClassNotFoundException;
+    String getNewId() throws SQLException, ClassNotFoundException;
+    boolean updateVehicle(VehicleDto vehicleDto) throws SQLException, ClassNotFoundException;
+    boolean saveVehicle(VehicleDto vehicleDto) throws SQLException, ClassNotFoundException;
+    boolean deleteVehicle(String vehicleId) throws SQLException, ClassNotFoundException;
 
 }

@@ -9,13 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface RouteDAO extends CrudDAO<Route> {
-    public ArrayList<Route> getAllData() throws SQLException;
-    public String getNewId() throws SQLException;
-    public boolean save(Route routeDto) throws SQLException;
-    public boolean update(Route routeDto) throws SQLException;
-    public boolean delete(String routeId) throws SQLException;
-    public double getRouteFeeByRouteId(String routeId) throws SQLException;
-    public String getRouteIdByRouteName(String routeName) throws SQLException;
-    public List<String> getAllDestinations() throws SQLException;
-    public List<String> getAllRouteNames() throws SQLException;
+    double getRouteFeeByRouteId(String routeId) throws SQLException;
+    String getRouteIdByRouteName(String routeName) throws SQLException;
+    List<String> getAllDestinations() throws SQLException;
+    List<String> getAllRouteNames() throws SQLException;
 }

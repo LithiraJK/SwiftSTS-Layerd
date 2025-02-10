@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface UpdateAttendanceBO extends SuperBO {
-    public boolean updateAttendance(AttendanceDto dto) throws SQLException;
-    public ArrayList<String> getAllDriverIds() throws SQLException;
-    public ArrayList<String> getAllStudentNames() throws SQLException;
+    boolean updateAttendance(AttendanceDto dto) throws SQLException, ClassNotFoundException;
+    ArrayList<String> getAllDriverIds() throws SQLException;
+    ArrayList<String> getAllStudentNames() throws SQLException;
 
 }

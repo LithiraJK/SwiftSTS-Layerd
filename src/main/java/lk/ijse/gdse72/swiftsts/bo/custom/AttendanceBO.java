@@ -8,16 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface AttendanceBO extends SuperBO {
-    public ArrayList<AttendanceDto> getAllAttendance() throws SQLException;
-    public boolean saveAttendance(AttendanceDto dto) throws SQLException;
-    public boolean updateAttendance(AttendanceDto dto) throws SQLException;
-    public boolean deleteAttendance(String attendenceId) throws SQLException;
-    public String getNewId() throws SQLException;
-    public String getStudentNameById(String studentId) throws SQLException;
-    public String getStudentIdByName(String studentName) throws SQLException;
-    public List<String> getAllVehicleIds() throws SQLException;
-    public String getRegistrationNoById(String vehicleId) throws SQLException;
-    public ArrayList<String> getStudentIdsByVehicleId(String vehicleId) throws SQLException;
+    ArrayList<AttendanceDto> getAllAttendance() throws SQLException, ClassNotFoundException;
+    boolean saveAttendance(AttendanceDto dto) throws SQLException, ClassNotFoundException;
+    boolean updateAttendance(AttendanceDto dto) throws SQLException, ClassNotFoundException;
+    boolean deleteAttendance(String attendenceId) throws SQLException, ClassNotFoundException;
+    String getNewId() throws SQLException, ClassNotFoundException;
+    String getStudentNameById(String studentId) throws SQLException;
+    String getStudentIdByName(String studentName) throws SQLException;
+    List<String> getAllVehicleIds() throws SQLException;
+    String getRegistrationNoById(String vehicleId) throws SQLException;
+    ArrayList<String> getStudentIdsByVehicleId(String vehicleId) throws SQLException;
 
 
 }

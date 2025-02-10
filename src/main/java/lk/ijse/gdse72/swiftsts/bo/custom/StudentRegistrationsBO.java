@@ -7,6 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface StudentRegistrationsBO extends SuperBO {
-    public ArrayList<StudentRegistrationDto> getAllStudentRegistrations() throws SQLException;
+    ArrayList<StudentRegistrationDto> getAllStudentRegistrations() throws SQLException;
 
 }

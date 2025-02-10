@@ -152,6 +152,8 @@ public class UpdateAttendanceController implements Initializable {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "An error occurred while updating the attendance: " + e.getMessage()).show();
             paneAttendance.getChildren().remove(overlayPane);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 

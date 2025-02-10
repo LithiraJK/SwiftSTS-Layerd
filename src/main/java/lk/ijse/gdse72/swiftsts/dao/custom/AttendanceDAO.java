@@ -8,12 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface AttendanceDAO extends CrudDAO<Attendance> {
-    public ArrayList<Attendance> getAllData() throws SQLException;
-    public boolean save(Attendance attendance) throws SQLException;
-    public boolean update(Attendance attendance) throws SQLException;
-    public boolean delete(String attendenceId) throws SQLException;
-    public String getNewId() throws SQLException;
-    public int getDayCountByAttendanceId(String attendanceId) throws SQLException;
-    public String getAttendanceIdByStudentIdYearMonth(String studentId, String year, String month) throws SQLException ;
-    public ArrayList<String> getAttendanceMonthsByStudentId(String studentId) throws SQLException ;
+    int getDayCountByAttendanceId(String attendanceId) throws SQLException;
+    String getAttendanceIdByStudentIdYearMonth(String studentId, String year, String month) throws SQLException ;
+    ArrayList<String> getAttendanceMonthsByStudentId(String studentId) throws SQLException ;
 }

@@ -27,7 +27,7 @@ public class AttendanceBOImpl implements AttendanceBO {
     StudentRegistrationDAO studentRegistrationDAO = (StudentRegistrationDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.STUDENTREGISTRATION);
 
     @Override
-    public ArrayList<AttendanceDto> getAllAttendance() throws SQLException {
+    public ArrayList<AttendanceDto> getAllAttendance() throws SQLException, ClassNotFoundException {
         ArrayList<Attendance> attendances = attendanceDAO.getAllData();//get all data from DAO layer
         ArrayList<AttendanceDto> attendanceDtos = new ArrayList<>();
 
@@ -45,22 +45,22 @@ public class AttendanceBOImpl implements AttendanceBO {
     }
 
     @Override
-    public boolean saveAttendance(AttendanceDto dto) throws SQLException {
+    public boolean saveAttendance(AttendanceDto dto) throws SQLException, ClassNotFoundException {
         return attendanceDAO.save(new Attendance(dto.getAttendanceId(), dto.getStudentId(), dto.getVehicleId(),dto.getYear(),dto.getMonth(),dto.getDayCount()));
     }
 
     @Override
-    public boolean updateAttendance(AttendanceDto dto) throws SQLException {
+    public boolean updateAttendance(AttendanceDto dto) throws SQLException, ClassNotFoundException {
         return attendanceDAO.update(new Attendance(dto.getAttendanceId(), dto.getStudentId(), dto.getVehicleId(),dto.getYear(),dto.getMonth(),dto.getDayCount()));
     }
 
     @Override
-    public boolean deleteAttendance(String attendenceId) throws SQLException {
+    public boolean deleteAttendance(String attendenceId) throws SQLException, ClassNotFoundException {
         return attendanceDAO.delete(attendenceId);
     }
 
     @Override
-    public String getNewId() throws SQLException {
+    public String getNewId() throws SQLException, ClassNotFoundException {
         return attendanceDAO.getNewId();
     }
 

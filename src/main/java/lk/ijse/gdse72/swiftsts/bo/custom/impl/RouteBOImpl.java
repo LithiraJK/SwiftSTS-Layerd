@@ -15,7 +15,7 @@ public class RouteBOImpl implements RouteBO {
     RouteDAO routeDAO = (RouteDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ROUTE);
 
     @Override
-    public ArrayList<RouteDto> getAllRoutes() throws SQLException {
+    public ArrayList<RouteDto> getAllRoutes() throws SQLException, ClassNotFoundException {
         ArrayList<Route> routes = routeDAO.getAllData();
         ArrayList<RouteDto> routeDtos = new ArrayList<>();
 
@@ -32,12 +32,12 @@ public class RouteBOImpl implements RouteBO {
     }
 
     @Override
-    public String getNewId() throws SQLException {
+    public String getNewId() throws SQLException, ClassNotFoundException {
         return routeDAO.getNewId();
     }
 
     @Override
-    public boolean saveRoute(RouteDto dto) throws SQLException {
+    public boolean saveRoute(RouteDto dto) throws SQLException, ClassNotFoundException {
         return routeDAO.save(new Route( dto.getRouteId(),
                 dto.getRouteName(),
                 dto.getStartPoint(),
@@ -47,7 +47,7 @@ public class RouteBOImpl implements RouteBO {
     }
 
     @Override
-    public boolean updateRoute(RouteDto dto) throws SQLException {
+    public boolean updateRoute(RouteDto dto) throws SQLException, ClassNotFoundException {
         return routeDAO.update(new Route( dto.getRouteId(),
                 dto.getRouteName(),
                 dto.getStartPoint(),
@@ -57,7 +57,7 @@ public class RouteBOImpl implements RouteBO {
     }
 
     @Override
-    public boolean deleteRoute(String routeId) throws SQLException {
+    public boolean deleteRoute(String routeId) throws SQLException, ClassNotFoundException {
         return routeDAO.delete(routeId);
     }
 }

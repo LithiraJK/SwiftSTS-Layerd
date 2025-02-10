@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface StudentBO extends SuperBO {
-    public ArrayList<String> getAllUserIds() throws SQLException;
-    public ArrayList<StudentDto> getAllStudents() throws SQLException;
-    public String getNewId() throws SQLException;
-    public boolean saveStudent(StudentDto studentDto) throws SQLException;
-    public boolean updateStudent(StudentDto studentDto) throws SQLException;
-    public boolean deleteStudent(String studentId) throws SQLException;
+    ArrayList<String> getAllUserIds() throws SQLException;
+    ArrayList<StudentDto> getAllStudents() throws SQLException, ClassNotFoundException;
+    String getNewId() throws SQLException, ClassNotFoundException;
+    boolean saveStudent(StudentDto studentDto) throws SQLException, ClassNotFoundException;
+    boolean updateStudent(StudentDto studentDto) throws SQLException, ClassNotFoundException;
+    boolean deleteStudent(String studentId) throws SQLException, ClassNotFoundException;
 }
