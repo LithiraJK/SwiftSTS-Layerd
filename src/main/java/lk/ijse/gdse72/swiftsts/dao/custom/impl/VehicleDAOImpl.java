@@ -3,6 +3,7 @@ package lk.ijse.gdse72.swiftsts.dao.custom.impl;
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.VehicleDAO;
 import lk.ijse.gdse72.swiftsts.dto.VehicleDto;
+import lk.ijse.gdse72.swiftsts.entity.Student;
 import lk.ijse.gdse72.swiftsts.entity.Vehicle;
 
 import java.sql.ResultSet;

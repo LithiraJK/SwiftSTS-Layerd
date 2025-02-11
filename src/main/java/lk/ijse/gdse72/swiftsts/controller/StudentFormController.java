@@ -31,11 +31,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class StudentFormController implements Initializable {
-//    StudentModel studentDAO = new StudentModel();
-    //    UserModel userDAO = new UserModel();
-
-//    StudentDAO studentDAO = new StudentDAOImpl();
-//    UserDAO userDAO =  new UserDAOImpl();
 
     StudentBO studentBO = (StudentBO) BOFactory.getInstance().getBO(BOFactory.BOType.STUDENT);
 
@@ -48,9 +43,6 @@ public class StudentFormController implements Initializable {
 
     @FXML
     private JFXButton btnDelete;
-
-    @FXML
-    private JFXButton btnSave;
 
     @FXML
     private Label lblStudentId;
@@ -100,8 +92,6 @@ public class StudentFormController implements Initializable {
     @FXML
     private TableView<StudentTM> tblStudent;
 
-    @FXML
-    private TableColumn<StudentTM, String> colUserID;
 
     @FXML
     private AnchorPane paneStudent;
@@ -110,82 +100,8 @@ public class StudentFormController implements Initializable {
     private JFXButton btnReset;
 
     @FXML
-    private JFXComboBox<String> cbUserID;
-
-    @FXML
     void btnResetOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         refreshPage();
-    }
-
-    @FXML
-    void btnSaveOnAction(ActionEvent event) throws SQLException {
-        String studentId = lblStudentId.getText();
-        String studentName = txtStudentName.getText();
-        String parentName = txtParentName.getText();
-        String address = txtAddress.getText();
-        String email = txtEmail.getText();
-        String studentGrade = txtStudentGrade.getText();
-        String phoneNo = txtPhoneNo.getText();
-        String userId = cbUserID.getValue();
-        double creditBalance = Double.parseDouble(lblCreditBalance.getText()); // New field
-
-        // Define regex patterns for validation
-        String namePattern = "^[A-Za-z ]+$";
-        String emailPattern = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-        String phonePattern = "^(\\d+)$";
-        String gradePattern = "^[a-zA-Z0-9]+$";
-
-        boolean isValidName = studentName.matches(namePattern);
-        boolean isValidParentName = parentName.matches(namePattern);
-        boolean isValidAddress = address.matches(namePattern);
-        boolean isValidEmail = email.matches(emailPattern);
-        boolean isValidPhoneNo = phoneNo.matches(phonePattern);
-        boolean isValidGrade = studentGrade.matches(gradePattern);
-
-        txtStudentName.setFocusColor(Paint.valueOf("black"));
-        txtParentName.setFocusColor(Paint.valueOf("black"));
-        txtAddress.setFocusColor(Paint.valueOf("black"));
-        txtEmail.setFocusColor(Paint.valueOf("black"));
-        txtPhoneNo.setFocusColor(Paint.valueOf("black"));
-        txtStudentGrade.setFocusColor(Paint.valueOf("black"));
-
-        if (!isValidName) {
-            txtStudentName.setFocusColor(Paint.valueOf("red"));
-        }
-        if (!isValidParentName) {
-            txtParentName.setFocusColor(Paint.valueOf("red"));
-        }
-        if (!isValidAddress) {
-            txtAddress.setFocusColor(Paint.valueOf("red"));
-        }
-        if (!isValidEmail) {
-            txtEmail.setFocusColor(Paint.valueOf("red"));
-        }
-        if (!isValidPhoneNo) {
-            txtPhoneNo.setFocusColor(Paint.valueOf("red"));
-        }
-        if (!isValidGrade) {
-            txtStudentGrade.setFocusColor(Paint.valueOf("red"));
-        }
-
-        if (isValidName && isValidParentName && isValidAddress && isValidEmail && isValidPhoneNo && isValidGrade) {
-            StudentDto studentDto = new StudentDto(studentId, studentName, parentName, address, email, studentGrade, phoneNo, userId, creditBalance);
-
-            try {
-                boolean isSaved = studentBO.saveStudent(studentDto);
-
-                if (isSaved) {
-                    new Alert(Alert.AlertType.INFORMATION, "Student saved successfully!").show();
-                    refreshPage();
-                } else {
-                    new Alert(Alert.AlertType.ERROR, "Failed to save student!").show();
-                }
-            } catch (SQLException e) {
-                new Alert(Alert.AlertType.ERROR, "An error occurred while saving the student: " + e.getMessage()).show();
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        }
     }
 
     @FXML
@@ -197,7 +113,6 @@ public class StudentFormController implements Initializable {
         String email = txtEmail.getText();
         String studentGrade = txtStudentGrade.getText();
         String phoneNo = txtPhoneNo.getText();
-        String userId = cbUserID.getValue();
         double creditBalance = Double.parseDouble(lblCreditBalance.getText()); // New field
 
         // Define regex patterns for validation
@@ -240,7 +155,7 @@ public class StudentFormController implements Initializable {
         }
 
         if (isValidName && isValidParentName && isValidAddress && isValidEmail && isValidPhoneNo && isValidGrade) {
-            StudentDto studentDto = new StudentDto(studentId, studentName, parentName, address, email, studentGrade, phoneNo, userId, creditBalance);
+            StudentDto studentDto = new StudentDto(studentId, studentName, parentName, address, email, studentGrade, phoneNo, creditBalance);
             boolean isUpdated = studentBO.updateStudent(studentDto);
 
             if (isUpdated) {
@@ -284,10 +199,8 @@ public class StudentFormController implements Initializable {
             txtEmail.setText(selectedItem.getEmail());
             txtStudentGrade.setText(selectedItem.getStudentGrade());
             txtPhoneNo.setText(selectedItem.getPhoneNo());
-            cbUserID.setValue(selectedItem.getUserId());
             lblCreditBalance.setText(String.valueOf(selectedItem.getCreditBalance()));
 
-            btnSave.setDisable(true);
             btnDelete.setDisable(false);
             btnUpdate.setDisable(false);
         }
@@ -303,12 +216,10 @@ public class StudentFormController implements Initializable {
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colGrade.setCellValueFactory(new PropertyValueFactory<>("studentGrade"));
         colPhoneNo.setCellValueFactory(new PropertyValueFactory<>("phoneNo"));
-        colUserID.setCellValueFactory(new PropertyValueFactory<>("userId"));
         colCreditBalance.setCellValueFactory(new PropertyValueFactory<>("creditBalance"));
 
         try {
             refreshPage();
-            loadUserIds();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
@@ -316,11 +227,6 @@ public class StudentFormController implements Initializable {
         }
 
         addValidationListeners();
-    }
-
-    private void loadUserIds() throws SQLException {
-        ArrayList<String> userIds = studentBO.getAllUserIds();
-        cbUserID.setItems(FXCollections.observableArrayList(userIds));
     }
 
     private void refreshPage() throws SQLException, ClassNotFoundException {
@@ -335,10 +241,7 @@ public class StudentFormController implements Initializable {
         txtEmail.setText("");
         txtStudentGrade.setText("");
         txtPhoneNo.setText("");
-        cbUserID.setValue(null);
         lblCreditBalance.setText("0000.00");
-
-        btnSave.setDisable(false);
 
         btnDelete.setDisable(true);
         btnUpdate.setDisable(true);
@@ -357,7 +260,6 @@ public class StudentFormController implements Initializable {
                     studentDto.getEmail(),
                     studentDto.getStudentGrade(),
                     studentDto.getPhoneNo(),
-                    studentDto.getUserId(),
                     studentDto.getCreditBalance() // New field
             );
             studentTMS.add(studentTM);

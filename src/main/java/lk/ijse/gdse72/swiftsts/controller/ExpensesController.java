@@ -33,12 +33,6 @@ import java.util.ResourceBundle;
 
 public class ExpensesController implements Initializable {
 
-//    ExpenseModel expenseDAO = new ExpenseModel();
-//    UserModel userDAO = new UserModel();
-
-//    ExpenseDAO expenseDAO = new ExpenseDAOImpl();
-//    UserDAO userDAO = new UserDAOImpl();
-
     ExpensesBO expensesBO = (ExpensesBO) BOFactory.getInstance().getBO(BOFactory.BOType.EXPENSES);
 
     @FXML

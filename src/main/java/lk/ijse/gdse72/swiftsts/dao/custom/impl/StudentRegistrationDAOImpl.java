@@ -40,4 +40,13 @@ public class StudentRegistrationDAOImpl implements StudentRegistrationDAO {
         }
         return studentIds;
     }
+    @Override
+    public boolean isStudentRegistered(String studentId) throws SQLException {
+        String query = "SELECT COUNT(*) FROM StudentRegistration WHERE StudentId = ?";
+        ResultSet resultSet = SQLUtil.execute(query, studentId);
+        if (resultSet.next()) {
+            return resultSet.getInt(1) > 0;
+        }
+        return false;
+    }
 }

@@ -35,7 +35,6 @@ public class StudentBOImpl implements StudentBO {
                     student.getEmail(),
                     student.getStudentGrade(),
                     student.getPhoneNo(),
-                    student.getUserId(),
                     student.getCreditBalance()
             ));
         }
@@ -57,7 +56,6 @@ public class StudentBOImpl implements StudentBO {
                 dto.getEmail(),
                 dto.getStudentGrade(),
                 dto.getPhoneNo(),
-                dto.getUserId(),
                 dto.getCreditBalance()));//DTO converted to Entity
     }
 
@@ -71,7 +69,6 @@ public class StudentBOImpl implements StudentBO {
                 dto.getEmail(),
                 dto.getStudentGrade(),
                 dto.getPhoneNo(),
-                dto.getUserId(),
                 dto.getCreditBalance()));//DTO converted to Entity
     }
 

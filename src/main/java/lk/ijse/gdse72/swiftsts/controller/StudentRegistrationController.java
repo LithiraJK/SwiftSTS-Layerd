@@ -14,20 +14,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.StudentRegistrationBO;
-import lk.ijse.gdse72.swiftsts.db.DBConnection;
 import lk.ijse.gdse72.swiftsts.dto.StudentRegistrationDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.StudentRegistrationDetailsTM;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -36,17 +33,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class StudentRegistrationController implements Initializable {
-
-//    StudentRegistrationModel studentRegistrationDAO = new StudentRegistrationModel();
-//    VehicleModel vehicleDAO = new VehicleModel();
-//    StudentModel studentDAO = new StudentModel();
-//    RouteModel routeDAO = new RouteModel();
-
-//    StudentRegistrationDAO studentRegistrationDAO = new StudentRegistrationDAOImpl();
-//    VehicleDAO vehicleDAO = new VehicleDAOImpl();
-//    StudentDAO studentDAO = new StudentDAOImpl();
-//    RouteDAO routeDAO = new RouteDAOImpl();
-//    QueryDAO queryDAO = new QueryDAOImpl();
 
     StudentRegistrationBO studentRegistrationBO = (StudentRegistrationBO) BOFactory.getInstance().getBO(BOFactory.BOType.STUDENT_REGISTRATION);
 
@@ -58,9 +44,6 @@ public class StudentRegistrationController implements Initializable {
     public JFXComboBox<String> cmbVehicle;
     @FXML
     public JFXButton btnReset;
-    @FXML
-    public ImageView viewTable;
-
     @FXML
     public Label txtDayPrice;
 
@@ -111,7 +94,7 @@ public class StudentRegistrationController implements Initializable {
     private TableView<StudentRegistrationDetailsTM> tblStudentRegistration;
 
     @FXML
-    private Label lableStudentId;
+    public Label lableStudentId;
 
     @FXML
     private Label lblAvailableSeat;
@@ -120,19 +103,19 @@ public class StudentRegistrationController implements Initializable {
     private Label lblDate;
 
     @FXML
-    private Label lblPickupLocation;
+    public Label lblPickupLocation;
 
     @FXML
-    private Label lblRegistrationId;
+    public Label lblRegistrationId;
 
     @FXML
     private JFXToggleButton trbtnCalculateDistance;
 
     @FXML
-    private JFXTextField txtDistance;
+    public JFXTextField txtDistance;
 
     @FXML
-    private JFXComboBox<String> cmbStudentName;
+    public JFXComboBox<String> cmbStudentName;
 
     @FXML
     private AnchorPane paneRegistration;
@@ -141,18 +124,83 @@ public class StudentRegistrationController implements Initializable {
 
     public static double dayPrice = 0.00;
 
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        colRegId.setCellValueFactory(new PropertyValueFactory<>("registrationId"));
+        colStudentName.setCellValueFactory(new PropertyValueFactory<>("studentName"));
+        colRouteId.setCellValueFactory(new PropertyValueFactory<>("routeId"));
+        colVehicleID.setCellValueFactory(new PropertyValueFactory<>("vehicleId"));
+        colRegistrationDate.setCellValueFactory(new PropertyValueFactory<>("registrationDate"));
+        colDayPrice.setCellValueFactory(new PropertyValueFactory<>("dayPrice"));
+        colDistance.setCellValueFactory(new PropertyValueFactory<>("distance"));
+        colPickupLocation.setCellValueFactory(new PropertyValueFactory<>("pickupLocation"));
+        colDestination.setCellValueFactory(new PropertyValueFactory<>("destination"));
+
+
+        try {
+            loadLastStudentName();
+            loadRoutes();
+            loadDestinations();
+            loadVehicleIds();
+            loadStudentRegistrationDetails();
+            cmbStudentName.getSelectionModel().select(studentRegistrationBO.getAllStudentNames().get(studentRegistrationBO.getAllStudentNames().size() - 1));
+            String nextRegistrationId = studentRegistrationBO.getNextRegistrationId();
+            lblRegistrationId.setText(nextRegistrationId);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        lblDate.setText(currentDate.format(formatter));
+
+        cmbStudentName.setOnAction(event -> {
+
+            String studentName = cmbStudentName.getSelectionModel().getSelectedItem();
+            String selectedStudentId = null;
+            try {
+                selectedStudentId = studentRegistrationBO.getStudentIdByName(studentName);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            if (selectedStudentId != null) {
+                try {
+
+                    lableStudentId.setText(selectedStudentId);
+                    lblPickupLocation.setText(studentRegistrationBO.getPickupLocationById(selectedStudentId));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        cmbVehicle.setOnAction(event -> {
+            String selectedVehicleId = cmbVehicle.getSelectionModel().getSelectedItem();
+            if (selectedVehicleId != null) {
+                try {
+                    int availableSeats = studentRegistrationBO.getAvailableSeatCountByVehicleId(selectedVehicleId);
+                    lblAvailableSeat.setText(String.valueOf(availableSeats));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     private boolean validateDistance() {
         try {
             double distance = Double.parseDouble(txtDistance.getText());
             if (distance > 0) {
-                txtDistance.setFocusColor(Paint.valueOf("black"));
+                txtDistance.setStyle("-fx-focus-color: black;");
                 return true;
             } else {
-                txtDistance.setFocusColor(Paint.valueOf("red"));
+                txtDistance.setStyle("-fx-focus-color: red;");
                 return false;
             }
         } catch (NumberFormatException e) {
-            txtDistance.setFocusColor(Paint.valueOf("red"));
+            txtDistance.setStyle("-fx-focus-color: red;");
             return false;
         }
     }
@@ -264,39 +312,16 @@ public class StudentRegistrationController implements Initializable {
         Date registrationDate = Date.valueOf(lblDate.getText());
         double distance = Double.parseDouble(txtDistance.getText());
 
+        if(studentRegistrationBO.exists(studentId)){
+            new Alert(Alert.AlertType.ERROR, "Student is already registered !").show();
+            return;
+
+        }
+
         studentRegistrationBO.addRegistration(new StudentRegistrationDto(studentRegId,studentId,distance,dayPrice,routeId,vehicleId,registrationDate),vehicleId);
         refreshPage();
     }
 
-//    public void addRegistration(String studentRegId, String studentId, double distance, double dayPrice, String routeId, String vehicleId, Date registrationDate ){
-//        Connection connection = null;
-//        try {
-//            connection = DBConnection.getInstance().getConnection();
-//            connection.setAutoCommit(false);
-////            CrudUtil.startTransaction();
-//            boolean isStudentInserted = studentRegistrationBO.insertStudentRegistration(new StudentRegistrationDto(studentRegId, studentId, distance, dayPrice,routeId,vehicleId,registrationDate));
-//            if (!isStudentInserted) throw new SQLException("Failed to insert into StudentRegistration");
-//
-//            boolean isVehicleUpdated = studentRegistrationBO.updateVehicleSeatCount(vehicleId, 1);
-//            if (!isVehicleUpdated) throw new SQLException("Failed to update Vehicle seat count");
-//
-////            CrudUtil.commitTransaction();
-//            connection.commit();
-//            connection.setAutoCommit(true);
-//
-//            new Alert(Alert.AlertType.INFORMATION, "Student registered successfully!").show();
-//        } catch (SQLException e) {
-//            try {
-////                CrudUtil.rollbackTransaction();
-//                connection.rollback();
-//                connection.setAutoCommit(true);
-//            } catch (SQLException ex) {
-//                ex.printStackTrace();
-//            }
-//            new Alert(Alert.AlertType.ERROR, "Failed to register student: " + e.getMessage()).show();
-//        }
-//
-//    }
 
     @FXML
     void onClickTable(MouseEvent event) {
@@ -320,6 +345,7 @@ public class StudentRegistrationController implements Initializable {
         lblPickupLocation.setText("Pickup Location");
         lblAvailableSeat.setText("00");
         lblAvailableSeat.setTextFill(Paint.valueOf("black"));
+        btnRegister.setDisable(false);
 
     }
 
@@ -339,79 +365,17 @@ public class StudentRegistrationController implements Initializable {
         paneRegistration.getChildren().add(anchorPane);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        colRegId.setCellValueFactory(new PropertyValueFactory<>("registrationId"));
-        colStudentName.setCellValueFactory(new PropertyValueFactory<>("studentName"));
-        colRouteId.setCellValueFactory(new PropertyValueFactory<>("routeId"));
-        colVehicleID.setCellValueFactory(new PropertyValueFactory<>("vehicleId"));
-        colRegistrationDate.setCellValueFactory(new PropertyValueFactory<>("registrationDate"));
-        colDayPrice.setCellValueFactory(new PropertyValueFactory<>("dayPrice"));
-        colDistance.setCellValueFactory(new PropertyValueFactory<>("distance"));
-        colPickupLocation.setCellValueFactory(new PropertyValueFactory<>("pickupLocation"));
-        colDestination.setCellValueFactory(new PropertyValueFactory<>("destination"));
-
-
-        try {
-            loadStudentNames();
-            loadRoutes();
-            loadDestinations();
-            loadVehicleIds();
-            loadStudentRegistrationDetails();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            String nextRegistrationId = studentRegistrationBO.getNextRegistrationId();
-            lblRegistrationId.setText(nextRegistrationId);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        LocalDate currentDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        lblDate.setText(currentDate.format(formatter));
-
-        cmbStudentName.setOnAction(event -> {
-
-            String studentName = cmbStudentName.getSelectionModel().getSelectedItem();
-            String selectedStudentId = null;
-            try {
-                selectedStudentId = studentRegistrationBO.getStudentIdByName(studentName);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            if (selectedStudentId != null) {
-                try {
-                    lableStudentId.setText(selectedStudentId);
-                    lblPickupLocation.setText(studentRegistrationBO.getPickupLocationById(selectedStudentId));
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        cmbVehicle.setOnAction(event -> {
-            String selectedVehicleId = cmbVehicle.getSelectionModel().getSelectedItem();
-            if (selectedVehicleId != null) {
-                try {
-                    int availableSeats = studentRegistrationBO.getAvailableSeatCountByVehicleId(selectedVehicleId);
-                    lblAvailableSeat.setText(String.valueOf(availableSeats));
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
     private void loadStudentRegistrationDetails() throws SQLException {
         ObservableList<StudentRegistrationDetailsTM> studentRegistrationDetails = studentRegistrationBO.getAllStudentRegistrationDetails();
         tblStudentRegistration.setItems(studentRegistrationDetails);
     }
 
-    private void loadStudentNames() throws SQLException {
-        List<String> studentIds = studentRegistrationBO.getAllStudentNames();
-        cmbStudentName.getItems().addAll(studentIds);
+    private void loadLastStudentName() throws SQLException {
+        List<String> studentNames = studentRegistrationBO.getAllStudentNames();
+        if (!studentNames.isEmpty()) {
+            cmbStudentName.getItems().addAll(studentNames);
+        }
     }
 
     private void loadVehicleIds() throws SQLException {
@@ -429,22 +393,4 @@ public class StudentRegistrationController implements Initializable {
         cmbDestination.getItems().addAll(destinations);
     }
 
-    @FXML
-    public void viewTableOnClicked(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/StudentRegistrations.fxml"));
-        AnchorPane anchorPane = loader.load();
-
-        AnchorPane overlayPane = new AnchorPane();
-        overlayPane.setStyle("-fx-background-color: rgba(255,255,255, 0.5);");
-        overlayPane.setPrefSize(paneRegistration.getWidth(), paneRegistration.getHeight());
-
-        anchorPane.setLayoutX((overlayPane.getPrefWidth() - anchorPane.getPrefWidth()) / 2);
-        anchorPane.setLayoutY((overlayPane.getPrefHeight() - anchorPane.getPrefHeight()) / 2);
-
-        overlayPane.getChildren().add(anchorPane);
-        paneRegistration.getChildren().add(overlayPane);
-
-        NewVehicleFormController controller = loader.getController();
-        controller.setOverlayPane(overlayPane, paneRegistration);
-    }
 }

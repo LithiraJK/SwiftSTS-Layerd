@@ -17,7 +17,7 @@
       <Pane layoutX="-1.0" layoutY="125.0" prefHeight="46.0" prefWidth="530.0" styleClass="bg-bodypane" />
       <AnchorPane layoutX="28.0" layoutY="253.0" prefHeight="277.0" prefWidth="986.0" style="-fx-background-color: white;" styleClass="bg-whitepane">
          <children>
-            <TableView fx:id="tblPayments" layoutY="-6.0" onMouseClicked="#tblPaymentsOnClicked" prefHeight="282.0" prefWidth="986.0" stylesheets="@../css-file/tbl.css">
+            <TableView fx:id="tblPayments" layoutY="-11.0" onMouseClicked="#tblPaymentsOnClicked" prefHeight="251.0" prefWidth="986.0" stylesheets="@../css-file/tbl.css">
                <columns>
                   <TableColumn fx:id="colPaymentId" prefWidth="108.0" text="Payment ID" />
                   <TableColumn fx:id="colStudentId" prefWidth="119.0" text="Student ID" />

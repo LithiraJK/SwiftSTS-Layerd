@@ -48,15 +48,6 @@ public class AttendanceFormController implements Initializable {
 
     AttendanceBO attendanceBO = (AttendanceBO) BOFactory.getInstance().getBO(BOFactory.BOType.ATTENDANCE);
 
-//    AttendanceDAO attendanceBO = new AttendanceDAOImpl();
-//    StudentDAO studentBO = new StudentDAOImpl();
-//    VehicleDAO vehicleBO = new VehicleDAOImpl();
-//    StudentRegistrationDAO studentRegistrationBO = new StudentRegistrationDAOImpl();
-
-//    AttendanceModel attendanceModel = new AttendanceModel();
-//    StudentModel studentModel = new StudentModel();
-//    VehicleModel vehicleModel = new VehicleModel();
-//    StudentRegistrationModel studentRegistrationModel = new StudentRegistrationModel();
 
     @FXML
     public JFXButton btnReset;

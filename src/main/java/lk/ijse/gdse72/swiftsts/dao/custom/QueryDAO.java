@@ -14,6 +14,5 @@ import java.util.List;
 
 public interface QueryDAO extends SuperDAO {
     ObservableList<StudentRegistrationDetailsTM> getAllStudentRegistrationDetails();
-    ArrayList<StudentRegistration> getAllStudentRegistrations() throws SQLException;
     List<Payment> getPaymentData() throws SQLException;
 }

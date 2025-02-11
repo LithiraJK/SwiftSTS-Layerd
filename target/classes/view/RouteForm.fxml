@@ -28,9 +28,9 @@
       <JFXButton fx:id="btnUpdate" layoutX="783.0" layoutY="130.0" onAction="#btnUpdateOnAction" prefHeight="37.0" prefWidth="102.0" styleClass="button-1" text="Update" />
       <JFXButton fx:id="btnDelete" layoutX="905.0" layoutY="130.0" onAction="#btnDeleteOnAction" prefHeight="37.0" prefWidth="102.0" styleClass="button-1" text="Delete" />
       <JFXButton fx:id="btnReset" layoutX="547.0" layoutY="130.0" onAction="#btnResetOnAction" prefHeight="37.0" prefWidth="102.0" styleClass="button-1" text="Reset" />
-      <AnchorPane layoutX="33.0" layoutY="199.0" prefHeight="332.0" prefWidth="986.0" style="-fx-background-color: white;" styleClass="bg-whitepane">
+      <AnchorPane layoutX="33.0" layoutY="207.0" prefHeight="324.0" prefWidth="986.0" style="-fx-background-color: white;" styleClass="bg-whitepane">
          <children>
-            <TableView fx:id="tblRoute" onMouseClicked="#tblRouteOnClick" prefHeight="332.0" prefWidth="986.0">
+            <TableView fx:id="tblRoute" layoutY="-2.0" onMouseClicked="#tblRouteOnClick" prefHeight="295.0" prefWidth="986.0">
                <columns>
                   <TableColumn fx:id="colRouteId" prefWidth="117.0" text="Route ID" />
                   <TableColumn fx:id="colRouteName" prefWidth="239.0" text="Route Name" />

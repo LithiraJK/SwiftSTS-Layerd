@@ -2,13 +2,11 @@ package lk.ijse.gdse72.swiftsts.dao.custom.impl;
 
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
-import lk.ijse.gdse72.swiftsts.dto.StudentDto;
 import lk.ijse.gdse72.swiftsts.entity.Student;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class StudentDAOImpl implements StudentDAO {
     @Override
@@ -25,8 +23,7 @@ public class StudentDAOImpl implements StudentDAO {
                     rst.getString(5),
                     rst.getString(6),
                     rst.getString(7),
-                    rst.getString(8),
-                    rst.getDouble(9)
+                    rst.getDouble(8)
             ));
         }
         return students;
@@ -48,7 +45,7 @@ public class StudentDAOImpl implements StudentDAO {
 
     @Override
     public boolean save(Student student) throws SQLException {
-        return SQLUtil.execute("INSERT INTO Student VALUES (?,?,?,?,?,?,?,?,?)",
+        return SQLUtil.execute("INSERT INTO Student VALUES (?,?,?,?,?,?,?,?)",
                 student.getStudentId(),
                 student.getStudentName(),
                 student.getParentName(),
@@ -56,24 +53,41 @@ public class StudentDAOImpl implements StudentDAO {
                 student.getEmail(),
                 student.getStudentGrade(),
                 student.getPhoneNo(),
-                student.getUserId(),
                 student.getCreditBalance()
         );
     }
 
     @Override
     public boolean update(Student student) throws SQLException {
-        return SQLUtil.execute("UPDATE Student SET StudentName=?, ParentName=?, PickupLocation=?, Email=?, StudentGrade=?, ContactNo=?, UserId=?, CreditBalance=?  WHERE StudentId=?",
+        return SQLUtil.execute("UPDATE Student SET StudentName=?, ParentName=?, PickupLocation=?, Email=?, StudentGrade=?, ContactNo=?, CreditBalance=?  WHERE StudentId=?",
                 student.getStudentName(),
                 student.getParentName(),
                 student.getAddress(),
                 student.getEmail(),
                 student.getStudentGrade(),
                 student.getPhoneNo(),
-                student.getUserId(),
                 student.getCreditBalance(),
                 student.getStudentId()
         );
+    }
+
+    @Override
+    public Student find(String studentId) throws SQLException, ClassNotFoundException {
+        String query = "SELECT * FROM Student WHERE StudentId = ?";
+        ResultSet resultSet = SQLUtil.execute(query, studentId);
+        if (resultSet.next()) {
+            return new Student(
+                    resultSet.getString("StudentId"),
+                    resultSet.getString("StudentName"),
+                    resultSet.getString("ParentName"),
+                    resultSet.getString("PickupLocation"),
+                    resultSet.getString("Email"),
+                    resultSet.getString("StudentGrade"),
+                    resultSet.getString("ContactNo"),
+                    resultSet.getDouble("CreditBalance")
+            );
+        }
+        return null; // or throw an exception if student not found
     }
 
     @Override

@@ -15,29 +15,10 @@ import java.util.ArrayList;
 public class NewStudentBOImpl implements NewStudentBO {
 
     StudentDAO studentDAO = (StudentDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.STUDENT);
-    UserDAO userDAO =  (UserDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.USER);
-
-    @Override
-    public boolean saveNewStudent(StudentDto studentDto) throws SQLException, ClassNotFoundException {
-        return studentDAO.save(new Student(
-                studentDto.getStudentId(),
-                studentDto.getStudentName(),
-                studentDto.getParentName(),
-                studentDto.getAddress(),
-                studentDto.getEmail(),
-                studentDto.getStudentGrade(),
-                studentDto.getPhoneNo(),
-                studentDto.getUserId(),
-                studentDto.getCreditBalance()));
-    }
 
     @Override
     public String getNewId() throws SQLException, ClassNotFoundException {
         return studentDAO.getNewId();
     }
 
-    @Override
-    public ArrayList<String> getAllUserIds() throws SQLException {
-        return userDAO.getAllUserIds();
-    }
 }

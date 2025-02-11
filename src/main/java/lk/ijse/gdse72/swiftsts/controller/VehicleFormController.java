@@ -27,9 +27,6 @@ import java.util.ResourceBundle;
 
 public class VehicleFormController implements Initializable {
 
-//    VehicleModel vehicleDAO = new VehicleModel();
-//    VehicleDAO vehicleDAO = new VehicleDAOImpl();
-
     VehicleBO vehicleBO = (VehicleBO) BOFactory.getInstance().getBO(BOFactory.BOType.VEHICLE);
 
 

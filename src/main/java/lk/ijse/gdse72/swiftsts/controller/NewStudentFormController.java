@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -12,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.NewStudentBO;
+import lk.ijse.gdse72.swiftsts.bo.custom.StudentRegistrationBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.impl.NewStudentBOImpl;
 import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
 import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
@@ -20,19 +22,15 @@ import lk.ijse.gdse72.swiftsts.dao.custom.impl.UserDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.StudentDto;
 
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class NewStudentFormController implements Initializable {
 
-//    StudentModel studentDAO = new StudentModel();
-//    UserModel userDAO = new UserModel();
-
-//    StudentDAO studentDAO = new StudentDAOImpl();
-//    UserDAO userDAO =  new UserDAOImpl();
-
     NewStudentBO newStudentBO = (NewStudentBO) BOFactory.getInstance().getBO(BOFactory.BOType.NEW_STUDENT);
+    StudentRegistrationBO studentRegistrationBO = (StudentRegistrationBO) BOFactory.getInstance().getBO(BOFactory.BOType.STUDENT_REGISTRATION);
 
 
     @FXML
@@ -49,8 +47,7 @@ public class NewStudentFormController implements Initializable {
     public JFXTextField txtStudentName;
     @FXML
     public JFXTextField txtParentName;
-    @FXML
-    public JFXComboBox<String> cbUserID;
+
     @FXML
     public JFXButton btnDiscard;
     @FXML
@@ -70,7 +67,7 @@ public class NewStudentFormController implements Initializable {
     }
 
     @FXML
-    public void btnSaveOnAction(ActionEvent actionEvent) {
+    public void btnSaveOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException, IOException {
         String studentId = lblStudentId.getText();
         String studentName = txtStudentName.getText();
         String parentName = txtParentName.getText();
@@ -78,7 +75,6 @@ public class NewStudentFormController implements Initializable {
         String email = txtEmail.getText();
         String studentGrade = txtStudentGrade.getText();
         String phoneNo = txtPhoneNo.getText();
-        String userId = cbUserID.getValue();
 
         // Define regex patterns for validation
         String namePattern = "^[A-Za-z ]+$";
@@ -120,21 +116,16 @@ public class NewStudentFormController implements Initializable {
         }
 
         if (isValidName && isValidParentName && isValidAddress && isValidEmail && isValidPhoneNo && isValidGrade) {
-            StudentDto studentDto = new StudentDto(studentId, studentName, parentName, address, email, studentGrade, phoneNo, userId, 0.0);
-
-            try {
-                boolean isSaved = newStudentBO.saveNewStudent(studentDto);
-
-                if (isSaved) {
-                    new Alert(Alert.AlertType.INFORMATION, "Student saved successfully!").show();
-                    paneStudent.getChildren().remove(overlayPane);
-                } else {
-                    new Alert(Alert.AlertType.ERROR, "Failed to save student!").show();
-                }
-            } catch (SQLException e) {
-                new Alert(Alert.AlertType.ERROR, "An error occurred while saving the student: " + e.getMessage()).show();
-            } catch (ClassNotFoundException e) {
-                new Alert(Alert.AlertType.ERROR, "An error occurred while saving the student: " + e.getMessage()).show();
+            StudentDto studentDto = new StudentDto(studentId, studentName, parentName, address, email, studentGrade, phoneNo, 0.0);
+            boolean isSaved = studentRegistrationBO.saveNewStudent(studentDto);
+            if (isSaved) {
+                new Alert(Alert.AlertType.INFORMATION, "Student saved successfully!").show();
+                // Close the current form and return to the root page
+                paneStudent.getChildren().clear();
+                AnchorPane rootPane = FXMLLoader.load(getClass().getResource("/view/StudentRegistration.fxml"));
+                paneStudent.getChildren().add(rootPane);
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Failed to save student!").show();
             }
         }
     }
@@ -151,12 +142,6 @@ public class NewStudentFormController implements Initializable {
             lblStudentId.setText(nextStudentId);
         } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "An error occurred while generating the student ID: " + e.getMessage()).show();
-        }
-
-        try {
-            cbUserID.getItems().addAll(newStudentBO.getAllUserIds());
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "An error occurred while loading user IDs: " + e.getMessage()).show();
         }
 
         addValidationListeners();

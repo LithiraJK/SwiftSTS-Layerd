@@ -23,9 +23,6 @@ import java.sql.SQLException;
 
 public class SignUpSecondFormController {
 
-//    UserModel userDAO = new UserModel();
-//    UserDAO userDAO = new UserDAOImpl();
-
     SignUpSecondBO signUpSecondBO = (SignUpSecondBO) BOFactory.getInstance().getBO(BOFactory.BOType.SIGNUP_SECOND);
 
     @FXML

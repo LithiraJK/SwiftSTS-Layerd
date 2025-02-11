@@ -29,14 +29,6 @@ import java.util.ResourceBundle;
 
 public class UpdateAttendanceController implements Initializable {
 
-//    AttendanceModel attendanceDAO = new AttendanceModel();
-//    DriverModel driverDAO = new DriverModel();
-//    StudentModel studentDAO = new StudentModel();
-
-//    AttendanceDAO attendanceDAO = new AttendanceDAOImpl();
-//    DriverDAO driverDAO =new DriverDAOImpl();
-//    StudentDAO studentDAO = new StudentDAOImpl();
-
     UpdateAttendanceBO updateAttendanceBO = (UpdateAttendanceBO) BOFactory.getInstance().getBO(BOFactory.BOType.UPDATE_ATTENDANCE);
 
     @FXML

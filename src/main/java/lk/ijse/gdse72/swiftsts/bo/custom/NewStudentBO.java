@@ -7,9 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface NewStudentBO extends SuperBO {
-    boolean saveNewStudent(StudentDto studentDto) throws SQLException, ClassNotFoundException;
+//    boolean saveNewStudent(StudentDto studentDto) throws SQLException, ClassNotFoundException;
     String getNewId() throws SQLException, ClassNotFoundException;
-    ArrayList<String> getAllUserIds() throws SQLException;
-
 
 }

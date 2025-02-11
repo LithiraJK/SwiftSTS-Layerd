@@ -15,7 +15,6 @@ public class Student {
     private String email;
     private String studentGrade;
     private String phoneNo;
-    private String userId;
     private double creditBalance;
 
 }

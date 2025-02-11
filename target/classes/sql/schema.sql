@@ -2,8 +2,7 @@ DROP
 DATABASE IF EXISTS SwiftSTS;
 CREATE
 DATABASE SwiftSTS;
-USE
-SwiftSTS;
+USE SwiftSTS;
 
 create table User
 (
@@ -53,10 +52,7 @@ create table Student
     Email          varchar(100) not null,
     StudentGrade   varchar(10)  not null,
     ContactNo      varchar(15)  not null,
-    UserId         varchar(10)  not null,
-    CreditBalance  decimal(6, 2) default 0.00 null,
-    foreign key (UserId) references User (UserId)
-        on update cascade on delete cascade
+    CreditBalance  decimal(6, 2) default 0.00 null
 );
 
 
@@ -162,6 +158,8 @@ create table DriverSchedule
         on update cascade on delete cascade
 );
 
+USE SwiftSTS;
+
 -- User Table
 INSERT INTO User (UserId, UserName, Password, RoleType, Email)
 VALUES ('U001', 'admin', 'admin', '123', 'admin@swiftsts.lk'),
@@ -179,18 +177,18 @@ VALUES ('EXP001', '2024-11-01', 150.00, 'Diesel refill for bus', 'U001'),
 
 
 -- Student Table
-INSERT INTO Student (StudentId, StudentName, ParentName, PickupLocation, Email, StudentGrade, ContactNo, UserId,
+INSERT INTO Student (StudentId, StudentName, ParentName, PickupLocation, Email, StudentGrade, ContactNo,
                      CreditBalance)
-VALUES ('S001', 'Amal Perera', 'Sanduni Silva', 'Karapitiya', 'amal@galle.sch.lk', 'Grade 5', '0711234567', 'U003',
+VALUES ('S001', 'Amal Perera', 'Sanduni Silva', 'Karapitiya', 'amal@galle.sch.lk', 'Grade 5', '0711234567',
         1000.00),
-       ('S002', 'Kavindi Silva', 'Sanduni Silva', 'Pinnaduwa', 'kavindi@galle.sch.lk', 'Grade 8', '0719876543', 'U003',
+       ('S002', 'Kavindi Silva', 'Sanduni Silva', 'Pinnaduwa', 'kavindi@galle.sch.lk', 'Grade 8', '0719876543',
         500.00),
        ('S003', 'Nimesh Perera', 'Nuwan Jayasekara', 'Hikkaduwa', 'nimesh@galle.sch.lk', 'Grade 10', '0711122334',
-        'U005', 400.00),
+         400.00),
        ('S004', 'Tharindu Fernando', 'Nuwan Jayasekara', 'Gintota', 'tharindu@galle.sch.lk', 'Grade 7', '0775566778',
-        'U005', 1500.00),
+        1500.00),
        ('S005', 'Sasini Kumari', 'Nuwan Jayasekara', 'Unawatuna', 'sasini@galle.sch.lk', 'Grade 3', '0756677889',
-        'U005', 300.00);
+         300.00);
 
 -- Driver Table
 INSERT INTO Driver (DriverId, Name, LicenseNo, NIC, ContactNo, Address, Email)

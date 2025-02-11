@@ -28,10 +28,6 @@ import java.util.ResourceBundle;
 
 public class DriverFormController implements Initializable {
 
-//    DriverModel driverModel = new DriverModel();
-
-//    DriverDAO driverDAO = new DriverDAOImpl() ;
-
     DriverBO driverBO = (DriverBO) BOFactory.getInstance().getBO(BOFactory.BOType.DRIVER);
 
     @FXML

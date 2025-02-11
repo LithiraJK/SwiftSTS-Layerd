@@ -14,7 +14,7 @@
       <Label layoutX="35.0" layoutY="22.0" styleClass="label-H2-" text="Vehicles" />
       <Pane layoutX="20.0" layoutY="251.0" prefHeight="282.0" prefWidth="999.0" style="-fx-background-color: white;" styleClass="bg-whitepane">
          <children>
-            <TableView fx:id="tblVehicle" layoutY="6.0" onMouseClicked="#tblVehicleOnClick" prefHeight="292.0" prefWidth="999.0">
+            <TableView fx:id="tblVehicle" layoutY="-2.0" onMouseClicked="#tblVehicleOnClick" prefHeight="248.0" prefWidth="999.0">
               <columns>
                 <TableColumn fx:id="colVehicleID" prefWidth="95.0" text="Vehicle ID" />
                   <TableColumn fx:id="colRegistrationNo" prefWidth="157.0" text="Registration No" />

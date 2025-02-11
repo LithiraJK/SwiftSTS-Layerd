@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QueryDAOImpl implements QueryDAO {
-    //throw exception
     @Override
     public ObservableList<StudentRegistrationDetailsTM> getAllStudentRegistrationDetails() {
         ObservableList<StudentRegistrationDetailsTM> list = FXCollections.observableArrayList();
@@ -37,7 +36,8 @@ public class QueryDAOImpl implements QueryDAO {
                 "FROM StudentRegistration sr " +
                 "JOIN Student s ON sr.StudentId = s.StudentId " +
                 "JOIN Route r ON sr.RouteId = r.RouteId " +
-                "JOIN Vehicle v ON sr.VehicleId = v.VehicleId";
+                "JOIN Vehicle v ON sr.VehicleId = v.VehicleId " +
+                "ORDER BY sr.StudentRegistrationId ASC";
 
         Connection connection = null;
         PreparedStatement pst = null;
@@ -82,30 +82,7 @@ public class QueryDAOImpl implements QueryDAO {
         }
         return list;
     }
-    @Override
-    public ArrayList<StudentRegistration> getAllStudentRegistrations() throws SQLException {
-        ResultSet rst = SQLUtil.execute("SELECT StudentRegistrationId, " +
-                "StudentId, Distance,DayPrice,RouteName,VehicleId,Date " +
-                "FROM StudentRegistration sr " +
-                "join Route r " +
-                "on sr.RouteId = r.RouteId");
-        ArrayList<StudentRegistration> studentRegistrationList = new ArrayList<>();
 
-        while (rst.next()) {
-            studentRegistrationList.add(new StudentRegistration(
-                    rst.getString("StudentRegistrationId"),
-                    rst.getString("StudentId"),
-                    rst.getDouble("DayPrice"),
-                    rst.getDouble("Distance"),
-                    rst.getString("RouteName"),
-                    rst.getString("VehicleId"),
-                    rst.getDate("Date")
-
-            ));
-        }
-
-        return studentRegistrationList;
-    }
 
     @Override
     public List<Payment> getPaymentData() throws SQLException {

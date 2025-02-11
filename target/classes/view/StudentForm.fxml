@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import java.net.URL?>
 <?import javafx.scene.Group?>
@@ -25,7 +24,6 @@
       <JFXTextField fx:id="txtEmail" focusColor="BLACK" labelFloat="true" layoutX="559.0" layoutY="127.0" prefHeight="26.0" prefWidth="445.0" promptText="Email" styleClass="textfields-" unFocusColor="BLACK" />
       <JFXTextField fx:id="txtStudentGrade" focusColor="BLACK" labelFloat="true" layoutX="634.0" layoutY="75.0" promptText="Student Grade" styleClass="textfields-" unFocusColor="BLACK" />
       <JFXTextField fx:id="txtPhoneNo" focusColor="BLACK" labelFloat="true" layoutX="27.0" layoutY="186.0" prefHeight="26.0" prefWidth="211.0" promptText="Phone No" styleClass="textfields-" unFocusColor="BLACK" />
-      <JFXButton fx:id="btnSave" layoutX="919.0" layoutY="187.0" onAction="#btnSaveOnAction" prefHeight="37.0" prefWidth="95.0" styleClass="button-1" text="Save" />
       <Pane layoutX="20.0" layoutY="267.0" prefHeight="260.0" prefWidth="1000.0" style="-fx-background-color: white;" styleClass="bg-bodypane">
          <children>
             <TableView fx:id="tblStudent" layoutY="4.0" onMouseClicked="#onClickTable" prefHeight="250.0" prefWidth="1000.0">
@@ -36,9 +34,8 @@
                   <TableColumn fx:id="colAddress" minWidth="0.0" prefWidth="148.0" text="Location" />
                   <TableColumn fx:id="colEmail" minWidth="0.0" prefWidth="154.0" text="Email" />
                   <TableColumn fx:id="colGrade" prefWidth="99.0" text="Grade" />
-                  <TableColumn fx:id="colPhoneNo" prefWidth="109.0" text="Phone No." />
-                  <TableColumn fx:id="colUserID" prefWidth="76.0" text="UserID" />
-                  <TableColumn fx:id="colCreditBalance" prefWidth="88.0" text="Credit " />
+                  <TableColumn fx:id="colPhoneNo" prefWidth="146.0" text="Phone No." />
+                  <TableColumn fx:id="colCreditBalance" prefWidth="126.0" text="Credit " />
               </columns>
             </TableView>
          </children>
@@ -47,15 +44,14 @@
             <URL value="@../css-file/Scrool.css" />
          </stylesheets>
       </Pane>
-      <JFXButton fx:id="btnUpdate" layoutX="798.0" layoutY="187.0" onAction="#btnUpdateOnAction" prefHeight="37.0" prefWidth="95.0" styleClass="button-1" text="Update" />
-      <JFXButton fx:id="btnDelete" layoutX="675.0" layoutY="187.0" onAction="#btnDeleteOnAction" prefHeight="37.0" prefWidth="95.0" styleClass="button-1" text="Delete" />
-      <JFXButton fx:id="btnReset" layoutX="554.0" layoutY="187.0" onAction="#btnResetOnAction" prefHeight="37.0" prefWidth="95.0" styleClass="button-1" text="Reset" />
+      <JFXButton fx:id="btnUpdate" layoutX="918.0" layoutY="187.0" onAction="#btnUpdateOnAction" prefHeight="37.0" prefWidth="95.0" styleClass="button-1" text="Update" />
+      <JFXButton fx:id="btnDelete" layoutX="795.0" layoutY="187.0" onAction="#btnDeleteOnAction" prefHeight="37.0" prefWidth="95.0" styleClass="button-1" text="Delete" />
+      <JFXButton fx:id="btnReset" layoutX="674.0" layoutY="187.0" onAction="#btnResetOnAction" prefHeight="37.0" prefWidth="95.0" styleClass="button-1" text="Reset" />
       <Label layoutX="25.0" layoutY="77.0" prefHeight="26.0" prefWidth="88.0" styleClass="label-H5-" text="Student Id">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <JFXComboBox fx:id="cbUserID" focusColor="BLACK" labelFloat="true" layoutX="840.0" layoutY="72.0" prefHeight="26.0" prefWidth="136.0" promptText="User ID" />
       <Group layoutX="471.0" layoutY="29.0" />
       <Label layoutX="269.0" layoutY="192.0" prefHeight="26.0" prefWidth="123.0" styleClass="label-H5-" text="Credit Balance">
          <font>

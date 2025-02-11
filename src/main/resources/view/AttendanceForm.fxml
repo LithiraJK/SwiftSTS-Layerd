@@ -17,7 +17,7 @@
       <JFXTextField fx:id="txtDayCount" focusColor="BLACK" labelFloat="true" layoutX="406.0" layoutY="137.0" prefHeight="26.0" prefWidth="132.0" promptText="Day Count" styleClass="textfields-" unFocusColor="BLACK" />
       <AnchorPane layoutX="23.0" layoutY="196.0" prefHeight="327.0" prefWidth="986.0" style="-fx-background-color: white;" styleClass="bg-whitepane">
          <children>
-            <TableView fx:id="tblAttendance" prefHeight="276.0" prefWidth="986.0">
+            <TableView fx:id="tblAttendance" prefHeight="298.0" prefWidth="986.0">
               <columns>
                 <TableColumn fx:id="colAttendanceId" prefWidth="116.0" text="AttendanceID" />
                 <TableColumn fx:id="colStudentId" prefWidth="167.0" text="Student ID" />

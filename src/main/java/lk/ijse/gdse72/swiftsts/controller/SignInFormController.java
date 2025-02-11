@@ -27,8 +27,6 @@ import java.sql.SQLException;
 
 public class SignInFormController {
 
-//    UserDAO userDAO = new UserDAOImpl();
-
     SignInBO signInBO = (SignInBO) BOFactory.getInstance().getBO(BOFactory.BOType.SIGN_IN);
 
     @FXML

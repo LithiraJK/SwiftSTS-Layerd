@@ -13,7 +13,7 @@
       <Label layoutX="36.0" layoutY="25.0" styleClass="label-H2-" text="Driver" />
       <AnchorPane layoutX="23.0" layoutY="189.0" prefHeight="288.0" prefWidth="986.0" style="-fx-background-color: white;" styleClass="bg-whitepane">
          <children>
-            <TableView fx:id="tblDriver" onMouseClicked="#onClickTable" prefHeight="288.0" prefWidth="986.0">
+            <TableView fx:id="tblDriver" onMouseClicked="#onClickTable" prefHeight="251.0" prefWidth="986.0">
               <columns>
                 <TableColumn fx:id="colDriverId" prefWidth="75.0" text="Driver ID" />
                 <TableColumn fx:id="colDriverName" prefWidth="112.0" text="Driver Name" />
