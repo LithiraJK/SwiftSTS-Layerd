@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public interface DriverDAO extends CrudDAO<Driver> {
     ArrayList<String> getAllDriverIds() throws SQLException;
     int getDriverCount() throws SQLException;
-
-
-
+    String getDriverIdByName(String value) throws SQLException;
 }
+

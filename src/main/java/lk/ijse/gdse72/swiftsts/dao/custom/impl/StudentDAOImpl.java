@@ -72,25 +72,6 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     @Override
-    public Student find(String studentId) throws SQLException, ClassNotFoundException {
-        String query = "SELECT * FROM Student WHERE StudentId = ?";
-        ResultSet resultSet = SQLUtil.execute(query, studentId);
-        if (resultSet.next()) {
-            return new Student(
-                    resultSet.getString("StudentId"),
-                    resultSet.getString("StudentName"),
-                    resultSet.getString("ParentName"),
-                    resultSet.getString("PickupLocation"),
-                    resultSet.getString("Email"),
-                    resultSet.getString("StudentGrade"),
-                    resultSet.getString("ContactNo"),
-                    resultSet.getDouble("CreditBalance")
-            );
-        }
-        return null; // or throw an exception if student not found
-    }
-
-    @Override
     public boolean delete(String studentId) throws SQLException {
         return SQLUtil.execute("DELETE FROM Student WHERE StudentId=?", studentId);
     }
@@ -112,12 +93,6 @@ public class StudentDAOImpl implements StudentDAO {
             return rs.getDouble("CreditBalance");
         }
         return 0.0;
-    }
-
-    @Override
-    public boolean updateCreditBalance(String studentId, double creditBalance) throws SQLException {
-        String query = "UPDATE Student SET CreditBalance = ? WHERE StudentId = ?";
-        return SQLUtil.execute(query, creditBalance, studentId);
     }
 
     @Override

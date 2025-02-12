@@ -18,21 +18,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.AttendanceBO;
-import lk.ijse.gdse72.swiftsts.bo.custom.StudentBO;
-import lk.ijse.gdse72.swiftsts.bo.custom.StudentRegistrationBO;
-import lk.ijse.gdse72.swiftsts.bo.custom.VehicleBO;
-import lk.ijse.gdse72.swiftsts.bo.custom.impl.AttendanceBOImpl;
-import lk.ijse.gdse72.swiftsts.bo.custom.impl.StudentBOImpl;
-import lk.ijse.gdse72.swiftsts.bo.custom.impl.StudentRegistrationBOImpl;
-import lk.ijse.gdse72.swiftsts.bo.custom.impl.VehicleBOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.AttendanceDAO;
-import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
-import lk.ijse.gdse72.swiftsts.dao.custom.StudentRegistrationDAO;
-import lk.ijse.gdse72.swiftsts.dao.custom.VehicleDAO;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.AttendanceDAOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentRegistrationDAOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.VehicleDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.AttendanceDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.AttendanceTM;
 
@@ -175,7 +160,7 @@ public class AttendanceFormController implements Initializable {
             editIcon.setFitWidth(24);
             editIcon.setFitHeight(24);
             editIcon.getStyleClass().add("image");
-            editIcon.setOnMouseClicked(event -> editAttendance(dto));
+            editIcon.setOnMouseClicked(event -> updateAttendance(dto));
 
             ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/assets/icons/icons8-delete-90.png")));
             deleteIcon.setFitWidth(24);
@@ -201,7 +186,7 @@ public class AttendanceFormController implements Initializable {
         tblAttendance.setItems(attendanceTMList);
     }
 
-    private void editAttendance(AttendanceDto dto) {
+    private void updateAttendance(AttendanceDto dto) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/UpdateAttendance.fxml"));
             AnchorPane pane = loader.load();
@@ -219,6 +204,8 @@ public class AttendanceFormController implements Initializable {
 
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -285,7 +272,6 @@ public class AttendanceFormController implements Initializable {
             }
         });
 
-        // Add listener to enable the Calculate Fees button when a record is selected
         tblAttendance.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {btnReset.setDisable(newValue == null);
         });
     }

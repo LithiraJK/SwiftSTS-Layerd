@@ -76,20 +76,17 @@ public class SignInFormController {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
 
-
         if (isUsernameValid) {
             lblInvalidUserName.setVisible(false);
             if (validateCredentials) {
                 lblInvalidPassword.setVisible(false);
                 loadDashboard("/view/DashBoardForm.fxml");
             } else {
-//                showError("Invalid password");
                 lblInvalidPassword.setVisible(true);
                 txtpassword.setFocusColor(Paint.valueOf("red"));
                 lblInvalidPassword.setText("Invalid Password. Try Again !");
             }
         } else {
-//            showError("Invalid username");
             lblInvalidUserName.setVisible(true);
             txtusername.setFocusColor(Paint.valueOf("red"));
             lblInvalidUserName.setText("Invalid Username. Try Again !");

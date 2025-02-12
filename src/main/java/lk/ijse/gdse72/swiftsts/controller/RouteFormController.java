@@ -29,8 +29,6 @@ import java.util.ResourceBundle;
 
 public class RouteFormController implements Initializable {
 
-//    RouteModel routeDAO = new RouteModel();
-//    RouteDAO routeDAO =  new RouteDAOImpl();
     RouteBO routeBO = (RouteBO) BOFactory.getInstance().getBO(BOFactory.BOType.ROUTE);
 
     @FXML

@@ -10,5 +10,6 @@ public interface UpdateAttendanceBO extends SuperBO {
     boolean updateAttendance(AttendanceDto dto) throws SQLException, ClassNotFoundException;
     ArrayList<String> getAllDriverIds() throws SQLException;
     ArrayList<String> getAllStudentNames() throws SQLException;
-
+    String getStudentIdByName(String studentName) throws SQLException;
 }
+

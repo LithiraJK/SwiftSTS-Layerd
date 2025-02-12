@@ -96,4 +96,13 @@ public class DriverDAOImpl implements DriverDAO {
         return 0;
     }
 
+    @Override
+    public String getDriverIdByName(String value) throws SQLException {
+        ResultSet rst = SQLUtil.execute("SELECT DriverId FROM Driver WHERE Name=?", value);
+        if (rst.next()) {
+            return rst.getString("DriverId");
+        }
+        return null;
+    }
+
 }

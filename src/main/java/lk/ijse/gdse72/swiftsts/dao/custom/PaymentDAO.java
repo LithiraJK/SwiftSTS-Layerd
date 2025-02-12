@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface PaymentDAO extends SuperDAO {
-    boolean savePayment(Payment paymentDto) throws SQLException;
     double getMonthlyIncome(String month) throws SQLException;
     double calculateMonthlyFee(String studentId, int dayCount) throws SQLException;
     String getNextPaymentId() throws SQLException;

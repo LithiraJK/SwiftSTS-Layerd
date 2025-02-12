@@ -13,13 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.UpdateAttendanceBO;
-import lk.ijse.gdse72.swiftsts.bo.custom.impl.UpdateAttendanceBOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.AttendanceDAO;
-import lk.ijse.gdse72.swiftsts.dao.custom.DriverDAO;
-import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.AttendanceDAOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.DriverDAOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.AttendanceDto;
 
 import java.net.URL;
@@ -53,10 +46,10 @@ public class UpdateAttendanceController implements Initializable {
     private Label lblAttendenceId;
 
     @FXML
-    private Label lblDriverName;
+    private Label lblDriverId;
 
     @FXML
-    private Label lblStudentName;
+    private Label lblStudentId;
 
     @FXML
     private AnchorPane paneEditAttendance;
@@ -66,8 +59,6 @@ public class UpdateAttendanceController implements Initializable {
 
     @FXML
     private JFXTextField txtDayCount;
-
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -105,10 +96,11 @@ public class UpdateAttendanceController implements Initializable {
         cbMonth.setItems(months);
     }
 
-    public void setAttendanceData(AttendanceDto dto) {
+    public void setAttendanceData(AttendanceDto dto) throws SQLException {
         lblAttendenceId.setText(dto.getAttendanceId());
         cbStudentId.setValue(dto.getStudentId());
         cbDriverId.setValue(dto.getVehicleId());
+        lblStudentId.setText(dto.getStudentId());
         cbYear.setValue(String.valueOf(dto.getYear()));
         cbMonth.setValue(dto.getMonth());
         txtDayCount.setText(String.valueOf(dto.getDayCount()));
@@ -122,12 +114,19 @@ public class UpdateAttendanceController implements Initializable {
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
         try {
+            String yearValue = cbYear.getValue();
+            String monthValue = cbMonth.getValue();
+            if (yearValue == null || monthValue == null) {
+                new Alert(Alert.AlertType.ERROR, "Year and Month must be selected!").show();
+                return;
+            }
+
             AttendanceDto updatedAttendance = new AttendanceDto(
                     lblAttendenceId.getText(),
-                    cbStudentId.getValue(),
-                    cbDriverId.getValue(),
-                    Integer.parseInt(cbYear.getValue()),
-                    cbMonth.getValue(),
+                    updateAttendanceBO.getStudentIdByName(cbStudentId.getValue()),
+                    lblDriverId.getText(),
+                    Integer.parseInt(yearValue),
+                    monthValue,
                     Integer.parseInt(txtDayCount.getText())
             );
 
@@ -149,8 +148,8 @@ public class UpdateAttendanceController implements Initializable {
         }
     }
 
-    public void setOverlayPane(AnchorPane overlayPane, AnchorPane paneAttendence) {
+    public void setOverlayPane(AnchorPane overlayPane, AnchorPane paneAttendance) {
         this.overlayPane = overlayPane;
-        this.paneAttendance = paneAttendence;
+        this.paneAttendance = paneAttendance;
     }
 }

@@ -40,15 +40,6 @@ import java.util.*;
 
 public class PaymentFormController implements Initializable {
 
-//    StudentModel studentDAO = new StudentModel();
-//    PaymentModel paymentDAO = new PaymentModel();
-//    AttendanceModel attendanceDAO = new AttendanceModel();
-
-//    StudentDAO studentDAO = new StudentDAOImpl();
-//    PaymentDAO paymentDAO = new PaymentDAOImpl();
-//    AttendanceDAO attendanceDAO = new AttendanceDAOImpl();
-//    QueryDAO queryDAO = new QueryDAOImpl();
-
     PaymentBO paymentBO = (PaymentBO) BOFactory.getInstance().getBO(BOFactory.BOType.PAYMENT);
 
 
@@ -254,8 +245,6 @@ public class PaymentFormController implements Initializable {
             new Alert(Alert.AlertType.ERROR, "Failed to send email: " + e.getMessage()).show();
         }
     }
-
-
 
     @FXML
     void btnMakePaymentOnAction(ActionEvent event) throws SQLException {

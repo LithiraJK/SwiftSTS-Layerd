@@ -34,20 +34,7 @@ import java.util.ResourceBundle;
 
 public class OverViewFormController implements Initializable {
 
-//    ExpenseModel expenseDAO = new ExpenseModel();
-//    PaymentModel paymentDAO = new PaymentModel();
-//    StudentModel studentDAO = new StudentModel();
-//    DriverModel driverDAO = new DriverModel();
-//    VehicleModel vehicleDAO = new VehicleModel();
-
-//    ExpenseDAO expenseDAO = new ExpenseDAOImpl();
-//    PaymentDAO paymentDAO = new PaymentDAOImpl();
-//    StudentDAO studentDAO = new StudentDAOImpl();
-//    DriverDAO driverDAO = new DriverDAOImpl();
-//    VehicleDAO vehicleDAO =  new VehicleDAOImpl();
-
     OverviewBO overviewBO = (OverviewBO) BOFactory.getInstance().getBO(BOFactory.BOType.OVERVIEW);
-
 
     @FXML
     private ImageView btnGetExpenseReport;

@@ -10,12 +10,8 @@ import java.util.List;
 
 public interface StudentDAO extends CrudDAO<Student> {
     double getCreditBalanceById(String studentId) throws SQLException;
-    boolean updateCreditBalance(String studentId, double creditBalance) throws SQLException;
     String getEmailByStudentId(String studentId) throws SQLException;
     ArrayList<String> getAllStudentNames() throws SQLException;
-
-    Student find(String studentId) throws SQLException, ClassNotFoundException;
-
     String getStudentNameById(String studentId) throws SQLException;
     String getPickupLocationById(String studentId) throws SQLException;
     String getStudentIdByName(String studentName) throws SQLException;

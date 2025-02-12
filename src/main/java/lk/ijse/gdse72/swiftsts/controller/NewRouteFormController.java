@@ -52,8 +52,6 @@ public class NewRouteFormController implements Initializable {
     private AnchorPane overlayPane;
     private AnchorPane paneStudent;
 
-
-
     public void setOverlayPane(AnchorPane overlayPane, AnchorPane paneStudent) {
         this.overlayPane = overlayPane;
         this.paneStudent = paneStudent;
@@ -72,7 +70,6 @@ public class NewRouteFormController implements Initializable {
         String destination = txtDestination.getText();
         double routeFee = Double.parseDouble(txtDayFee.getText());
 
-        // Define regex patterns for validation
         String routeNamePattern = "^[A-Za-z ]+$";
         String startPointPattern = "^[A-Za-z ]+$";
         String destinationPattern = "^[A-Za-z ]+$";
@@ -132,7 +129,6 @@ public class NewRouteFormController implements Initializable {
     }
 
     private void addValidationListeners() {
-        // Define regex patterns
         String routeNamePattern = "^[A-Za-z ]+$";
         String startPointPattern = "^[A-Za-z ]+$";
         String destinationPattern = "^[A-Za-z ]+$";

@@ -15,13 +15,13 @@
             <JFXButton fx:id="btnDiscard" layoutX="23.0" layoutY="340.0" onAction="#btnDiscardOnAction" prefHeight="37.0" prefWidth="82.0" styleClass="button-1" text="Discard" />
             <JFXTextField fx:id="txtDayCount" focusColor="BLACK" labelFloat="true" layoutX="21.0" layoutY="261.0" prefHeight="26.0" prefWidth="105.0" promptText="Day Count" styleClass="textfields-" unFocusColor="BLACK" />
             <JFXComboBox fx:id="cbStudentId" layoutX="20.0" layoutY="151.0" prefHeight="26.0" prefWidth="105.0" promptText="Student Id" />
-            <Label fx:id="lblStudentName" layoutX="160.0" layoutY="157.0" prefHeight="18.0" prefWidth="113.0" text="Student Name" />
+            <Label fx:id="lblStudentId" layoutX="160.0" layoutY="157.0" prefHeight="18.0" prefWidth="113.0" text="Student Name" />
             <Label layoutX="20.0" layoutY="52.0" prefHeight="18.0" prefWidth="99.0" text="Attendence ID" />
             <Label fx:id="lblAttendenceId" layoutX="138.0" layoutY="52.0" prefHeight="18.0" prefWidth="62.0" text="A001" />
             <JFXComboBox fx:id="cbDriverId" layoutX="19.0" layoutY="95.0" prefHeight="26.0" prefWidth="105.0" promptText="Diver Id" />
             <JFXComboBox fx:id="cbYear" layoutX="21.0" layoutY="208.0" prefHeight="26.0" prefWidth="105.0" promptText="Year" styleClass="combo-box" />
             <JFXComboBox fx:id="cbMonth" layoutX="163.0" layoutY="207.0" prefHeight="26.0" prefWidth="105.0" promptText="Month" styleClass="combo-box" />
-            <Label fx:id="lblDriverName" layoutX="156.0" layoutY="102.0" prefHeight="18.0" prefWidth="113.0" text="Driver Name" />
+            <Label fx:id="lblDriverId" layoutX="156.0" layoutY="102.0" prefHeight="18.0" prefWidth="113.0" text="Driver Name" />
             <Label layoutX="83.0" layoutY="13.0" text="Edit Attendence">
                <font>
                   <Font name="System Bold" size="18.0" />

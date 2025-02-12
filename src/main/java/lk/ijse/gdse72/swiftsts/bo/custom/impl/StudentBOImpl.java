@@ -47,19 +47,6 @@ public class StudentBOImpl implements StudentBO {
     }
 
     @Override
-    public boolean saveStudent(StudentDto dto) throws SQLException, ClassNotFoundException {
-        return studentDAO.save(new Student(
-                dto.getStudentId(),
-                dto.getStudentName(),
-                dto.getParentName(),
-                dto.getAddress(),
-                dto.getEmail(),
-                dto.getStudentGrade(),
-                dto.getPhoneNo(),
-                dto.getCreditBalance()));//DTO converted to Entity
-    }
-
-    @Override
     public boolean updateStudent(StudentDto dto) throws SQLException, ClassNotFoundException {
         return studentDAO.update(new Student(
                 dto.getStudentId(),

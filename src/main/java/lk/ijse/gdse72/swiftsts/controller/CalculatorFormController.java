@@ -13,9 +13,9 @@ public class CalculatorFormController {
     @FXML
     private Text savedNumbers;
 
-    private double currentResult = 0;  // To store the cumulative result
+    private double currentResult = 0;
     private String currentNumber = "";
-    private String lastOperation = ""; // To store the last operation
+    private String lastOperation = "";
 
     @FXML
     void addAction(ActionEvent event) {
@@ -48,8 +48,8 @@ public class CalculatorFormController {
     @FXML
     void calculate(ActionEvent event) {
         performCalculation();
-        savedNumbers.setText(String.valueOf(currentResult)); // Display the final result
-        lastOperation = ""; // Reset the operation after the calculation
+        savedNumbers.setText(String.valueOf(currentResult));
+        lastOperation = "";
     }
 
     private void performCalculation() {
@@ -60,10 +60,10 @@ public class CalculatorFormController {
                 case "-" -> currentResult -= number;
                 case "/" -> currentResult /= number;
                 case "*" -> currentResult *= number;
-                case "" -> currentResult = number; // First entry case
+                case "" -> currentResult = number;
             }
             textField.setText(String.valueOf(currentResult));
-            currentNumber = ""; // Clear the current number after operation
+            currentNumber = "";
         }
     }
 

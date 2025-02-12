@@ -14,11 +14,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.ExpensesBO;
-import lk.ijse.gdse72.swiftsts.bo.custom.impl.ExpensesBOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.ExpenseDAO;
-import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.ExpenseDAOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.UserDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.ExpenseDto;
 import lk.ijse.gdse72.swiftsts.dto.tm.ExpenseTM;
 
@@ -260,11 +255,9 @@ public class ExpensesController implements Initializable {
     }
 
     private void addValidationListeners() {
-        // Define regex patterns
         String descriptionPattern = "^[A-Za-z0-9 ]+$";
         String amountPattern = "^[0-9]+(\\.[0-9]{1,2})?$";
 
-        // Add listener for each field
         txtDescription.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches(descriptionPattern)) {
                 txtDescription.setFocusColor(Paint.valueOf("red"));

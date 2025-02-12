@@ -31,4 +31,14 @@ public class UpdateAttendanceBOImpl implements UpdateAttendanceBO {
     public ArrayList<String> getAllStudentNames() throws SQLException {
         return studentDAO.getAllStudentNames();
     }
+
+    @Override
+    public String getStudentIdByName(String studentName) throws SQLException {
+        return studentDAO.getStudentIdByName(studentName);
+    }
+
+    @Override
+    public String getDriverNameById(String value) throws SQLException {
+        return driverDAO.getDriverIdByName(value);
+    }
 }

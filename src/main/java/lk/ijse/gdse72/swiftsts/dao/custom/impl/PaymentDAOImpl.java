@@ -2,28 +2,12 @@ package lk.ijse.gdse72.swiftsts.dao.custom.impl;
 
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.PaymentDAO;
-import lk.ijse.gdse72.swiftsts.dto.PaymentDto;
 import lk.ijse.gdse72.swiftsts.entity.Payment;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PaymentDAOImpl implements PaymentDAO {
-    @Override
-    public boolean savePayment(Payment payment) throws SQLException {
-        String query = "INSERT INTO Payment (PaymentId, StudentId, MonthlyFee, Amount, Balance, Status, Date) VALUES (?,?,?,?,?,?,?)";
-        return SQLUtil.execute(query,
-                payment.getPaymentId(),
-                payment.getStudentId(),
-                payment.getMonthlyFee(),
-                payment.getAmount(),
-                payment.getBalance(),
-                payment.getStatus(),
-                payment.getDate()
-        );
-    }
 
     @Override
     public double getMonthlyIncome(String month) throws SQLException {
