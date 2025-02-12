@@ -28,8 +28,6 @@ public class StudentRegistrationBOImpl implements StudentRegistrationBO {
     RouteDAO routeDAO = (RouteDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ROUTE);
     QueryDAO queryDAO = (QueryDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.QUERY);
 
-    StudentDto newStudentDto ;
-
     @Override
     public String getNextRegistrationId() throws SQLException {
         return studentRegistrationDAO.getNextRegistrationId();
@@ -85,38 +83,10 @@ public class StudentRegistrationBOImpl implements StudentRegistrationBO {
         return queryDAO.getAllStudentRegistrationDetails();
     }
 
-    @Override
-    public boolean saveNewStudent(StudentDto studentDto) throws SQLException, ClassNotFoundException {
-        newStudentDto=studentDto;
-        return studentDAO.save(new Student(
-                studentDto.getStudentId(),
-                studentDto.getStudentName(),
-                studentDto.getParentName(),
-                studentDto.getAddress(),
-                studentDto.getEmail(),
-                studentDto.getStudentGrade(),
-                studentDto.getPhoneNo(),
-                studentDto.getCreditBalance()));
-    }
 
     @Override
     public boolean exists(String studentId) throws SQLException {
         return studentRegistrationDAO.isStudentRegistered(studentId);
-    }
-
-    @Override
-    public StudentDto getStudentById(String studentId) throws SQLException, ClassNotFoundException {
-        Student student = studentDAO.find(studentId);
-        return new StudentDto(
-                student.getStudentId(),
-                student.getStudentName(),
-                student.getParentName(),
-                student.getAddress(),
-                student.getEmail(),
-                student.getStudentGrade(),
-                student.getPhoneNo(),
-                student.getCreditBalance()
-        );
     }
 
     @Override
@@ -126,15 +96,6 @@ public class StudentRegistrationBOImpl implements StudentRegistrationBO {
             connection = DBConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
 
-            // Step 1: Save new student
-            boolean isStudentSaved = saveNewStudent(newStudentDto);
-            if (!isStudentSaved) {
-                connection.rollback();
-                connection.setAutoCommit(true);
-                throw new SQLException("Failed to save new student");
-            }
-
-            // Step 2: Insert into StudentRegistration
             boolean isStudentRegistrationSaved = SQLUtil.execute("INSERT INTO StudentRegistration (StudentRegistrationId, StudentId, Distance, DayPrice, Date, RouteId, VehicleId) VALUES (?, ?, ?, ?, ?, ?, ?)",
                     registrationDto.getRegistrationId(),
                     registrationDto.getStudentId(),
@@ -150,7 +111,6 @@ public class StudentRegistrationBOImpl implements StudentRegistrationBO {
                 throw new SQLException("Failed to insert into StudentRegistration");
             }
 
-            // Step 3: Update Vehicle seat count
             boolean isVehicleUpdated = SQLUtil.execute("UPDATE Vehicle SET AvailableSeatCount = AvailableSeatCount - ? WHERE VehicleId = ?", 1, vehicleId);
             if (!isVehicleUpdated) {
                 connection.rollback();
@@ -158,7 +118,6 @@ public class StudentRegistrationBOImpl implements StudentRegistrationBO {
                 throw new SQLException("Failed to update Vehicle seat count");
             }
 
-            // Step 4: Commit transaction
             connection.commit();
             connection.setAutoCommit(true);
 
@@ -173,8 +132,6 @@ public class StudentRegistrationBOImpl implements StudentRegistrationBO {
                 ex.printStackTrace();
             }
             new Alert(Alert.AlertType.ERROR, "Failed to register student: " + e.getMessage()).show();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 }

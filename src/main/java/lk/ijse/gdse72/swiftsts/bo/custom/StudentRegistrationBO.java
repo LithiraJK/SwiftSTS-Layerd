@@ -22,10 +22,7 @@ public interface StudentRegistrationBO extends SuperBO {
     List<String> getAllRouteNames() throws SQLException;
     List<String> getAllDestinations() throws SQLException;
     ObservableList<StudentRegistrationDetailsTM> getAllStudentRegistrationDetails();
-    boolean saveNewStudent(StudentDto studentDto) throws SQLException, ClassNotFoundException;
     void addRegistration(StudentRegistrationDto registrationDto, String vehicleId);
-    StudentDto getStudentById(String studentId) throws SQLException, ClassNotFoundException;
-    // In StudentRegistrationBO.java
     boolean exists(String studentId) throws SQLException;
 
 

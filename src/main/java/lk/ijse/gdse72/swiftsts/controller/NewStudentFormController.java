@@ -1,7 +1,6 @@
 package lk.ijse.gdse72.swiftsts.controller;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,13 +13,7 @@ import javafx.scene.paint.Paint;
 import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.NewStudentBO;
 import lk.ijse.gdse72.swiftsts.bo.custom.StudentRegistrationBO;
-import lk.ijse.gdse72.swiftsts.bo.custom.impl.NewStudentBOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.StudentDAO;
-import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.StudentDAOImpl;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.UserDAOImpl;
 import lk.ijse.gdse72.swiftsts.dto.StudentDto;
-
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,8 +23,6 @@ import java.util.ResourceBundle;
 public class NewStudentFormController implements Initializable {
 
     NewStudentBO newStudentBO = (NewStudentBO) BOFactory.getInstance().getBO(BOFactory.BOType.NEW_STUDENT);
-    StudentRegistrationBO studentRegistrationBO = (StudentRegistrationBO) BOFactory.getInstance().getBO(BOFactory.BOType.STUDENT_REGISTRATION);
-
 
     @FXML
     public AnchorPane paneRegister;
@@ -47,7 +38,6 @@ public class NewStudentFormController implements Initializable {
     public JFXTextField txtStudentName;
     @FXML
     public JFXTextField txtParentName;
-
     @FXML
     public JFXButton btnDiscard;
     @FXML
@@ -58,8 +48,6 @@ public class NewStudentFormController implements Initializable {
     private AnchorPane overlayPane;
     @FXML
     private AnchorPane paneStudent;
-
-
 
     public void setOverlayPane(AnchorPane overlayPane, AnchorPane paneStudent) {
         this.overlayPane = overlayPane;
@@ -98,35 +86,38 @@ public class NewStudentFormController implements Initializable {
 
         if (!isValidName) {
             txtStudentName.setFocusColor(Paint.valueOf("red"));
+            return;
         }
         if (!isValidParentName) {
             txtParentName.setFocusColor(Paint.valueOf("red"));
+            return;
         }
         if (!isValidAddress) {
             txtAddress.setFocusColor(Paint.valueOf("red"));
+            return;
         }
         if (!isValidEmail) {
             txtEmail.setFocusColor(Paint.valueOf("red"));
+            return;
         }
         if (!isValidPhoneNo) {
             txtPhoneNo.setFocusColor(Paint.valueOf("red"));
+            return;
         }
         if (!isValidGrade) {
             txtStudentGrade.setFocusColor(Paint.valueOf("red"));
+            return;
         }
 
-        if (isValidName && isValidParentName && isValidAddress && isValidEmail && isValidPhoneNo && isValidGrade) {
-            StudentDto studentDto = new StudentDto(studentId, studentName, parentName, address, email, studentGrade, phoneNo, 0.0);
-            boolean isSaved = studentRegistrationBO.saveNewStudent(studentDto);
-            if (isSaved) {
-                new Alert(Alert.AlertType.INFORMATION, "Student saved successfully!").show();
-                // Close the current form and return to the root page
-                paneStudent.getChildren().clear();
-                AnchorPane rootPane = FXMLLoader.load(getClass().getResource("/view/StudentRegistration.fxml"));
-                paneStudent.getChildren().add(rootPane);
-            } else {
-                new Alert(Alert.AlertType.ERROR, "Failed to save student!").show();
-            }
+        StudentDto studentDto = new StudentDto(studentId, studentName, parentName, address, email, studentGrade, phoneNo, 0.0);
+        boolean isSaved = newStudentBO.saveStudent(studentDto);
+        if (isSaved) {
+            new Alert(Alert.AlertType.INFORMATION, "Student added successfully!").show();
+            paneStudent.getChildren().clear();
+            AnchorPane rootPane = FXMLLoader.load(getClass().getResource("/view/StudentRegistration.fxml"));
+            paneStudent.getChildren().add(rootPane);
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Failed to add student!").show();
         }
     }
 
