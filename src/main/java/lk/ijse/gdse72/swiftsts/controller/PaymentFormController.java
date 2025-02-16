@@ -232,7 +232,7 @@ public class PaymentFormController implements Initializable {
 
     private void NotifyStudentByEmail() {
         try {
-            String studentId = (String) cmbStudentNames.getValue();
+            String studentId = lblStudentId.getText();
             String email = paymentBO.getEmailByStudentId(studentId);
             String subject = "Monthly Fee Notification";
             String body = "Dear Student,\n\nYour monthly fee is: RS." + lblMonthlyFee.getText() + " \n\nYour Credit Balance is: RS." + lblCreditBalance.getText() + " \n\nThank you.";
@@ -264,7 +264,7 @@ public class PaymentFormController implements Initializable {
         double remainingBalance = totalDue - payAmount;
         String status = creditBalance <= 0 ? "Paid" : "Pending";
 
-        paymentBO.addPayment( new PaymentDto( paymentId, studentId, monthFee, payAmount, balance, creditBalance, status, LocalDate.now().toString()),studentId,attendanceId,payAmount,creditBalance,remainingBalance,lblBalance,lblCreditBalance);
+        paymentBO.addPayment( new PaymentDto( paymentId, studentId, monthFee, payAmount, balance, creditBalance, status, LocalDate.now().toString()),attendanceId,remainingBalance,lblBalance,lblCreditBalance);
         refreshPage();
     }
 

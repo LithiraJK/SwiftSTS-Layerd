@@ -13,4 +13,5 @@ public interface StudentRegistrationDAO extends SuperDAO {
     String getNextRegistrationId() throws SQLException;
     ArrayList<String> getStudentIdsByVehicleId(String vehicleId) throws SQLException;
     boolean isStudentRegistered(String studentId) throws SQLException;
+    boolean save(StudentRegistration registrationDto) throws SQLException;
 }

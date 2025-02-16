@@ -15,8 +15,9 @@ public class StudentRegistration {
     private String studentId;
     private double distance;
     private double dayPrice;
+    private Date registrationDate;
     private String routeId;
     private String vehicleId;
-    private Date registrationDate;
+
 
 }

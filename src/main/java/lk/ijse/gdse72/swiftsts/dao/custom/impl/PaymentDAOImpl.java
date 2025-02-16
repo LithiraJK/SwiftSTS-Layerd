@@ -49,4 +49,20 @@ public class PaymentDAOImpl implements PaymentDAO {
         }
         return "P001";
     }
+    @Override
+    public boolean save(Payment payment) throws SQLException {
+        return SQLUtil.execute("INSERT INTO Payment (PaymentId, StudentId, MonthlyFee, Amount, Balance, Status, Date) VALUES (?,?,?,?,?,?,?)",
+                payment.getPaymentId(),
+                payment.getStudentId(),
+                payment.getMonthlyFee(),
+                payment.getAmount(),
+                payment.getBalance(),
+                payment.getStatus(),
+                payment.getDate()
+        );
+    }
+    @Override
+    public boolean updateCreditBalance(String studentId, double creditBalance) throws SQLException {
+        return SQLUtil.execute("UPDATE Student SET CreditBalance=? WHERE StudentId=?", creditBalance, studentId);
+    }
 }

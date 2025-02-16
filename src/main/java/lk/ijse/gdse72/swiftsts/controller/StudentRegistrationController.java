@@ -318,7 +318,7 @@ public class StudentRegistrationController implements Initializable {
 
         }
 
-        studentRegistrationBO.addRegistration(new StudentRegistrationDto(studentRegId,studentId,distance,dayPrice,routeId,vehicleId,registrationDate),vehicleId);
+        studentRegistrationBO.addRegistration(new StudentRegistrationDto(studentRegId,studentId,distance,dayPrice,registrationDate,routeId,vehicleId),vehicleId);
         refreshPage();
     }
 

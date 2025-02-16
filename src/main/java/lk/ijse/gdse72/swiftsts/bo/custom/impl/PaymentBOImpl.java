@@ -90,18 +90,19 @@ public class PaymentBOImpl implements PaymentBO {
         return paymentDtos;
     }
 
-    public void addPayment(PaymentDto payment, String studentId, String attendanceId, double payAmount, double creditBalance, double remainingBalance, Label lblBalance, Label lblCreditBalance) throws SQLException {
+    public void addPayment(PaymentDto paymentDto, String attendanceId, double remainingBalance, Label lblBalance, Label lblCreditBalance) throws SQLException {
         Connection connection = null;
         try {
             connection = DBConnection.getInstance().getConnection();
 
-            if (studentId == null || attendanceId == null || payAmount <= 0) {
+            if (paymentDto== null || attendanceId == null || paymentDto.getAmount() <= 0) {
                 new Alert(Alert.AlertType.ERROR, "Please fill in all fields correctly.").show();
                 return;
             }
 
             double balance;
             String status;
+            double creditBalance;
             if (remainingBalance >= 0) {
                 // Payment does not cover the total due, update credit balance
                 balance = 0.00;
@@ -120,18 +121,10 @@ public class PaymentBOImpl implements PaymentBO {
 
             connection.setAutoCommit(false);
 
-            boolean isPaymentInserted = SQLUtil.execute("INSERT INTO Payment (PaymentId, StudentId, MonthlyFee, Amount, Balance, Status, Date) VALUES (?,?,?,?,?,?,?)",
-                    payment.getPaymentId(),
-                    payment.getStudentId(),
-                    payment.getMonthlyFee(),
-                    payment.getAmount(),
-                    balance,
-                    status,
-                    payment.getDate()
-            );
+            boolean isPaymentInserted = paymentDAO.save(new Payment(paymentDto.getPaymentId(), paymentDto.getStudentId(), paymentDto.getMonthlyFee(), paymentDto.getAmount(), balance, creditBalance, status, paymentDto.getDate()));
             if (!isPaymentInserted) throw new SQLException("Failed to insert into Payment");
 
-            boolean isCreditBalanceUpdated = SQLUtil.execute("UPDATE Student SET CreditBalance = ? WHERE StudentId = ?", creditBalance, studentId);
+            boolean isCreditBalanceUpdated = paymentDAO.updateCreditBalance(paymentDto.getStudentId(), creditBalance);
             if (!isCreditBalanceUpdated) throw new SQLException("Failed to update credit balance");
 
             connection.commit();

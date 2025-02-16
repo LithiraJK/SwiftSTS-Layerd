@@ -90,28 +90,20 @@ public class StudentRegistrationBOImpl implements StudentRegistrationBO {
     }
 
     @Override
-    public void addRegistration(StudentRegistrationDto registrationDto, String vehicleId) {
+    public void addRegistration(StudentRegistrationDto registration, String vehicleId) {
         Connection connection = null;
         try {
             connection = DBConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
 
-            boolean isStudentRegistrationSaved = SQLUtil.execute("INSERT INTO StudentRegistration (StudentRegistrationId, StudentId, Distance, DayPrice, Date, RouteId, VehicleId) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                    registrationDto.getRegistrationId(),
-                    registrationDto.getStudentId(),
-                    registrationDto.getDistance(),
-                    registrationDto.getDayPrice(),
-                    registrationDto.getRegistrationDate(),
-                    registrationDto.getRouteId(),
-                    registrationDto.getVehicleId()
-            );
+            boolean isStudentRegistrationSaved = studentRegistrationDAO.save(new StudentRegistration(registration.getRegistrationId(),registration.getStudentId(),registration.getDistance(),registration.getDayPrice(),registration.getRegistrationDate(),registration.getRouteId(),registration.getVehicleId()));
             if (!isStudentRegistrationSaved) {
                 connection.rollback();
                 connection.setAutoCommit(true);
                 throw new SQLException("Failed to insert into StudentRegistration");
             }
 
-            boolean isVehicleUpdated = SQLUtil.execute("UPDATE Vehicle SET AvailableSeatCount = AvailableSeatCount - ? WHERE VehicleId = ?", 1, vehicleId);
+            boolean isVehicleUpdated = vehicleDAO.updateAvailableSeatCount(vehicleId);
             if (!isVehicleUpdated) {
                 connection.rollback();
                 connection.setAutoCommit(true);

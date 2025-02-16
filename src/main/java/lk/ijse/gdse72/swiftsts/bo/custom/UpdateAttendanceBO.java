@@ -11,5 +11,7 @@ public interface UpdateAttendanceBO extends SuperBO {
     ArrayList<String> getAllDriverIds() throws SQLException;
     ArrayList<String> getAllStudentNames() throws SQLException;
     String getStudentIdByName(String studentName) throws SQLException;
+
+    String getDriverNameById(String value) throws SQLException;
 }
 

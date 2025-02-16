@@ -22,6 +22,11 @@ public class SendMailUtil extends Thread {
     }
 
     public static void sendEmail(String recipient, String subject, String messageBody) {
+        if (recipient == null || recipient.isEmpty()) {
+            System.out.println("Recipient email address is null or empty.");
+            return;
+        }
+
         String host = "smtp.gmail.com";
         String port = "587";
         String username = "kariyawasamlithira2@gmail.com";

@@ -2,8 +2,6 @@ package lk.ijse.gdse72.swiftsts.dao.custom.impl;
 
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.VehicleDAO;
-import lk.ijse.gdse72.swiftsts.dto.VehicleDto;
-import lk.ijse.gdse72.swiftsts.entity.Student;
 import lk.ijse.gdse72.swiftsts.entity.Vehicle;
 
 import java.sql.ResultSet;
@@ -116,5 +114,9 @@ public class VehicleDAOImpl implements VehicleDAO {
             return resultSet.getInt(1);
         }
         return 0;
+    }
+    @Override
+    public boolean updateAvailableSeatCount(String vehicleId) throws SQLException {
+        return SQLUtil.execute("UPDATE Vehicle SET AvailableSeatCount = AvailableSeatCount - ? WHERE VehicleId = ?", 1, vehicleId);
     }
 }

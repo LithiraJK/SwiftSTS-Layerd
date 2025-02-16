@@ -1,16 +1,9 @@
 package lk.ijse.gdse72.swiftsts.dao.custom.impl;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
 import lk.ijse.gdse72.swiftsts.dao.custom.StudentRegistrationDAO;
-import lk.ijse.gdse72.swiftsts.db.DBConnection;
-import lk.ijse.gdse72.swiftsts.dto.StudentRegistrationDto;
-import lk.ijse.gdse72.swiftsts.dto.tm.StudentRegistrationDetailsTM;
 import lk.ijse.gdse72.swiftsts.entity.StudentRegistration;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -49,4 +42,18 @@ public class StudentRegistrationDAOImpl implements StudentRegistrationDAO {
         }
         return false;
     }
+
+    @Override
+    public boolean save(StudentRegistration registration) throws SQLException {
+        return SQLUtil.execute("INSERT INTO StudentRegistration (StudentRegistrationId, StudentId, Distance, DayPrice, Date, RouteId, VehicleId) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                registration.getRegistrationId(),
+                registration.getStudentId(),
+                registration.getDistance(),
+                registration.getDayPrice(),
+                registration.getRegistrationDate(),
+                registration.getRouteId(),
+                registration.getVehicleId()
+        );
+    }
+
 }

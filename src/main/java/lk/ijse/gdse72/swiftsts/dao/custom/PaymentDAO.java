@@ -11,5 +11,6 @@ public interface PaymentDAO extends SuperDAO {
     double getMonthlyIncome(String month) throws SQLException;
     double calculateMonthlyFee(String studentId, int dayCount) throws SQLException;
     String getNextPaymentId() throws SQLException;
-
+    boolean save(Payment payment) throws SQLException;
+    boolean updateCreditBalance(String studentId, double creditBalance) throws SQLException;
 }

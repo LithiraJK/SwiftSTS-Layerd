@@ -19,6 +19,6 @@ public interface PaymentBO extends SuperBO {
     String getAttendanceIdByStudentIdYearMonth(String studentId, String year, String month) throws SQLException ;
     int getDayCountByAttendanceId(String attendanceId) throws SQLException;
     List<PaymentDto> getPaymentData() throws SQLException;
-    void addPayment(PaymentDto payment, String studentId, String attendanceId, double payAmount, double creditBalance, double remainingBalance, Label lblBalance, Label lblCreditBalance) throws SQLException;
+    void addPayment(PaymentDto payment, String attendanceId, double remainingBalance, Label lblBalance, Label lblCreditBalance) throws SQLException;
 
 }
