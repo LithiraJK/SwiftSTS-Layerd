@@ -13,6 +13,9 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import lk.ijse.gdse72.swiftsts.bo.BOFactory;
+import lk.ijse.gdse72.swiftsts.bo.custom.SignInBO;
+import lk.ijse.gdse72.swiftsts.bo.custom.SignUpBO;
 import lk.ijse.gdse72.swiftsts.util.SendMailUtil;
 
 import java.io.IOException;
@@ -21,99 +24,41 @@ import java.security.SecureRandom;
 import java.util.ResourceBundle;
 
 public class SignUpFormController implements Initializable {
-    @FXML
-    public JFXTextField txtUsername;
+
+    SignUpBO signUpBO = (SignUpBO) BOFactory.getInstance().getBO(BOFactory.BOType.SIGN_UP);
 
     @FXML
-    public JFXTextField txtEnterOTP;
+    public JFXTextField txtUsername;
 
     @FXML
     public JFXTextField txtEmail;
 
     @FXML
-    private Label txtSignIn;
-
+    public JFXButton btnSendPassword;
     @FXML
-    private Label txtSignUp;
+    public JFXButton btnBack;
 
     @FXML
     private Label lblAlert;
 
     @FXML
-    private JFXButton btnNext;
-
-    @FXML
-    private JFXButton btnSendOTP;
-
-    @FXML
     private AnchorPane paneSignUp;
 
-    private String generatedOTP;
-
-    @FXML
-    void btnNextOnAction(ActionEvent event) throws IOException {
-        String inputOTP = txtEnterOTP.getText();
-
-        if (inputOTP.equals(generatedOTP)) {
-//        if(true){
-            paneSignUp.getChildren().clear();
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/SignUpSecondForm.fxml"));
-            paneSignUp.getChildren().add(pane);
-        } else {
-            lblAlert.setText("Invalid OTP code. Try Again!");
-        }
-    }
-
-    @FXML
-    void btnSendOTPOnAction(ActionEvent event) {
+    private String getUserPassword() {
         String username = txtUsername.getText();
         String email = txtEmail.getText();
-
-        if (username.isEmpty() || email.isEmpty()) {
-            new Alert(Alert.AlertType.ERROR, "Please enter both username and email.").show();
-            return;
-        }
-
-        if (!isValidEmail(email)) {
-            txtEmail.setFocusColor(Paint.valueOf("red"));
-            new Alert(Alert.AlertType.ERROR, "Invalid email format.").show();
-            return;
-        }
-
-        generatedOTP = generateOTP();
-        String subject = "Your OTP Code";
-        String messageBody = "Hello " + username + ",\n\nYour OTP code is: " + generatedOTP + "\n\nThank you.";
-
         try {
-            SendMailUtil.sendEmail(email, subject, messageBody);
-            new Alert(Alert.AlertType.INFORMATION, "OTP sent successfully!").show();
+            String password = signUpBO.getUserPassword(username, email);
+            return password != null ? password : "No password found for given credentials.";
         } catch (Exception e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Failed to send OTP: " + e.getMessage()).show();
+            return "Error retrieving password.";
         }
-    }
-
-    private String generateOTP() {
-        SecureRandom random = new SecureRandom();
-        int otp = 100000 + random.nextInt(900000);
-        return String.valueOf(otp);
     }
 
     private boolean isValidEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         return email.matches(emailRegex);
-    }
-
-    public void txtSignInOnMouseClicked(MouseEvent mouseEvent) throws IOException {
-        paneSignUp.getChildren().clear();
-        AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/SignInForm.fxml"));
-        paneSignUp.getChildren().add(anchorPane);
-    }
-
-    public void txtSignUpOnMouseClicked(MouseEvent mouseEvent) throws IOException {
-        paneSignUp.getChildren().clear();
-        AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/SignUpForm.fxml"));
-        paneSignUp.getChildren().add(anchorPane);
     }
 
     @Override
@@ -128,5 +73,44 @@ public class SignUpFormController implements Initializable {
                 }
             }
         });
+    }
+
+    @FXML
+    public void btnSendPasswordOnAction(ActionEvent actionEvent) {
+        String username = txtUsername.getText();
+        String email = txtEmail.getText();
+
+        if (username.isEmpty() || email.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Please enter both username and email.").show();
+            return;
+        }
+
+        if (!isValidEmail(email)) {
+            txtEmail.setFocusColor(Paint.valueOf("red"));
+            new Alert(Alert.AlertType.ERROR, "Invalid email format.").show();
+            return;
+        }
+
+        String userPassword =  getUserPassword(); // Replace with actual password retrieval logic
+        String subject = "Your Password";
+        String messageBody = "Hello " + username + ",\n\nYour password is: " + userPassword + "\n\nThank you.";
+        try {
+            SendMailUtil.sendEmail(email, subject, messageBody);
+            new Alert(Alert.AlertType.INFORMATION, "Password sent successfully!").show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to send password: " + e.getMessage()).show();
+        }
+    }
+
+    @FXML
+    public void btnBackOnAction(ActionEvent actionEvent) {
+        paneSignUp.getChildren().clear();
+        try {
+            AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/SignInForm.fxml"));
+            paneSignUp.getChildren().add(anchorPane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

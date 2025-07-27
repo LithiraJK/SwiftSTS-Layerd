@@ -60,4 +60,13 @@ public class UserDAOImpl implements UserDAO {
             ResultSet resultSet = SQLUtil.execute("SELECT * FROM User WHERE username=? AND password=?", username, password);
             return resultSet.next();
     }
+
+    @Override
+    public String getUserPassword(String username, String email) throws SQLException {
+        ResultSet resultSet = SQLUtil.execute("SELECT Password FROM User WHERE UserName=? AND email=?", username, email);
+        if (resultSet.next()) {
+            return resultSet.getString("Password");
+        }
+        return null;
+    }
 }

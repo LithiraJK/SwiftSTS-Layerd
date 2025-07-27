@@ -19,7 +19,6 @@ public class AppInitializer extends Application {
         Scene scene = new Scene(load);
         stage.setTitle("Swift STS");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/assets/images/icons8-bus-stop-64.png")));
-//        stage.setMaximized(true);
         stage.setScene(scene);
         stage.show();
 

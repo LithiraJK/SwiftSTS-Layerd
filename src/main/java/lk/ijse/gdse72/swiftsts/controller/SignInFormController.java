@@ -16,13 +16,8 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import lk.ijse.gdse72.swiftsts.bo.BOFactory;
 import lk.ijse.gdse72.swiftsts.bo.custom.SignInBO;
-import lk.ijse.gdse72.swiftsts.bo.custom.impl.SignInBOImpl;
-import lk.ijse.gdse72.swiftsts.dao.SQLUtil;
-import lk.ijse.gdse72.swiftsts.dao.custom.UserDAO;
-import lk.ijse.gdse72.swiftsts.dao.custom.impl.UserDAOImpl;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SignInFormController {
@@ -55,7 +50,7 @@ public class SignInFormController {
     private JFXTextField txtusername;
 
     @FXML
-    void lblSignUpOnClicked(MouseEvent event) throws IOException {
+    void lblFogotPasswordOnClicked(MouseEvent event) throws IOException {
         signInPage.getChildren().clear();
         AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/SignUpForm.fxml"));
         signInPage.getChildren().add(anchorPane);
@@ -99,7 +94,6 @@ public class SignInFormController {
         window.hide();
         AnchorPane anchorPane = FXMLLoader.load(getClass().getResource(fxmlPath));
         Stage stage = new Stage();
-        stage.setMaximized(true);
         stage.setTitle("Swift Student Transfort Service");
         stage.setScene(new Scene(anchorPane));
         stage.show();
@@ -117,7 +111,7 @@ public class SignInFormController {
 
     public void txtSignUpOnMouseClicked(MouseEvent mouseEvent) throws IOException {
         signInPage.getChildren().clear();
-        AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/SignUpForm.fxml"));
+        AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/SignUpSecondForm.fxml"));
         signInPage.getChildren().add(anchorPane);
     }
 }

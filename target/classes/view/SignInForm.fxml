@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="signInPage" prefHeight="465.0" prefWidth="300.0" styleClass="bg-signup" stylesheets="@../css-file/Login.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse72.swiftsts.controller.SignInFormController">
+<AnchorPane fx:id="signInPage" prefHeight="465.0" prefWidth="300.0" styleClass="bg-signup" stylesheets="@../css-file/Login.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse72.swiftsts.controller.SignInFormController">
    <children>
       <JFXTextField fx:id="txtusername" focusColor="#ffdb15" labelFloat="true" layoutX="26.0" layoutY="171.0" prefHeight="26.0" prefWidth="247.0" promptText="username" styleClass="custom-textfield" unFocusColor="WHITE">
          <font>
@@ -24,8 +24,7 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </JFXButton>
-      <Label fx:id="lblSignUp" layoutX="199.0" layoutY="397.0" onMouseClicked="#lblSignUpOnClicked" text="Sign Up" textFill="#ffdb15" underline="true" />
-      <Label layoutX="34.0" layoutY="397.0" text="Don't have an account ?" textFill="WHITE" />
+      <Label fx:id="lblSignUp" layoutX="162.0" layoutY="397.0" onMouseClicked="#lblFogotPasswordOnClicked" text="foget password ?" textFill="#ffdb15" underline="true" />
       <Group layoutX="20.0" layoutY="70.0">
          <children>
             <Pane prefHeight="37.67" prefWidth="255.04" style="-fx-background-color: #EEEFF3; -fx-background-radius: 50;" />

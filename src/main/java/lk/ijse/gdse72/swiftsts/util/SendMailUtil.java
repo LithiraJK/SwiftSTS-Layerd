@@ -30,7 +30,7 @@ public class SendMailUtil extends Thread {
         String host = "smtp.gmail.com";
         String port = "587";
         String username = "kariyawasamlithira2@gmail.com";
-        String password = "tcnl kunb vsaf oazf";
+        String password = "gnzz aanf hgxu dmwy";
 
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");

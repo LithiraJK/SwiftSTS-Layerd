@@ -15,7 +15,7 @@ public class BOFactory {
     }
 
     public enum BOType{
-        ATTENDANCE,DRIVER,EXPENSES,NEW_ROUTE,NEW_STUDENT,NEW_VEHICLE,OVERVIEW,PAYMENT,ROUTE,SIGN_IN,SIGNUP_SECOND,STUDENT,STUDENT_REGISTRATION,UPDATE_ATTENDANCE,VEHICLE
+        ATTENDANCE,DRIVER,EXPENSES,NEW_ROUTE,NEW_STUDENT,NEW_VEHICLE,OVERVIEW,PAYMENT,ROUTE,SIGN_IN,SIGN_UP,SIGNUP_SECOND,STUDENT,STUDENT_REGISTRATION,UPDATE_ATTENDANCE,VEHICLE
     }
 
     public SuperBO getBO(BOType boType){
@@ -40,6 +40,8 @@ public class BOFactory {
                 return new RouteBOImpl();
             case SIGN_IN:
                 return new SignInBOImpl();
+            case SIGN_UP:
+                return new SignUpBOImpl();
             case SIGNUP_SECOND:
                 return new SignUpSecondBOImpl();
             case STUDENT:

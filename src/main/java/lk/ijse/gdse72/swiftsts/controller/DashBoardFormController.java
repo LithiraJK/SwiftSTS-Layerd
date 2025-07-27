@@ -129,7 +129,6 @@ public class DashBoardFormController implements Initializable {
 
         AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/CalculatorForm.fxml"));
         Stage stage = new Stage();
-        stage.setMaximized(true);
         stage.setTitle("Calculator");
         stage.setScene(new Scene(anchorPane));
         stage.show();

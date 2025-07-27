@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="paneDashBoard" prefHeight="720.0" prefWidth="1366.0" style="-fx-background-color: #000000;" stylesheets="@../css-file/DashBoard.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse72.swiftsts.controller.DashBoardFormController">
+<AnchorPane fx:id="paneDashBoard" prefHeight="720.0" prefWidth="1366.0" style="-fx-background-color: #000000;" stylesheets="@../css-file/DashBoard.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse72.swiftsts.controller.DashBoardFormController">
    <children>
       <ImageView fitHeight="714.0" fitWidth="1389.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -128,14 +128,14 @@
             </Label>
          </children>
       </HBox>
-      <ImageView fitHeight="71.0" fitWidth="74.0" layoutX="12.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="56.0" fitWidth="64.0" layoutX="100.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/images/icons8-bus-stop-64.png" />
          </image>
       </ImageView>
-      <Label layoutX="222.0" layoutY="56.0" text="SWIFT STUDENT TRANSPORT SERVICE">
+      <Label layoutX="169.0" layoutY="51.0" text="Swift STS">
          <font>
-            <Font name="Monospaced Bold" size="24.0" />
+            <Font name="System Bold" size="24.0" />
          </font>
       </Label>
    </children>

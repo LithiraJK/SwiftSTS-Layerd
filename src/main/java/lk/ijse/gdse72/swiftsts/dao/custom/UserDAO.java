@@ -13,5 +13,6 @@ public interface UserDAO extends SuperDAO {
     String generateNextUserId() throws SQLException;
     boolean isUsernameValid(String username) throws SQLException;
     boolean validateCredentials(String username, String password) throws SQLException;
+    String getUserPassword(String username , String email) throws SQLException;
 
 }
