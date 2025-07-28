@@ -64,9 +64,11 @@ public class SignInFormController {
 
         boolean isUsernameValid = false;
         boolean validateCredentials = false;
+        String userRole = null;
         try {
             isUsernameValid = signInBO.isUsernameValid(username);
             validateCredentials = signInBO.validateCredentials(username, password);
+            userRole = signInBO.getUserRole(username);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
@@ -74,8 +76,15 @@ public class SignInFormController {
         if (isUsernameValid) {
             lblInvalidUserName.setVisible(false);
             if (validateCredentials) {
-                lblInvalidPassword.setVisible(false);
-                loadDashboard("/view/DashBoardForm.fxml");
+                if( userRole.equals("Admin")) {
+                    lblInvalidPassword.setVisible(false);
+                    loadDashboard("/view/AdminDashBoardForm.fxml");
+                }else if (userRole.equals("Driver")) {
+                    lblInvalidPassword.setVisible(false);
+                    loadDashboard("/view/DriverDashBoardForm.fxml");
+                } else {
+                    lblInvalidPassword.setText("Unknown user !!");
+                }
             } else {
                 lblInvalidPassword.setVisible(true);
                 txtpassword.setFocusColor(Paint.valueOf("red"));

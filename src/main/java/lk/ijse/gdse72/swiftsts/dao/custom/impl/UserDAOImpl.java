@@ -69,4 +69,13 @@ public class UserDAOImpl implements UserDAO {
         }
         return null;
     }
+
+    @Override
+    public String getUserRole(String username) throws SQLException {
+        ResultSet resultSet = SQLUtil.execute("SELECT RoleType FROM User WHERE UserName=?", username);
+        if (resultSet.next()) {
+            return resultSet.getString("RoleType");
+        }
+        return null;
+    }
 }

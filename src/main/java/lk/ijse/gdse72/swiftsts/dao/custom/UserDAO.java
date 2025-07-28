@@ -15,4 +15,5 @@ public interface UserDAO extends SuperDAO {
     boolean validateCredentials(String username, String password) throws SQLException;
     String getUserPassword(String username , String email) throws SQLException;
 
+    String getUserRole(String username) throws SQLException;
 }

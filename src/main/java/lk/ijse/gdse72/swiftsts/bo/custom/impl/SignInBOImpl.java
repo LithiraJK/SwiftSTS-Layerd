@@ -20,4 +20,9 @@ public class SignInBOImpl implements SignInBO {
     public boolean validateCredentials(String username, String password) throws SQLException {
         return userDAO.validateCredentials(username,password);
     }
+
+    @Override
+    public String getUserRole(String username) throws SQLException {
+        return userDAO.getUserRole(username);
+    }
 }
