@@ -162,7 +162,7 @@ USE SwiftSTS;
 
 -- User Table
 INSERT INTO User (UserId, UserName, Password, RoleType, Email)
-VALUES ('U001', 'admin', 'admin', '123', 'admin@swiftsts.lk'),
+VALUES ('U001', 'admin', '123', 'Admin', 'jayanakalithira02@gmail.com'),
        ('U002', 'driver1', 'driver123', 'Driver', 'driver1@swiftsts.lk'),
        ('U003', 'driver2', 'driver123', 'Driver', 'driver2@swiftsts.lk'),
        ('U004', 'driver3', 'driver123', 'Driver', 'driver3@swiftsts.lk'),
