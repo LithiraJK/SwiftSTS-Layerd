@@ -61,7 +61,6 @@ SwiftSTS-Layered/
 ├── lib/                    # External libraries
 ├── README.md
 ├── pom.xml                 # Maven configuration
-└── SwiftSTS.exe            # Bundled executable (optional)
 ```
 
 ---
